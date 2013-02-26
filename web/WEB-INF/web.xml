@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <servlet>
+        <servlet-name>TranslateService</servlet-name>
+        <servlet-class>org.olanto.TranslationText.server.TranslateServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TranslateService</servlet-name>
+        <url-pattern>/org.olanto.TranslationText.Main/translateservice</url-pattern>
+    </servlet-mapping>
+    <context-param>
+    <!-- max size of the upload request -->
+        <param-name>maxSize</param-name>
+        <param-value>20145728</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>uploadServlet</servlet-name>
+        <servlet-class>org.olanto.TranslationText.server.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>uploadServlet</servlet-name>
+        <url-pattern>*.gupld</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>org.olanto.TranslationText.server.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/org.olanto.TranslationText.Main/DownloadServlet</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>myCat.html</welcome-file>
+    </welcome-file-list>
+</web-app>
