@@ -173,7 +173,6 @@ public class BitextWidget extends Composite {
         pp.setStyleName("focusPanel");
         pp.add(new HTML("&nbsp;"));
         ClickHandler hidepanT = new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 pp.hide();
@@ -229,7 +228,6 @@ public class BitextWidget extends Composite {
     public void testserver(String greeting) {
 
         rpcS.myMethod(greeting, new AsyncCallback<String>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert(GuiMessageConst.MSG_1);
@@ -303,12 +301,12 @@ public class BitextWidget extends Composite {
         height1 = targetTextArea.getElement().getScrollHeight();
         height = sourceTextArea.getElement().getScrollHeight();
 
-        pixS = sourceTextArea.getOffsetHeight()/sourceTextArea.getVisibleLines();
+        pixS = sourceTextArea.getOffsetHeight() / sourceTextArea.getVisibleLines();
         int scrollines = height / pixS;
         magicS = (float) (scrollines - totlinesS) / (float) (scrollines - Align.source.Ncal) + 1f;
         pposS = sourceTextArea.getOffsetWidth() - pixS;
 
-        pixT = targetTextArea.getElement().getOffsetHeight()/targetTextArea.getVisibleLines();
+        pixT = targetTextArea.getElement().getOffsetHeight() / targetTextArea.getVisibleLines();
 
         int scrollines1 = height1 / pixT;
         magicT = (float) (scrollines1 - totlinesT) / (float) (scrollines1 - Align.target.Ncal) + 1f;
@@ -551,7 +549,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
 
@@ -567,7 +564,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to the previous line in the source text
         PreviousHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
@@ -585,7 +581,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to the next line in the source text
         NextHitT.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
 
@@ -601,7 +596,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to the previous line in the source text
         PreviousHitT.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 if (curIndT > 0) {
@@ -619,7 +613,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to align the line in the source text
         AlignS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 pp.hide();
@@ -650,7 +643,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to align the line in the target text
         AlignT.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 pp.hide();
@@ -680,7 +672,6 @@ public class BitextWidget extends Composite {
         });
 
         schS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMessage("info", GuiMessageConst.MSG_7);
@@ -691,7 +682,6 @@ public class BitextWidget extends Composite {
                 SchArea.setFocus(true);
                 SchBtn.removeAllListeners();
                 SchBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                     @Override
                     public void handleEvent(BaseEvent be) {
                         ClearHitsEvents();
@@ -704,10 +694,8 @@ public class BitextWidget extends Composite {
                                 || (search.contains("NEAR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsSAON(resultS, contentS, words, queryLength);
-                        } else if ((search.contains("*"))
-                                || (search.contains("."))) {
+                        } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
-
                                 @Override
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
@@ -728,7 +716,6 @@ public class BitextWidget extends Composite {
             }
         });
         save.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMessage("info", GuiMessageConst.MSG_35);
@@ -737,11 +724,9 @@ public class BitextWidget extends Composite {
         });
 
         orgnS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 rpcS.getOriginalUrl(Align.source.uri, new AsyncCallback<String>() {
-
                     @Override
                     public void onFailure(Throwable caught) {
                         setMessage("error", GuiMessageConst.MSG_4);
@@ -757,11 +742,9 @@ public class BitextWidget extends Composite {
         });
 
         orgnT.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 rpcS.getOriginalUrl(Align.target.uri, new AsyncCallback<String>() {
-
                     @Override
                     public void onFailure(Throwable caught) {
                         setMessage("error", GuiMessageConst.MSG_5);
@@ -777,7 +760,6 @@ public class BitextWidget extends Composite {
         });
 
         CclBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 pSch.hide();
@@ -785,7 +767,6 @@ public class BitextWidget extends Composite {
         });
 
         schT.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMessage("info", GuiMessageConst.MSG_6);
@@ -796,7 +777,6 @@ public class BitextWidget extends Composite {
                 SchArea.setFocus(true);
                 SchBtn.removeAllListeners();
                 SchBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                     @Override
                     public void handleEvent(BaseEvent be) {
                         ClearHitsEvents();
@@ -809,10 +789,8 @@ public class BitextWidget extends Composite {
                                 || (search.contains("NEAR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsTAON(resultT, contentT, words, queryLength);
-                        } else if ((search.contains("*"))
-                                || (search.contains("."))) {
+                        } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
-
                                 @Override
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
@@ -834,7 +812,6 @@ public class BitextWidget extends Composite {
         });
 
         SchArea.addKeyPressHandler(new KeyPressHandler() {
-
             @Override
             public void onKeyPress(KeyPressEvent event) {
 
@@ -850,10 +827,8 @@ public class BitextWidget extends Composite {
                                 || (search.contains("NEAR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsSAON(resultS, contentS, words, queryLength);
-                        } else if ((search.contains("*"))
-                                || (search.contains("."))) {
+                        } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
-
                                 @Override
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
@@ -880,10 +855,8 @@ public class BitextWidget extends Composite {
                                 || (search.contains("NEAR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsTAON(resultT, contentT, words, queryLength);
-                        } else if ((search.contains("*"))
-                                || (search.contains("."))) {
+                        } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
-
                                 @Override
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
@@ -997,7 +970,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
 
@@ -1013,7 +985,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to the previous line in the source text
         PreviousHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
@@ -1031,7 +1002,6 @@ public class BitextWidget extends Composite {
 
         // Handler of the going to align the line in the source text
         schS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMessage("info", GuiMessageConst.MSG_7);
@@ -1040,7 +1010,6 @@ public class BitextWidget extends Composite {
                 SchArea.setFocus(true);
                 SchBtn.removeAllListeners();
                 SchBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                     @Override
                     public void handleEvent(BaseEvent be) {
                         ClearHitsEvents();
@@ -1053,10 +1022,8 @@ public class BitextWidget extends Composite {
                                 || (search.contains("NEAR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsMonoAON(resultS, contentS, words, queryLength);
-                        } else if ((search.contains("*"))
-                                || (search.contains("."))) {
+                        } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
-
                                 @Override
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
@@ -1077,7 +1044,6 @@ public class BitextWidget extends Composite {
             }
         });
         save.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMessage("info", GuiMessageConst.MSG_35);
@@ -1086,11 +1052,9 @@ public class BitextWidget extends Composite {
         });
 
         orgnS.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 rpcS.getOriginalUrl(Align.source.uri, new AsyncCallback<String>() {
-
                     @Override
                     public void onFailure(Throwable caught) {
                         setMessage("error", GuiMessageConst.MSG_4);
@@ -1106,7 +1070,6 @@ public class BitextWidget extends Composite {
         });
 
         CclBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 pSch.hide();
@@ -1114,7 +1077,6 @@ public class BitextWidget extends Composite {
         });
 
         SchArea.addKeyPressHandler(new KeyPressHandler() {
-
             @Override
             public void onKeyPress(KeyPressEvent event) {
 
@@ -1128,10 +1090,8 @@ public class BitextWidget extends Composite {
                             || (search.contains("NEAR"))) {
                         words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                         getPositionsMonoAON(resultS, contentS, words, queryLength);
-                    } else if ((search.contains("*"))
-                            || (search.contains("."))) {
+                    } else if ((search.contains("*"))) {
                         rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
-
                             @Override
                             public void onFailure(Throwable caught) {
                                 setMessage("error", GuiMessageConst.MSG_3);
@@ -1164,7 +1124,6 @@ public class BitextWidget extends Composite {
 
         // remote procedure call to the server to get the content of the text areas
         rpcS.getContent(file, langS, langT, Query, sourceTextArea.getCharacterWidth(), sourceTextArea.getVisibleLines(), new AsyncCallback<GwtAlignBiText>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 setMessage("error", GuiMessageConst.MSG_8);
@@ -1197,7 +1156,6 @@ public class BitextWidget extends Composite {
                 || (MainEntryPoint.QUERY.contains("OR"))
                 || (MainEntryPoint.QUERY.contains("NEAR"))
                 || (MainEntryPoint.QUERY.contains("*"))
-                || (MainEntryPoint.QUERY.contains("."))
                 || (MainEntryPoint.QUERY.contains("\""))) {
             getPositionsSAON(resultS, contentS, words, queryLength);
         } else {
@@ -1216,7 +1174,6 @@ public class BitextWidget extends Composite {
                 || (MainEntryPoint.QUERY.contains("OR"))
                 || (MainEntryPoint.QUERY.contains("NEAR"))
                 || (MainEntryPoint.QUERY.contains("*"))
-                || (MainEntryPoint.QUERY.contains("."))
                 || (MainEntryPoint.QUERY.contains("\""))) {
             getPositionsMonoAON(resultS, contentS, words, queryLength);
         } else {
@@ -1227,7 +1184,6 @@ public class BitextWidget extends Composite {
     public void getPositionsS(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPos(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1253,7 +1209,6 @@ public class BitextWidget extends Composite {
     public void getPositionsT(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPos(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1279,7 +1234,6 @@ public class BitextWidget extends Composite {
     public void getPositionsSAON(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPosAON(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1305,7 +1259,6 @@ public class BitextWidget extends Composite {
     public void getPositionsTAON(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPosAON(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1332,7 +1285,6 @@ public class BitextWidget extends Composite {
 //        Window.alert("gestMono Positions");
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPos(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1358,7 +1310,6 @@ public class BitextWidget extends Composite {
     public void getPositionsMonoAON(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPosAON(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);

@@ -783,7 +783,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         }
         try {
             terms = is.ExpandTerm(wildQuery);
-//            System.out.println("succeded getting wild char query terms");
+//            System.out.println("succeded getting wild char query terms: "+terms.length);
         } catch (RemoteException ex) {
             Logger.getLogger(TranslateServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
