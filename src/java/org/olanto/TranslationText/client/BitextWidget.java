@@ -248,7 +248,7 @@ public class BitextWidget extends Composite {
         sourceTextArea.setText("");
         targetTextArea.setText("");
         Positions = null;
-        words = null;
+        words = null; // to reset the search tokens
         PreviousHitS.removeAllListeners();
         NextHitS.removeAllListeners();
         AlignS.removeAllListeners();
