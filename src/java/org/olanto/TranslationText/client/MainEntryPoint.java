@@ -71,6 +71,7 @@ public class MainEntryPoint implements EntryPoint {
     private HorizontalPanel collTreeContainerQD = new HorizontalPanel();
     private final int H_Unit = 30;
     private static String[] languages;
+    public static ArrayList<String> words;
 
     /**
      * The entry point method, called automatically by loading a module that
@@ -109,7 +110,6 @@ public class MainEntryPoint implements EntryPoint {
             RootPanel.get("call").add(FC.pWidget);
             FC.pWidget.setWidth("100%");
             rpcM.getStopWords(new AsyncCallback<ArrayList<String>>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     Window.alert("Warning: Could not get the list of stopwords");
@@ -126,7 +126,6 @@ public class MainEntryPoint implements EntryPoint {
 
     private void getStopWdMyCat() {
         rpcM.getStopWords(new AsyncCallback<ArrayList<String>>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Warning: Could not get the list of stopwords");
@@ -141,7 +140,6 @@ public class MainEntryPoint implements EntryPoint {
 
     private void getPropertiesMyCat() {
         rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Warning: Could not get the list of properties: " + caught.getMessage());
@@ -164,7 +162,6 @@ public class MainEntryPoint implements EntryPoint {
 
     private void getProperties() {
         rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Couldn't get properties List:" + caught.getMessage());
@@ -179,7 +176,6 @@ public class MainEntryPoint implements EntryPoint {
 
     private void getLanguages() {
         rpcM.getCorpusLanguages(new AsyncCallback<String[]>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Warning: Could not get the list of languages");
@@ -232,7 +228,6 @@ public class MainEntryPoint implements EntryPoint {
 
     private void getCollections() {
         rpcM.SetCollection(new AsyncCallback<CollectionTree>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Warning: Could not get the list of collections");
@@ -384,13 +379,13 @@ public class MainEntryPoint implements EntryPoint {
             if ((QUERY.length() == 0) || (QUERY.startsWith("/"))) {
                 String Query = Utility.browseRequest(QUERY);
                 tS.words = null;
+                words = null;
                 textAlignerWidget.search.setText("/" + Query);
                 textAlignerWidget.GoSrch.setToolTip(GuiMessageConst.MSG_25 + Query);
                 textAlignerWidget.DrawDocumentBrowseList(Query, tS, collectionWidgetTA.Selection);
             } else {
                 if ((QUERY.contains("*"))) {
                     rpcM.getExpandTerms(QUERY.toLowerCase(), new AsyncCallback<String[]>() {
-
                         @Override
                         public void onFailure(Throwable caught) {
                             Window.alert(GuiMessageConst.MSG_26);
@@ -398,17 +393,21 @@ public class MainEntryPoint implements EntryPoint {
 
                         @Override
                         public void onSuccess(String[] result) {
+                            words = null;
                             String Query = Utility.wildCharQueryParser(result, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
-                            tS.words = Utility.getWildCharQueryWords(result, stopWords);
-                            QUERY = Query;
+                            words = Utility.getWildCharQueryWords(result, stopWords);
+                            tS.words = words;
+                            QUERY = Query.substring(Query.indexOf("IN"));
                             textAlignerWidget.GoSrch.setToolTip(GuiMessageConst.MSG_27 + Query);
                             textAlignerWidget.DrawDocumentList(Query, tS, collectionWidgetTA.Selection);
                         }
                     });
                 } else {
+                    words = null;
                     String Query = Utility.queryParser(QUERY, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
-                    tS.words = Utility.getQueryWords(QUERY + " ", stopWords);
+                    words = Utility.getQueryWords(QUERY + " ", stopWords);
                     tS.queryLength = QUERY.length();
+                    tS.words = words;
                     textAlignerWidget.GoSrch.setToolTip(GuiMessageConst.MSG_27 + Query);
                     textAlignerWidget.DrawDocumentList(Query, tS, collectionWidgetTA.Selection);
                 }
@@ -439,7 +438,6 @@ public class MainEntryPoint implements EntryPoint {
         setLanguagesTA();
         textAlignerWidget.coll.removeAllListeners();
         textAlignerWidget.coll.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
 
@@ -495,7 +493,6 @@ public class MainEntryPoint implements EntryPoint {
 
         textAlignerWidget.GoSrch.removeAllListeners();
         textAlignerWidget.GoSrch.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 textAlignerWidget.GoSrch.disable();
@@ -504,7 +501,6 @@ public class MainEntryPoint implements EntryPoint {
         });
 
         textAlignerWidget.search.addKeyPressHandler(new KeyPressHandler() {
-
             @Override
             public void onKeyPress(KeyPressEvent event) {
                 textAlignerWidget.GoSrch.disable();
@@ -518,7 +514,6 @@ public class MainEntryPoint implements EntryPoint {
         });
         textAlignerWidget.myQuote.removeAllListeners();
         textAlignerWidget.myQuote.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMyQuoteWidget(languages);
@@ -537,7 +532,6 @@ public class MainEntryPoint implements EntryPoint {
         quoteDetectorWidget.draWidget();
         quoteDetectorWidget.coll.removeAllListeners();
         quoteDetectorWidget.coll.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
 
@@ -550,7 +544,6 @@ public class MainEntryPoint implements EntryPoint {
         });
 
         History.addValueChangeHandler(new ValueChangeHandler<String>() {
-
             @Override
             public void onValueChange(ValueChangeEvent<String> event) {
 //                Window.alert("History item :" + event.getValue());
@@ -600,7 +593,6 @@ public class MainEntryPoint implements EntryPoint {
 
         quoteDetectorWidget.GoSrch.removeAllListeners();
         quoteDetectorWidget.GoSrch.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 quoteDetectorWidget.GoSrch.disable();
@@ -610,7 +602,6 @@ public class MainEntryPoint implements EntryPoint {
 
         quoteDetectorWidget.TextAligner.removeAllListeners();
         quoteDetectorWidget.TextAligner.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 setMyCatWidget();

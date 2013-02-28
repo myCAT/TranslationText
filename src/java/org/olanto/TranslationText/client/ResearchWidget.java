@@ -329,6 +329,7 @@ public class ResearchWidget extends Composite {
                 if (event.getSelectedItem().getText() != null) {
                     setMessage("info", GuiMessageConst.MSG_51 + event.getSelectedItem().getTitle());
                     tS.reset();
+                    tS.words=MainEntryPoint.words;
                     tS.getTextContent(racine + event.getSelectedItem().getTitle().replace("/", "¦"), lS, lT, Query);
                 }
             }
