@@ -60,6 +60,8 @@ public class GwtProp implements IsSerializable {
     public int CHARACTER_WIDTH;
     public int PP_H_MIN;
     public int PP_H_MAX;
+    public int TA_NEAR_AVG_TERM_CHAR;
+    public int NEAR_DISTANCE;
     public String JOBS_ITEMS;
     public String QUOTE_DETECTOR_LBL;
     public String TEXT_ALIGNER_LBL;

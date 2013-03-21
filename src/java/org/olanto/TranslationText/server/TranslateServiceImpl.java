@@ -666,7 +666,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     }
 
     @Override
-    public int[][] getQueryWordsPosAON(int[][] positions, String content, ArrayList<String> Query, int queryLn) {
+    public int[][] getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn) {
         ArrayList<String> Pos = new ArrayList<>();
         int begin, end, j;
         String sentence, hit, regex;
@@ -694,10 +694,71 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
                 m.reset();
             }
         }
-        return getPositionsAON(Pos);
+        return getPositionsAO(Pos);
     }
 
-    private int[][] getPositionsAON(ArrayList<String> Pos) {
+    @Override
+    public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
+        String regex;
+        int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
+        ArrayList<String> Pos = new ArrayList<>();
+        ArrayList<Integer> startPos = new ArrayList<>();
+        ArrayList<Integer> lastPos = new ArrayList<>();
+        String first, res, last;
+        Pattern p;
+        Matcher m;
+        startPos.clear();
+        lastPos.clear();
+
+        first = Query.get(0);
+        last = Query.get(Query.size() - 1);
+        regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
+        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(content);
+        if (m.find()) {
+//            System.out.println("start found at : " + m.start());
+            startPos.add(m.start());
+            while (m.find()) {
+                startPos.add(m.start());
+//                System.out.println("Start found at : " + m.start());
+            }
+        }
+        regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
+        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(content);
+        if (m.find()) {
+//            System.out.println("last found at : " + m.start());
+            lastPos.add(m.start() + last.length());
+            while (m.find()) {
+                lastPos.add(m.start() + last.length());
+//                System.out.println("last found at : " + m.start());
+            }
+        }
+        int startp, lastp;
+        for (int s = 0; s < startPos.size(); s++) {
+            startp = startPos.get(s);
+            for (int l = 0; l < lastPos.size(); l++) {
+                lastp = lastPos.get(l);
+//                System.out.println("refLength: " + refLength);
+                if ((Math.abs(lastp - startp) >= queryLn) && (Math.abs(lastp - startp) <= refLength)) {
+                    res = startp + "¦" + (lastp - startp);
+                    Pos.add(res);
+                }
+            }
+        }
+
+//        for (int i = 0; i < Pos.size(); i++) {
+//            System.out.println("Positions found in Line: " + Pos.get(i));
+//        }
+        return getPositionsRef(Pos);
+    }
+
+    @Override
+    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, int sepNumber, int avgTokenLn) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private int[][] getPositionsAO(ArrayList<String> Pos) {
         int[][] posit;
         int i, k, pos, ln, j, len;
         String curr;
@@ -875,15 +936,15 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.DOC_LIST_WIDTH = Integer.parseInt(prop.getProperty("DOC_LIST_WIDTH"));
         CONST.DOC_LIST_HEIGHT = Integer.parseInt(prop.getProperty("DOC_LIST_HEIGHT"));
         CONST.QD_DOC_LIST_HEIGHT = Integer.parseInt(prop.getProperty("QD_DOC_LIST_HEIGHT"));
-        CONST.ORIGINAL_ON = Boolean.valueOf(prop.getProperty("ORIGINAL_ON"));
-        CONST.PATH_ON = Boolean.valueOf(prop.getProperty("PATH_ON"));
-        CONST.AUTO_ON = Boolean.valueOf(prop.getProperty("AUTO_ON"));
-        CONST.FILE_NAME_RIGHT = Boolean.valueOf(prop.getProperty("FILE_NAME_RIGHT"));
-        CONST.ONLY_ON_FILE_NAME = Boolean.valueOf(prop.getProperty("ONLY_ON_FILE_NAME"));
-        CONST.BITEXT_ONLY = Boolean.valueOf(prop.getProperty("BITEXT_ONLY"));
-        CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON"));
-        CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON"));
-        CONST.TA_HILITE_OVER_CR = Boolean.valueOf(prop.getProperty("TA_HILITE_OVER_CR"));
+        CONST.ORIGINAL_ON = Boolean.valueOf(prop.getProperty("ORIGINAL_ON", "true"));
+        CONST.PATH_ON = Boolean.valueOf(prop.getProperty("PATH_ON", "true"));
+        CONST.AUTO_ON = Boolean.valueOf(prop.getProperty("AUTO_ON", "false"));
+        CONST.FILE_NAME_RIGHT = Boolean.valueOf(prop.getProperty("FILE_NAME_RIGHT", "false"));
+        CONST.ONLY_ON_FILE_NAME = Boolean.valueOf(prop.getProperty("ONLY_ON_FILE_NAME", "false"));
+        CONST.BITEXT_ONLY = Boolean.valueOf(prop.getProperty("BITEXT_ONLY", "false"));
+        CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON", "true"));
+        CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON", "true"));
+        CONST.TA_HILITE_OVER_CR = Boolean.valueOf(prop.getProperty("TA_HILITE_OVER_CR", "false"));
         CONST.EXP_DAYS = Integer.parseInt(prop.getProperty("EXP_DAYS"));
         CONST.MAX_RESPONSE = Integer.parseInt(prop.getProperty("MAX_RESPONSE"));
         CONST.MAX_BROWSE = Integer.parseInt(prop.getProperty("MAX_BROWSE"));
@@ -907,6 +968,8 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.REF_MIN_LN = Integer.parseInt(prop.getProperty("REF_MIN_LN"));
         CONST.PP_H_MIN = Integer.parseInt(prop.getProperty("PP_H_MIN"));
         CONST.PP_H_MAX = Integer.parseInt(prop.getProperty("PP_H_MAX"));
+        CONST.TA_NEAR_AVG_TERM_CHAR = Integer.parseInt(prop.getProperty("TA_NEAR_AVG_TERM_CHAR", "6"));
+        CONST.NEAR_DISTANCE = Integer.parseInt(prop.getProperty("NEAR_DISTANCE", "8"));
         /**
          * **********************************************************************************
          */
@@ -1080,15 +1143,5 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         String zipPath;
         zipPath = fName.substring(3, fName.length() - 4).replace("¦", "_") + ".zip";   //JG modif
         return zipPath;
-    }
-
-    @Override
-    public int[][] getHitPosCrossLine(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int[][] getHitPosCrossLineAON(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

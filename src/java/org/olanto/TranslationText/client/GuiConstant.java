@@ -56,6 +56,8 @@ public class GuiConstant {
     public static int CHARACTER_WIDTH;
     public static int PP_H_MIN;
     public static int PP_H_MAX;
+    public static int TA_NEAR_AVG_TERM_CHAR;
+    public static int NEAR_DISTANCE;
     public static String JOBS_ITEMS;
     public static String QUOTE_DETECTOR_LBL;
     public static String TEXT_ALIGNER_LBL;

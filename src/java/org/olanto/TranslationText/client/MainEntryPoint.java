@@ -375,7 +375,6 @@ public class MainEntryPoint implements EntryPoint {
             textAlignerWidget.msg.setText(GuiMessageConst.MSG_24);
             tS.reset();
             tS.DrawEffects();
-
             if ((QUERY.length() == 0) || (QUERY.startsWith("/"))) {
                 String Query = Utility.browseRequest(QUERY);
                 tS.words = null;
@@ -678,6 +677,8 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.REF_MIN_LN = CONST.REF_MIN_LN;
         GuiConstant.PP_H_MIN = CONST.PP_H_MIN;
         GuiConstant.PP_H_MAX = CONST.PP_H_MAX;
+        GuiConstant.TA_NEAR_AVG_TERM_CHAR = CONST.TA_NEAR_AVG_TERM_CHAR;
+        GuiConstant.NEAR_DISTANCE = CONST.NEAR_DISTANCE;
         /**
          * client interface parameters
          * **********************************************************************************

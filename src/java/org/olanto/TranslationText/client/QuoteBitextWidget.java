@@ -761,7 +761,7 @@ public class QuoteBitextWidget extends Composite {
         AddOtherEvents();
         curIndS = 0;
         Positions = null;
-        getPositions(resultS, contentS, words, queryLength);
+        getPositions(contentS, words, queryLength);
     }
 
     public void SetMonoTextBehaviour() {
@@ -770,10 +770,10 @@ public class QuoteBitextWidget extends Composite {
         AddOtherEventsMono();
         curIndS = 0;
         Positions = null;
-        getMonoPositions(resultS, contentS, words, queryLength);
+        getMonoPositions(contentS, words, queryLength);
     }
 
-    public void getPositions(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
+    public void getPositions(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
@@ -800,7 +800,7 @@ public class QuoteBitextWidget extends Composite {
         }
     }
 
-    public void getMonoPositions(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
+    public void getMonoPositions(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override

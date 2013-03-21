@@ -45,11 +45,11 @@ public interface TranslateServiceAsync {
 
     public void getQueryWordsPos(int[][] positions, String content, ArrayList<String> Query, int queryLn, AsyncCallback<int[][]> asyncCallback);
 
-    public void getHitPosCrossLine(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn, AsyncCallback<int[][]> asyncCallback);
+    public void getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn, AsyncCallback<int[][]> asyncCallback);
+    
+    public void getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, int sepNumber, int avgTokenLn, AsyncCallback<int[][]> asyncCallback);
 
-    public void getHitPosCrossLineAON(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn, AsyncCallback<int[][]> asyncCallback);
-
-    public void getQueryWordsPosAON(int[][] positions, String content, ArrayList<String> Query, int queryLn, AsyncCallback<int[][]> asyncCallback);
+    public void getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn, AsyncCallback<int[][]> asyncCallback);
 
     public void getRefWordsPos(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn, AsyncCallback<int[][]> asyncCallback);
 
