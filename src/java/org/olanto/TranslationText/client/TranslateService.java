@@ -49,9 +49,13 @@ public interface TranslateService extends RemoteService {
 
     public int[][] getQueryWordsPos(int[][] positions, String content, ArrayList<String> Query, int queryLn);
 
+    public int[][] getHitPosCrossLine(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn);
+
+    public int[][] getHitPosCrossLineAON(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn);
+
     public int[][] getQueryWordsPosAON(int[][] positions, String content, ArrayList<String> Query, int queryLn);
 
-    public int[][] getRefWordsPos(String content, ArrayList<String> Query, int queryLn,  float reFactor, int minRefLn);
+    public int[][] getRefWordsPos(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn);
 
     public GwtRef getHtmlRef(String Content, String fileName, int minCons, String langS, String LangT, ArrayList<String> collections, String QDFileExtension);
 
@@ -60,6 +64,6 @@ public interface TranslateService extends RemoteService {
     public String[] getExpandTerms(String wildQuery);
 
     public String createTempFile(String FileName, String Content);
-    
+
     public String createTempZip(String FileName);
 }

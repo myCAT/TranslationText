@@ -644,6 +644,7 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.AUTO_ON = CONST.AUTO_ON;
         GuiConstant.SAVE_ON = CONST.SAVE_ON;
         GuiConstant.MAXIMIZE_ON = CONST.MAXIMIZE_ON;
+        GuiConstant.TA_HILITE_OVER_CR = CONST.TA_HILITE_OVER_CR;
         GuiConstant.TA_TEXTAREA_WIDTH = CONST.TA_TEXTAREA_WIDTH;
         GuiConstant.TA_TEXTAREA_HEIGHT = CONST.TA_TEXTAREA_HEIGHT;
         GuiConstant.QD_TEXTAREA_HEIGHT = CONST.QD_TEXTAREA_HEIGHT;

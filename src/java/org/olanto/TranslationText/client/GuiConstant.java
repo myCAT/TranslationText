@@ -38,6 +38,7 @@ public class GuiConstant {
     public static boolean BITEXT_ONLY;
     public static boolean SAVE_ON;
     public static boolean MAXIMIZE_ON;
+    public static boolean TA_HILITE_OVER_CR;
     public static int TA_TEXTAREA_WIDTH;
     public static int TA_TEXTAREA_HEIGHT;
     public static int QD_HTMLAREA_HEIGHT;

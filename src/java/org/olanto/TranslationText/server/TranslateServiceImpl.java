@@ -883,6 +883,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.BITEXT_ONLY = Boolean.valueOf(prop.getProperty("BITEXT_ONLY"));
         CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON"));
         CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON"));
+        CONST.TA_HILITE_OVER_CR = Boolean.valueOf(prop.getProperty("TA_HILITE_OVER_CR"));
         CONST.EXP_DAYS = Integer.parseInt(prop.getProperty("EXP_DAYS"));
         CONST.MAX_RESPONSE = Integer.parseInt(prop.getProperty("MAX_RESPONSE"));
         CONST.MAX_BROWSE = Integer.parseInt(prop.getProperty("MAX_BROWSE"));
@@ -1079,5 +1080,15 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         String zipPath;
         zipPath = fName.substring(3, fName.length() - 4).replace("¦", "_") + ".zip";   //JG modif
         return zipPath;
+    }
+
+    @Override
+    public int[][] getHitPosCrossLine(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int[][] getHitPosCrossLineAON(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
