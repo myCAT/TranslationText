@@ -102,7 +102,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
 
     }
 
-    GwtSegDoc SetGwtSegDoc(int[][] lines, int nblines, String content, String uri, String lang, int ncal) {
+    GwtSegDoc SetGwtSegDoc(int[][] lines, int nblines, String content, String uri, String lang) {
         GwtSegDoc result = new GwtSegDoc();
         result.positions = lines;
 //        for (int i = 0; i < lines.length; i++) {
@@ -113,13 +113,10 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
 //            System.out.println("nombre de lignes avant la phrase: " + i + " = " + lines[i][3]);
 //            System.out.println("nombre de phrases comportant une seule ligne jusqu'à la phrase: " + i + " = " + lines[i][4]);
 //        }
-//        System.out.println("original lines: "+lines[2109][2]);
-//        System.out.println("Copie result: "+result.positions[2109][2]);
         result.nblines = nblines;
         result.content = content;
         result.uri = uri;
         result.lang = lang;
-        result.Ncal = ncal;
         return result;
     }
 
@@ -127,8 +124,8 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     public GwtAlignBiText getContent(String file, String langS, String langT, String Query, int w, int h) {
 //        System.out.println("calling the server getContent. File = " + file);
         Align = new AlignBiText(file, langS, langT, Query, w, h);
-        GwtSegDoc src = SetGwtSegDoc(Align.source.positions, Align.source.nblines, Align.source.content, Align.source.uri, Align.source.lang, Align.source.Ncal);
-        GwtSegDoc tgt = SetGwtSegDoc(Align.target.positions, Align.target.nblines, Align.target.content, Align.target.uri, Align.target.lang, Align.target.Ncal);
+        GwtSegDoc src = SetGwtSegDoc(Align.source.positions, Align.source.nblines, Align.source.content, Align.source.uri, Align.source.lang);
+        GwtSegDoc tgt = SetGwtSegDoc(Align.target.positions, Align.target.nblines, Align.target.content, Align.target.uri, Align.target.lang);
         GwtIntMap map = SetGwtIntMap(Align.map.from, Align.map.to);
         return SetGwtAlignBiText(src, tgt, map, Align.query);
     }
@@ -842,10 +839,10 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
                     lastp = lastPos.get(l);
                     if (Math.abs(lastp - startp) <= refLength) {
                         if (lastp > startp) {
-                            res = i + "¦" + startp + "¦" + (lastp + last.length() - startp);
+                            res = i + "¦" + startp + "¦" + (lastp + last.length());
                             Pos.add(res);
                         } else {
-                            res = i + "¦" + lastp + "¦" + (startp + first.length() - lastp);
+                            res = i + "¦" + lastp + "¦" + (startp + first.length());
                             Pos.add(res);
                         }
                     }

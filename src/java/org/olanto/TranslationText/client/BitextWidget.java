@@ -304,13 +304,13 @@ public class BitextWidget extends Composite {
 
         pixS = sourceTextArea.getOffsetHeight() / sourceTextArea.getVisibleLines();
         int scrollines = height / pixS;
-        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - Align.source.Ncal) + 1f;
+        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - resultS[resultS.length - 1][4]) + 1f;
         pposS = sourceTextArea.getOffsetWidth() - pixS;
 
-        pixT = targetTextArea.getElement().getOffsetHeight() / targetTextArea.getVisibleLines();
+        pixT = targetTextArea.getOffsetHeight() / targetTextArea.getVisibleLines();
 
         int scrollines1 = height1 / pixT;
-        magicT = (float) (scrollines1 - totlinesT) / (float) (scrollines1 - Align.target.Ncal) + 1f;
+        magicT = (float) (scrollines1 - totlinesT) / (float) (scrollines1 - resultT[resultT.length - 1][4]) + 1f;
         pposT = targetTextArea.getOffsetWidth() - pixT;
     }
 
@@ -802,9 +802,9 @@ public class BitextWidget extends Composite {
                         } else if (search.contains("NEAR")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
-                                getPositionsNearTCR(contentS, words, queryLength);
+                                getPositionsNearTCR(contentT, words, queryLength);
                             } else {
-                                getPositionsNearT(resultS, contentS, words, queryLength);
+                                getPositionsNearT(resultT, contentT, words, queryLength);
                             }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
@@ -816,7 +816,7 @@ public class BitextWidget extends Composite {
                                 @Override
                                 public void onSuccess(String[] result) {
                                     words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
-                                    getPositionsTAO(resultS, contentS, words, queryLength);
+                                    getPositionsTAO(resultT, contentT, words, queryLength);
                                 }
                             });
                         } else {
@@ -888,9 +888,9 @@ public class BitextWidget extends Composite {
                         } else if (search.contains("NEAR")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
-                                getPositionsNearTCR(contentS, words, queryLength);
+                                getPositionsNearTCR(contentT, words, queryLength);
                             } else {
-                                getPositionsNearT(resultS, contentS, words, queryLength);
+                                getPositionsNearT(resultT, contentT, words, queryLength);
                             }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
@@ -942,7 +942,7 @@ public class BitextWidget extends Composite {
 
         pixS = height / totlinesS;
         int scrollines = height / pixS;
-        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - Align.source.Ncal) + 1f;
+        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - resultS[resultS.length - 1][4]) + 1f;
     }
 
     public void setNetScapePosMono(int idxS, int h) {

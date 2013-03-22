@@ -33,7 +33,6 @@ public class GwtSegDoc implements IsSerializable {
     public String content;
     public String uri;
     public String lang;
-    public int Ncal;
 
     public GwtSegDoc() {
     }

@@ -242,19 +242,20 @@ public class QuoteBitextWidget extends Composite {
         resultT = Align.target.positions;
         contentS = Align.source.content.toLowerCase();
 
-        totlinesS = resultS[Align.source.nblines - 1][3];
-        totlinesT = resultT[Align.target.nblines - 1][3];
+        totlinesS = resultS[resultS.length - 1][3] + resultS[resultS.length - 1][0];
+        totlinesT = resultT[resultT.length - 1][3] + resultT[resultT.length - 1][0];
+        
         height1 = targetTextArea.getElement().getScrollHeight();
         height = sourceTextArea.getElement().getScrollHeight();
 
-        pixS = sourceTextArea.getOffsetHeight()/sourceTextArea.getVisibleLines();
+        pixS = sourceTextArea.getOffsetHeight() / sourceTextArea.getVisibleLines();
         int scrollines = height / pixS;
-        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - Align.source.Ncal) + 1f;
+        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - resultS[resultS.length - 1][4]) + 1f;
         pposS = sourceTextArea.getOffsetWidth() - pixS;
 
-        pixT = targetTextArea.getOffsetHeight()/targetTextArea.getVisibleLines();
+        pixT = targetTextArea.getOffsetHeight() / targetTextArea.getVisibleLines();
         int scrollines1 = height1 / pixT;
-        magicT = (float) (scrollines1 - totlinesT) / (float) (scrollines1 - Align.target.Ncal) + 1f;
+        magicT = (float) (scrollines1 - totlinesT) / (float) (scrollines1 - resultT[Align.target.nblines - 1][4]) + 1f;
         pposT = targetTextArea.getOffsetWidth() - pixT;
     }
 
@@ -280,7 +281,7 @@ public class QuoteBitextWidget extends Composite {
 
         pixS = height / totlinesS;
         int scrollines = height / pixS;
-        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - Align.source.Ncal) + 1f;
+        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - resultS[resultS.length - 1][4]) + 1f;
     }
 
     public void showpanel(boolean source, int hight, int index) {
