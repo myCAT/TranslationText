@@ -1211,7 +1211,6 @@ public class BitextWidget extends Composite {
                 || (MainEntryPoint.QUERY.contains("\""))) {
             getPositionsSAO(resultS, contentS, words, queryLength);
         } else if (MainEntryPoint.QUERY.contains("NEAR")) {
-            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
             if (GuiConstant.TA_HILITE_OVER_CR) {
                 getPositionsNearSCR(contentS, words, queryLength);
             } else {
@@ -1239,7 +1238,6 @@ public class BitextWidget extends Composite {
                 || (MainEntryPoint.QUERY.contains("\""))) {
             getPositionsMonoAO(resultS, contentS, words, queryLength);
         } else if (MainEntryPoint.QUERY.contains("NEAR")) {
-            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
             if (GuiConstant.TA_HILITE_OVER_CR) {
                 getPositionsNearMonoCR(contentS, words, queryLength);
             } else {

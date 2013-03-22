@@ -726,12 +726,13 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
 
     @Override
     public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
-        String regex;
         int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
+        int startp, lastp;
+//        System.out.println("Searching for near on a wondow of: " + refLength);
         ArrayList<String> Pos = new ArrayList<>();
         ArrayList<Integer> startPos = new ArrayList<>();
         ArrayList<Integer> lastPos = new ArrayList<>();
-        String first, res, last;
+        String first, res, last, regex;
         Pattern p;
         Matcher m;
         startPos.clear();
@@ -739,44 +740,49 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
 
         first = Query.get(0);
         last = Query.get(Query.size() - 1);
+//        System.out.println("First: " + first);
+//        System.out.println("Last: " + last);
         regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
         p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         m = p.matcher(content);
         if (m.find()) {
-            System.out.println("start found at : " + m.start());
+//            System.out.println("start found at : " + m.start());
             startPos.add(m.start());
             while (m.find()) {
                 startPos.add(m.start());
-                System.out.println("Start found at : " + m.start());
+//                System.out.println("Start found at : " + m.start());
             }
         }
         regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
         p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         m = p.matcher(content);
         if (m.find()) {
-            System.out.println("last found at : " + m.start());
-            lastPos.add(m.start() + last.length());
+//            System.out.println("last found at : " + m.start());
+            lastPos.add(m.start());
             while (m.find()) {
-                lastPos.add(m.start() + last.length());
-                System.out.println("last found at : " + m.start());
+                lastPos.add(m.start());
+//                System.out.println("last found at : " + m.start());
             }
         }
-        int startp, lastp;
         for (int s = 0; s < startPos.size(); s++) {
             startp = startPos.get(s);
             for (int l = 0; l < lastPos.size(); l++) {
                 lastp = lastPos.get(l);
-                System.out.println("refLength: " + refLength);
-                if ((Math.abs(lastp - startp) >= queryLn) && (Math.abs(lastp - startp) <= refLength)) {
-                    res = startp + "¦" + (lastp - startp);
-                    Pos.add(res);
+                if (Math.abs(lastp - startp) <= refLength) {
+                    if (lastp > startp) {
+                        res = startp + "¦" + (lastp + last.length() - startp);
+                        Pos.add(res);
+                    } else {
+                        res = lastp + "¦" + (startp + first.length() - lastp);
+                        Pos.add(res);
+                    }
                 }
             }
         }
 
-        for (int i = 0; i < Pos.size(); i++) {
-            System.out.println("Positions found in Line: " + Pos.get(i));
-        }
+//        for (int i = 0; i < Pos.size(); i++) {
+//            System.out.println("Positions found in Line: " + Pos.get(i));
+//        }
         return getPositionsRef(Pos);
     }
 
@@ -789,6 +795,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         int begin, end;
         Pattern p;
         Matcher m;
+        int startp, lastp;
         String sentence, regex, first, res, last;
         first = Query.get(0);
         last = Query.get(Query.size() - 1);
@@ -809,11 +816,11 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
             m = p.matcher(sentence);
             if (m.find()) {
-            System.out.println("start found at : " + m.start());
+//                System.out.println("start found at : " + m.start());
                 startPos.add(m.start());
                 while (m.find()) {
                     startPos.add(m.start());
-                System.out.println("Start found at : " + m.start());
+//                    System.out.println("Start found at : " + m.start());
                 }
             }
 
@@ -821,28 +828,31 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
             m = p.matcher(sentence);
             if (m.find()) {
-            System.out.println("last found at : " + m.start());
-                lastPos.add(m.start() + last.length());
+//                System.out.println("last found at : " + m.start());
+                lastPos.add(m.start());
                 while (m.find()) {
-                    lastPos.add(m.start() + last.length());
-                System.out.println("last found at : " + m.start());
+                    lastPos.add(m.start());
+//                    System.out.println("last found at : " + m.start());
                 }
             }
 
-            int startp, lastp;
             for (int s = 0; s < startPos.size(); s++) {
                 startp = startPos.get(s);
                 for (int l = 0; l < lastPos.size(); l++) {
                     lastp = lastPos.get(l);
-                System.out.println("refLength: " + refLength);
-                    if ((Math.abs(lastp - startp) >= queryLn) && (Math.abs(lastp - startp) <= refLength)) {
-                        res = i + "¦" + startp + "¦" + (lastp - startp);
-                        Pos.add(res);
+                    if (Math.abs(lastp - startp) <= refLength) {
+                        if (lastp > startp) {
+                            res = i + "¦" + startp + "¦" + (lastp + last.length() - startp);
+                            Pos.add(res);
+                        } else {
+                            res = i + "¦" + lastp + "¦" + (startp + first.length() - lastp);
+                            Pos.add(res);
+                        }
                     }
                 }
             }
         }
-        return getPositionsAO(Pos);
+        return getPositions(Pos);
     }
 
     public GwtRef html2GwtRef(String htmlref) {
