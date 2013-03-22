@@ -51,7 +51,7 @@ public interface TranslateService extends RemoteService {
 
     public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn);
 
-    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, int sepNumber, int avgTokenLn);
+    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn);
 
     public int[][] getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn);
 

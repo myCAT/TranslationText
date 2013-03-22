@@ -143,7 +143,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         }
         try {
 //            Timer t1 = new Timer("------------- " + query);
-            QLResultNice res = is.evalQLNice(query, 0, maxSize, order);
+            QLResultNice res = is.evalQLNice(query, 0, maxSize, order, false, false);
             if (res.docname != null) {
 //                System.out.println("List of documents retrieved");
                 if (!collections.isEmpty()) {
@@ -697,67 +697,6 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         return getPositionsAO(Pos);
     }
 
-    @Override
-    public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
-        String regex;
-        int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
-        ArrayList<String> Pos = new ArrayList<>();
-        ArrayList<Integer> startPos = new ArrayList<>();
-        ArrayList<Integer> lastPos = new ArrayList<>();
-        String first, res, last;
-        Pattern p;
-        Matcher m;
-        startPos.clear();
-        lastPos.clear();
-
-        first = Query.get(0);
-        last = Query.get(Query.size() - 1);
-        regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
-        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        m = p.matcher(content);
-        if (m.find()) {
-//            System.out.println("start found at : " + m.start());
-            startPos.add(m.start());
-            while (m.find()) {
-                startPos.add(m.start());
-//                System.out.println("Start found at : " + m.start());
-            }
-        }
-        regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
-        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        m = p.matcher(content);
-        if (m.find()) {
-//            System.out.println("last found at : " + m.start());
-            lastPos.add(m.start() + last.length());
-            while (m.find()) {
-                lastPos.add(m.start() + last.length());
-//                System.out.println("last found at : " + m.start());
-            }
-        }
-        int startp, lastp;
-        for (int s = 0; s < startPos.size(); s++) {
-            startp = startPos.get(s);
-            for (int l = 0; l < lastPos.size(); l++) {
-                lastp = lastPos.get(l);
-//                System.out.println("refLength: " + refLength);
-                if ((Math.abs(lastp - startp) >= queryLn) && (Math.abs(lastp - startp) <= refLength)) {
-                    res = startp + "¦" + (lastp - startp);
-                    Pos.add(res);
-                }
-            }
-        }
-
-//        for (int i = 0; i < Pos.size(); i++) {
-//            System.out.println("Positions found in Line: " + Pos.get(i));
-//        }
-        return getPositionsRef(Pos);
-    }
-
-    @Override
-    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, int sepNumber, int avgTokenLn) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     private int[][] getPositionsAO(ArrayList<String> Pos) {
         int[][] posit;
         int i, k, pos, ln, j, len;
@@ -783,6 +722,127 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             posit[0][0] = -1;
         }
         return posit;
+    }
+
+    @Override
+    public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
+        String regex;
+        int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
+        ArrayList<String> Pos = new ArrayList<>();
+        ArrayList<Integer> startPos = new ArrayList<>();
+        ArrayList<Integer> lastPos = new ArrayList<>();
+        String first, res, last;
+        Pattern p;
+        Matcher m;
+        startPos.clear();
+        lastPos.clear();
+
+        first = Query.get(0);
+        last = Query.get(Query.size() - 1);
+        regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
+        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(content);
+        if (m.find()) {
+            System.out.println("start found at : " + m.start());
+            startPos.add(m.start());
+            while (m.find()) {
+                startPos.add(m.start());
+                System.out.println("Start found at : " + m.start());
+            }
+        }
+        regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
+        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(content);
+        if (m.find()) {
+            System.out.println("last found at : " + m.start());
+            lastPos.add(m.start() + last.length());
+            while (m.find()) {
+                lastPos.add(m.start() + last.length());
+                System.out.println("last found at : " + m.start());
+            }
+        }
+        int startp, lastp;
+        for (int s = 0; s < startPos.size(); s++) {
+            startp = startPos.get(s);
+            for (int l = 0; l < lastPos.size(); l++) {
+                lastp = lastPos.get(l);
+                System.out.println("refLength: " + refLength);
+                if ((Math.abs(lastp - startp) >= queryLn) && (Math.abs(lastp - startp) <= refLength)) {
+                    res = startp + "¦" + (lastp - startp);
+                    Pos.add(res);
+                }
+            }
+        }
+
+        for (int i = 0; i < Pos.size(); i++) {
+            System.out.println("Positions found in Line: " + Pos.get(i));
+        }
+        return getPositionsRef(Pos);
+    }
+
+    @Override
+    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
+        ArrayList<String> Pos = new ArrayList<>();
+        int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
+        ArrayList<Integer> startPos = new ArrayList<>();
+        ArrayList<Integer> lastPos = new ArrayList<>();
+        int begin, end;
+        Pattern p;
+        Matcher m;
+        String sentence, regex, first, res, last;
+        first = Query.get(0);
+        last = Query.get(Query.size() - 1);
+
+        for (int i = 0; i < positions.length; i++) {
+            begin = positions[i][1];
+            if (i == (positions.length - 1)) {
+                end = content.length();
+            } else {
+                end = positions[i + 1][1] + 1;
+            }
+            sentence = content.substring(begin, end);
+
+            startPos.clear();
+            lastPos.clear();
+
+            regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
+            p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            m = p.matcher(sentence);
+            if (m.find()) {
+            System.out.println("start found at : " + m.start());
+                startPos.add(m.start());
+                while (m.find()) {
+                    startPos.add(m.start());
+                System.out.println("Start found at : " + m.start());
+                }
+            }
+
+            regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
+            p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            m = p.matcher(sentence);
+            if (m.find()) {
+            System.out.println("last found at : " + m.start());
+                lastPos.add(m.start() + last.length());
+                while (m.find()) {
+                    lastPos.add(m.start() + last.length());
+                System.out.println("last found at : " + m.start());
+                }
+            }
+
+            int startp, lastp;
+            for (int s = 0; s < startPos.size(); s++) {
+                startp = startPos.get(s);
+                for (int l = 0; l < lastPos.size(); l++) {
+                    lastp = lastPos.get(l);
+                System.out.println("refLength: " + refLength);
+                    if ((Math.abs(lastp - startp) >= queryLn) && (Math.abs(lastp - startp) <= refLength)) {
+                        res = i + "¦" + startp + "¦" + (lastp - startp);
+                        Pos.add(res);
+                    }
+                }
+            }
+        }
+        return getPositionsAO(Pos);
     }
 
     public GwtRef html2GwtRef(String htmlref) {

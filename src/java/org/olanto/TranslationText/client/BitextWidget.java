@@ -691,10 +691,16 @@ public class BitextWidget extends Composite {
                         search = SchArea.getText();
                         queryLength = search.length();
                         if ((search.contains("AND"))
-                                || (search.contains("OR"))
-                                || (search.contains("NEAR"))) {
+                                || (search.contains("OR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsSAO(resultS, contentS, words, queryLength);
+                        } else if (search.contains("NEAR")) {
+                            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+                            if (GuiConstant.TA_HILITE_OVER_CR) {
+                                getPositionsNearSCR(contentS, words, queryLength);
+                            } else {
+                                getPositionsNearS(resultS, contentS, words, queryLength);
+                            }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
                                 @Override
@@ -790,10 +796,16 @@ public class BitextWidget extends Composite {
                         search = SchArea.getText();
                         queryLength = search.length();
                         if ((search.contains("AND"))
-                                || (search.contains("OR"))
-                                || (search.contains("NEAR"))) {
+                                || (search.contains("OR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsTAO(resultT, contentT, words, queryLength);
+                        } else if (search.contains("NEAR")) {
+                            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+                            if (GuiConstant.TA_HILITE_OVER_CR) {
+                                getPositionsNearTCR(contentS, words, queryLength);
+                            } else {
+                                getPositionsNearT(resultS, contentS, words, queryLength);
+                            }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
                                 @Override
@@ -832,10 +844,16 @@ public class BitextWidget extends Composite {
                         search = SchArea.getText();
                         queryLength = search.length();
                         if ((search.contains("AND"))
-                                || (search.contains("OR"))
-                                || (search.contains("NEAR"))) {
+                                || (search.contains("OR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsSAO(resultS, contentS, words, queryLength);
+                        } else if (search.contains("NEAR")) {
+                            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+                            if (GuiConstant.TA_HILITE_OVER_CR) {
+                                getPositionsNearSCR(contentS, words, queryLength);
+                            } else {
+                                getPositionsNearS(resultS, contentS, words, queryLength);
+                            }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
                                 @Override
@@ -864,10 +882,16 @@ public class BitextWidget extends Composite {
                         search = SchArea.getText();
                         queryLength = search.length();
                         if ((search.contains("AND"))
-                                || (search.contains("OR"))
-                                || (search.contains("NEAR"))) {
+                                || (search.contains("OR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsTAO(resultT, contentT, words, queryLength);
+                        } else if (search.contains("NEAR")) {
+                            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+                            if (GuiConstant.TA_HILITE_OVER_CR) {
+                                getPositionsNearTCR(contentS, words, queryLength);
+                            } else {
+                                getPositionsNearT(resultS, contentS, words, queryLength);
+                            }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
                                 @Override
@@ -1035,10 +1059,16 @@ public class BitextWidget extends Composite {
                         search = SchArea.getText();
                         queryLength = search.length();
                         if ((search.contains("AND"))
-                                || (search.contains("OR"))
-                                || (search.contains("NEAR"))) {
+                                || (search.contains("OR"))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsMonoAO(resultS, contentS, words, queryLength);
+                        } else if (search.contains("NEAR")) {
+                            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+                            if (GuiConstant.TA_HILITE_OVER_CR) {
+                                getPositionsNearMonoCR(contentS, words, queryLength);
+                            } else {
+                                getPositionsNearMono(resultS, contentS, words, queryLength);
+                            }
                         } else if ((search.contains("*"))) {
                             rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
                                 @Override
@@ -1103,10 +1133,16 @@ public class BitextWidget extends Composite {
                     search = SchArea.getText();
                     queryLength = search.length();
                     if ((search.contains("AND"))
-                            || (search.contains("OR"))
-                            || (search.contains("NEAR"))) {
+                            || (search.contains("OR"))) {
                         words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                         getPositionsMonoAO(resultS, contentS, words, queryLength);
+                    } else if (search.contains("NEAR")) {
+                        words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+                        if (GuiConstant.TA_HILITE_OVER_CR) {
+                            getPositionsNearMonoCR(contentS, words, queryLength);
+                        } else {
+                            getPositionsNearMono(resultS, contentS, words, queryLength);
+                        }
                     } else if ((search.contains("*"))) {
                         rpcS.getExpandTerms(SchArea.getText(), new AsyncCallback<String[]>() {
                             @Override
@@ -1171,10 +1207,16 @@ public class BitextWidget extends Composite {
         Positions = null;
         if ((MainEntryPoint.QUERY.contains("AND"))
                 || (MainEntryPoint.QUERY.contains("OR"))
-                || (MainEntryPoint.QUERY.contains("NEAR"))
                 || (MainEntryPoint.QUERY.contains("*"))
                 || (MainEntryPoint.QUERY.contains("\""))) {
             getPositionsSAO(resultS, contentS, words, queryLength);
+        } else if (MainEntryPoint.QUERY.contains("NEAR")) {
+            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+            if (GuiConstant.TA_HILITE_OVER_CR) {
+                getPositionsNearSCR(contentS, words, queryLength);
+            } else {
+                getPositionsNearS(resultS, contentS, words, queryLength);
+            }
         } else {
             if (GuiConstant.TA_HILITE_OVER_CR) {
                 getPositionsSCR(contentS, words, queryLength);
@@ -1193,10 +1235,16 @@ public class BitextWidget extends Composite {
         Positions = null;
         if ((MainEntryPoint.QUERY.contains("AND"))
                 || (MainEntryPoint.QUERY.contains("OR"))
-                || (MainEntryPoint.QUERY.contains("NEAR"))
                 || (MainEntryPoint.QUERY.contains("*"))
                 || (MainEntryPoint.QUERY.contains("\""))) {
             getPositionsMonoAO(resultS, contentS, words, queryLength);
+        } else if (MainEntryPoint.QUERY.contains("NEAR")) {
+            words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
+            if (GuiConstant.TA_HILITE_OVER_CR) {
+                getPositionsNearMonoCR(contentS, words, queryLength);
+            } else {
+                getPositionsNearMono(resultS, contentS, words, queryLength);
+            }
         } else {
             if (GuiConstant.TA_HILITE_OVER_CR) {
                 getPositionsMonoCR(contentS, words, queryLength);
@@ -1413,7 +1461,7 @@ public class BitextWidget extends Composite {
         }
     }
 
-       public void getPositionsNearSCR(String content, ArrayList<String> Query, int queryLn) {
+    public void getPositionsNearSCR(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNearCR(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
                 @Override
@@ -1441,9 +1489,37 @@ public class BitextWidget extends Composite {
         }
     }
 
+    public void getPositionsNearS(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
+        if ((!Query.isEmpty()) && !(Query == null)) {
+            rpcS.getHitPosNear(posit, content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    setMessage("error", GuiMessageConst.MSG_10);
+                }
+
+                @Override
+                public void onSuccess(int[][] result) {
+                    ClearHitsEvents();
+                    Positions = result;
+                    if (Positions[0][0] > -1) {
+                        if (words.size() > GuiConstant.MAX_SEARCH_SIZE) {
+                            setMessage("warning", GuiMessageConst.MSG_34);
+                        }
+                        pSch.hide();
+                        AddHitsEventsS();
+                        nextHitS();
+                        sourceTextArea.setFocus(true);
+                    } else {
+                        setMessage("error", GuiMessageConst.MSG_33);
+                    }
+                }
+            });
+        }
+    }
+
     public void getPositionsNearTCR(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
-            rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
+            rpcS.getHitPosNearCR(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1468,7 +1544,91 @@ public class BitextWidget extends Composite {
             });
         }
     }
-    
+
+    public void getPositionsNearT(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
+        if ((!Query.isEmpty()) && !(Query == null)) {
+            rpcS.getHitPosNear(posit, content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    setMessage("error", GuiMessageConst.MSG_10);
+                }
+
+                @Override
+                public void onSuccess(int[][] result) {
+                    ClearHitsEvents();
+                    Positions = result;
+                    if (Positions[0][0] > -1) {
+                        if (words.size() > GuiConstant.MAX_SEARCH_SIZE) {
+                            setMessage("warning", GuiMessageConst.MSG_34);
+                        }
+                        pSch.hide();
+                        AddHitsEventsT();
+                        nextHitT();
+                        targetTextArea.setFocus(true);
+                    } else {
+                        setMessage("error", GuiMessageConst.MSG_33);
+                    }
+                }
+            });
+        }
+    }
+
+    public void getPositionsNearMonoCR(String content, ArrayList<String> Query, int queryLn) {
+        if ((!Query.isEmpty()) && !(Query == null)) {
+            rpcS.getHitPosNearCR(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    setMessage("error", GuiMessageConst.MSG_10);
+                }
+
+                @Override
+                public void onSuccess(int[][] result) {
+                    ClearHitsEvents();
+                    Positions = result;
+                    if (Positions[0][0] > -1) {
+                        if (words.size() > GuiConstant.MAX_SEARCH_SIZE) {
+                            setMessage("warning", GuiMessageConst.MSG_34);
+                        }
+                        pSch.hide();
+                        AddHitsEventsMonoCR();
+                        nextHitMonoCR();
+                        sourceTextArea.setFocus(true);
+                    } else {
+                        setMessage("error", GuiMessageConst.MSG_33);
+                    }
+                }
+            });
+        }
+    }
+
+    public void getPositionsNearMono(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
+        if ((!Query.isEmpty()) && !(Query == null)) {
+            rpcS.getHitPosNear(posit, content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    setMessage("error", GuiMessageConst.MSG_10);
+                }
+
+                @Override
+                public void onSuccess(int[][] result) {
+                    ClearHitsEvents();
+                    Positions = result;
+                    if (Positions[0][0] > -1) {
+                        if (words.size() > GuiConstant.MAX_SEARCH_SIZE) {
+                            setMessage("warning", GuiMessageConst.MSG_34);
+                        }
+                        pSch.hide();
+                        AddHitsEventsMono();
+                        nextHitMono();
+                        sourceTextArea.setFocus(true);
+                    } else {
+                        setMessage("error", GuiMessageConst.MSG_33);
+                    }
+                }
+            });
+        }
+    }
+
     public void getPositionsMonoCR(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
