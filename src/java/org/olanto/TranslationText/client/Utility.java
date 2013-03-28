@@ -139,6 +139,25 @@ public class Utility {
         return hits;
     }
 
+    public static ArrayList<String> getexactWords(String Query) {
+        Query = Query.replace("\"", "");
+        Query = Query.replace("(", "");
+        Query = Query.replace(")", "");
+        Query = Query.replace(",", "");
+        Query = Query.replace("'", " ");
+        Query = Query.replace("`", " ");
+        Query = Query.replace("’", " ");
+        Query = Query.replace("‘", " ");
+        Query = Query.replace("#", " ");
+        Query = Query.replace("“", " ");
+        Query = Query.replace("”", " ");
+        ArrayList<String> hits = new ArrayList<String>();
+        String[] words = Query.split("\\s+");
+        hits.addAll(Arrays.asList(words));
+//        Window.alert("Hits : "+hits.size());
+        return hits;
+    }
+
     public static String queryParser(String queryo, String langS, String langT, ArrayList<String> stopWords, ArrayList<String> collections) {
         String Query = queryo;
         String query;

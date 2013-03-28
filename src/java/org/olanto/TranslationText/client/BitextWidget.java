@@ -1220,7 +1220,6 @@ public class BitextWidget extends Composite {
             } else {
                 getPositionsS(resultS, contentS, words, queryLength);
             }
-
         } else if ((MainEntryPoint.QUERY.contains("AND"))
                 || (MainEntryPoint.QUERY.contains("OR"))
                 || (MainEntryPoint.QUERY.contains("*"))) {

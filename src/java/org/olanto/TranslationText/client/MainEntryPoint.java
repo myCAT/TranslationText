@@ -402,16 +402,19 @@ public class MainEntryPoint implements EntryPoint {
                         }
                     });
                 } else {
+                    words = null;
+                    String Query = Utility.queryParser(QUERY, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
                     if (QUERY.startsWith("\"")) {
                         GuiConstant.EXACT_FLG = true;
+                        words = Utility.getexactWords(QUERY);
 //                        GuiConstant.EXACT_NBR_FLG = false;
                     } else if (QUERY.startsWith("#\"")) {
                         GuiConstant.EXACT_FLG = true;
+                         words = Utility.getexactWords(QUERY);
 //                        GuiConstant.EXACT_NBR_FLG = true;
+                    } else {
+                        words = Utility.getQueryWords(QUERY + " ", stopWords);
                     }
-                    words = null;
-                    String Query = Utility.queryParser(QUERY, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
-                    words = Utility.getQueryWords(QUERY + " ", stopWords);
                     tS.queryLength = QUERY.length();
                     tS.words = words;
                     textAlignerWidget.GoSrch.setToolTip(GuiMessageConst.MSG_27 + Query);
