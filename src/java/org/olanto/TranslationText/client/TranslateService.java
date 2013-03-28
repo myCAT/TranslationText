@@ -33,7 +33,7 @@ public interface TranslateService extends RemoteService {
 
     public String myMethod(String s);
 
-    public ArrayList<String> getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order);
+    public ArrayList<String> getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, boolean exact, boolean number);
 
     public ArrayList<String> getDocumentBrowseList(String request, String LangS, ArrayList<String> collections, boolean PATH_ON, int maxBrowse, String order, boolean ONLY_ON_FILE_NAME);
 

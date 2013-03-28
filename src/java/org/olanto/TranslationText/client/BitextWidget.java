@@ -1084,7 +1084,11 @@ public class BitextWidget extends Composite {
                             });
                         } else {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
-                            getPositionsMono(resultS, contentS, words, queryLength);
+                            if (GuiConstant.TA_HILITE_OVER_CR) {
+                                getPositionsMonoCR(contentS, words, queryLength);
+                            } else {
+                                getPositionsMono(resultS, contentS, words, queryLength);
+                            }
                         }
                     }
                 });
@@ -1158,7 +1162,11 @@ public class BitextWidget extends Composite {
                         });
                     } else {
                         words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
-                        getPositionsMono(resultS, contentS, words, queryLength);
+                        if (GuiConstant.TA_HILITE_OVER_CR) {
+                            getPositionsMonoCR(contentS, words, queryLength);
+                        } else {
+                            getPositionsMono(resultS, contentS, words, queryLength);
+                        }
                     }
 
                 }
@@ -1205,10 +1213,17 @@ public class BitextWidget extends Composite {
         curIndS = 0;
         curIndT = 0;
         Positions = null;
-        if ((MainEntryPoint.QUERY.contains("AND"))
+        if (GuiConstant.EXACT_FLG) {
+//            Window.alert("exact matching search: " + words.toString());
+            if (words.size() > 1) {
+                getPositionsSCR(contentS, words, queryLength);
+            } else {
+                getPositionsS(resultS, contentS, words, queryLength);
+            }
+
+        } else if ((MainEntryPoint.QUERY.contains("AND"))
                 || (MainEntryPoint.QUERY.contains("OR"))
-                || (MainEntryPoint.QUERY.contains("*"))
-                || (MainEntryPoint.QUERY.contains("\""))) {
+                || (MainEntryPoint.QUERY.contains("*"))) {
             getPositionsSAO(resultS, contentS, words, queryLength);
         } else if (MainEntryPoint.QUERY.contains("NEAR")) {
             if (GuiConstant.TA_HILITE_OVER_CR) {
@@ -1232,10 +1247,15 @@ public class BitextWidget extends Composite {
 
         curIndS = 0;
         Positions = null;
-        if ((MainEntryPoint.QUERY.contains("AND"))
+        if (GuiConstant.EXACT_FLG) {
+            if (words.size() > 1) {
+                getPositionsMonoCR(contentS, words, queryLength);
+            } else {
+                getPositionsMono(resultS, contentS, words, queryLength);
+            }
+        } else if ((MainEntryPoint.QUERY.contains("AND"))
                 || (MainEntryPoint.QUERY.contains("OR"))
-                || (MainEntryPoint.QUERY.contains("*"))
-                || (MainEntryPoint.QUERY.contains("\""))) {
+                || (MainEntryPoint.QUERY.contains("*"))) {
             getPositionsMonoAO(resultS, contentS, words, queryLength);
         } else if (MainEntryPoint.QUERY.contains("NEAR")) {
             if (GuiConstant.TA_HILITE_OVER_CR) {
@@ -1404,8 +1424,12 @@ public class BitextWidget extends Composite {
     }
 
     public void getPositionsSCR(String content, ArrayList<String> Query, int queryLn) {
+        float factor = GuiConstant.REF_FACTOR;
+        if (GuiConstant.EXACT_FLG) {
+            factor = 1.05f;
+        }
         if ((!Query.isEmpty()) && !(Query == null)) {
-            rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
+            rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1432,8 +1456,12 @@ public class BitextWidget extends Composite {
     }
 
     public void getPositionsTCR(String content, ArrayList<String> Query, int queryLn) {
+        float factor = GuiConstant.REF_FACTOR;
+        if (GuiConstant.EXACT_FLG) {
+            factor = 1.05f;
+        }
         if ((!Query.isEmpty()) && !(Query == null)) {
-            rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
+            rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
@@ -1628,8 +1656,12 @@ public class BitextWidget extends Composite {
     }
 
     public void getPositionsMonoCR(String content, ArrayList<String> Query, int queryLn) {
+        float factor = GuiConstant.REF_FACTOR;
+        if (GuiConstant.EXACT_FLG) {
+            factor = 1.05f;
+        }
         if ((!Query.isEmpty()) && !(Query == null)) {
-            rpcS.getRefWordsPos(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
+            rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);

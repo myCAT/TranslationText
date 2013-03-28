@@ -131,7 +131,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     }
 
     @Override
-    public ArrayList<String> getDocumentList(String query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order) {
+    public ArrayList<String> getDocumentList(String query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, boolean exact, boolean number) {
         ArrayList<String> documents = new ArrayList<>();
         String longName, docName, listElem;
 //        System.out.println("Before calling the server for documents with the query: " + query);
@@ -140,7 +140,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         }
         try {
 //            Timer t1 = new Timer("------------- " + query);
-            QLResultNice res = is.evalQLNice(query, 0, maxSize, order, false, false);
+            QLResultNice res = is.evalQLNice(query, 0, maxSize, order, exact, number);
             if (res.docname != null) {
 //                System.out.println("List of documents retrieved");
                 if (!collections.isEmpty()) {
@@ -599,7 +599,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             for (int l = 0; l < lastPos.size(); l++) {
                 lastp = lastPos.get(l);
 //                System.out.println("refLength: " + refLength);
-                if (((lastp - startp) >= queryLn) && ((lastp - startp) <= refLength)) {
+                if (((lastp - startp) >= (queryLn / 2)) && ((lastp - startp) <= refLength)) {
                     if (getAllWords(content.substring(startp, lastp + 1), Query)) {
                         res = startp + "¦" + (lastp - startp);
                         Pos.add(res);

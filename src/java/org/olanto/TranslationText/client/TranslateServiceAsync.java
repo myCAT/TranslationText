@@ -33,7 +33,7 @@ public interface TranslateServiceAsync {
 
     public void myMethod(String s, AsyncCallback<String> callback);
 
-    public void getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, AsyncCallback<ArrayList<String>> asyncCallback);
+    public void getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, boolean exact, boolean number, AsyncCallback<ArrayList<String>> asyncCallback);
 
     public void getDocumentBrowseList(String request, String LangS, ArrayList<String> collections, boolean PATH_ON, int maxBrowse, String order, boolean ONLY_ON_FILE_NAME, AsyncCallback<ArrayList<String>> asyncCallback);
 

@@ -337,7 +337,7 @@ public class ResearchWidget extends Composite {
         staticTreeWrapper.clear();
         adaptSize();
         // remote procedure call to the server to get the document list that satisfies the query
-        rpcSch.getDocumentList(Query, collections, GuiConstant.PATH_ON, GuiConstant.MAX_RESPONSE, SORT_BY_Eff[sortBy.getSelectedIndex()], new AsyncCallback<ArrayList<String>>() {
+        rpcSch.getDocumentList(Query, collections, GuiConstant.PATH_ON, GuiConstant.MAX_RESPONSE, SORT_BY_Eff[sortBy.getSelectedIndex()], GuiConstant.EXACT_FLG, GuiConstant.EXACT_NBR_FLG, new AsyncCallback<ArrayList<String>>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert(GuiMessageConst.MSG_53 + Query);

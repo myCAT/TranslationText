@@ -402,6 +402,13 @@ public class MainEntryPoint implements EntryPoint {
                         }
                     });
                 } else {
+                    if (QUERY.startsWith("\"")) {
+                        GuiConstant.EXACT_FLG = true;
+//                        GuiConstant.EXACT_NBR_FLG = false;
+                    } else if (QUERY.startsWith("#\"")) {
+                        GuiConstant.EXACT_FLG = true;
+//                        GuiConstant.EXACT_NBR_FLG = true;
+                    }
                     words = null;
                     String Query = Utility.queryParser(QUERY, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
                     words = Utility.getQueryWords(QUERY + " ", stopWords);
