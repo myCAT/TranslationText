@@ -690,11 +690,11 @@ public class BitextWidget extends Composite {
 
                         search = SchArea.getText();
                         queryLength = search.length();
-                        if ((search.contains("AND"))
-                                || (search.contains("OR"))) {
+                        if ((search.contains(" AND "))
+                                || (search.contains(" OR "))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsSAO(resultS, contentS, words, queryLength);
-                        } else if (search.contains("NEAR")) {
+                        } else if (search.contains(" NEAR ")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsNearSCR(contentS, words, queryLength);
@@ -795,11 +795,11 @@ public class BitextWidget extends Composite {
 
                         search = SchArea.getText();
                         queryLength = search.length();
-                        if ((search.contains("AND"))
-                                || (search.contains("OR"))) {
+                        if ((search.contains(" AND "))
+                                || (search.contains(" OR "))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsTAO(resultT, contentT, words, queryLength);
-                        } else if (search.contains("NEAR")) {
+                        } else if (search.contains(" NEAR ")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsNearTCR(contentT, words, queryLength);
@@ -843,11 +843,11 @@ public class BitextWidget extends Composite {
 
                         search = SchArea.getText();
                         queryLength = search.length();
-                        if ((search.contains("AND"))
-                                || (search.contains("OR"))) {
+                        if ((search.contains(" AND "))
+                                || (search.contains(" OR "))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsSAO(resultS, contentS, words, queryLength);
-                        } else if (search.contains("NEAR")) {
+                        } else if (search.contains(" NEAR ")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsNearSCR(contentS, words, queryLength);
@@ -881,11 +881,11 @@ public class BitextWidget extends Composite {
 
                         search = SchArea.getText();
                         queryLength = search.length();
-                        if ((search.contains("AND"))
-                                || (search.contains("OR"))) {
+                        if ((search.contains(" AND "))
+                                || (search.contains(" OR "))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsTAO(resultT, contentT, words, queryLength);
-                        } else if (search.contains("NEAR")) {
+                        } else if (search.contains(" NEAR ")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsNearTCR(contentT, words, queryLength);
@@ -1058,11 +1058,11 @@ public class BitextWidget extends Composite {
 
                         search = SchArea.getText();
                         queryLength = search.length();
-                        if ((search.contains("AND"))
-                                || (search.contains("OR"))) {
+                        if ((search.contains(" AND "))
+                                || (search.contains(" OR "))) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             getPositionsMonoAO(resultS, contentS, words, queryLength);
-                        } else if (search.contains("NEAR")) {
+                        } else if (search.contains(" NEAR ")) {
                             words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsNearMonoCR(contentS, words, queryLength);
@@ -1136,11 +1136,11 @@ public class BitextWidget extends Composite {
                     words = null;
                     search = SchArea.getText();
                     queryLength = search.length();
-                    if ((search.contains("AND"))
-                            || (search.contains("OR"))) {
+                    if ((search.contains(" AND "))
+                            || (search.contains(" OR "))) {
                         words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                         getPositionsMonoAO(resultS, contentS, words, queryLength);
-                    } else if (search.contains("NEAR")) {
+                    } else if (search.contains(" NEAR ")) {
                         words = Utility.getQueryWords(SchArea.getText() + " ", MainEntryPoint.stopWords);
                         if (GuiConstant.TA_HILITE_OVER_CR) {
                             getPositionsNearMonoCR(contentS, words, queryLength);
@@ -1220,11 +1220,11 @@ public class BitextWidget extends Composite {
             } else {
                 getPositionsS(resultS, contentS, words, queryLength);
             }
-        } else if ((MainEntryPoint.QUERY.contains("AND"))
-                || (MainEntryPoint.QUERY.contains("OR"))
+        } else if ((MainEntryPoint.QUERY.contains(" AND "))
+                || (MainEntryPoint.QUERY.contains(" OR "))
                 || (MainEntryPoint.QUERY.contains("*"))) {
             getPositionsSAO(resultS, contentS, words, queryLength);
-        } else if (MainEntryPoint.QUERY.contains("NEAR")) {
+        } else if (MainEntryPoint.QUERY.contains(" NEAR ")) {
             if (GuiConstant.TA_HILITE_OVER_CR) {
                 getPositionsNearSCR(contentS, words, queryLength);
             } else {
@@ -1252,11 +1252,11 @@ public class BitextWidget extends Composite {
             } else {
                 getPositionsMono(resultS, contentS, words, queryLength);
             }
-        } else if ((MainEntryPoint.QUERY.contains("AND"))
-                || (MainEntryPoint.QUERY.contains("OR"))
+        } else if ((MainEntryPoint.QUERY.contains(" AND "))
+                || (MainEntryPoint.QUERY.contains(" OR "))
                 || (MainEntryPoint.QUERY.contains("*"))) {
             getPositionsMonoAO(resultS, contentS, words, queryLength);
-        } else if (MainEntryPoint.QUERY.contains("NEAR")) {
+        } else if (MainEntryPoint.QUERY.contains(" NEAR ")) {
             if (GuiConstant.TA_HILITE_OVER_CR) {
                 getPositionsNearMonoCR(contentS, words, queryLength);
             } else {
@@ -1424,9 +1424,9 @@ public class BitextWidget extends Composite {
 
     public void getPositionsSCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
-//        if (GuiConstant.EXACT_FLG) {
-//            factor = 1.5f;
-//        }
+        if (GuiConstant.EXACT_FLG) {
+            factor = 1.1f;
+        }
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
@@ -1456,9 +1456,9 @@ public class BitextWidget extends Composite {
 
     public void getPositionsTCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
-//        if (GuiConstant.EXACT_FLG) {
-//            factor = 1.5f;
-//        }
+        if (GuiConstant.EXACT_FLG) {
+            factor = 1.1f;
+        }
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
@@ -1656,9 +1656,9 @@ public class BitextWidget extends Composite {
 
     public void getPositionsMonoCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
-//        if (GuiConstant.EXACT_FLG) {
-//            factor = 1.5f;
-//        }
+        if (GuiConstant.EXACT_FLG) {
+            factor = 1.1f;
+        }
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override

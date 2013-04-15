@@ -151,6 +151,7 @@ public class Utility {
         Query = Query.replace("#", " ");
         Query = Query.replace("“", " ");
         Query = Query.replace("”", " ");
+        Query = Query.toLowerCase();
         ArrayList<String> hits = new ArrayList<String>();
         String[] words = Query.split("\\s+");
         hits.addAll(Arrays.asList(words));
