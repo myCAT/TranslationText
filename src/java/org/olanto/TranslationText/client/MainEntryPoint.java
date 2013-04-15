@@ -376,6 +376,8 @@ public class MainEntryPoint implements EntryPoint {
             tS.reset();
             tS.DrawEffects();
             if ((QUERY.length() == 0) || (QUERY.startsWith("/"))) {
+                GuiConstant.EXACT_FLG = false;
+                GuiConstant.EXACT_NBR_FLG = false;
                 String Query = Utility.browseRequest(QUERY);
                 tS.words = null;
                 words = null;
@@ -384,6 +386,8 @@ public class MainEntryPoint implements EntryPoint {
                 textAlignerWidget.DrawDocumentBrowseList(Query, tS, collectionWidgetTA.Selection);
             } else {
                 if ((QUERY.contains("*"))) {
+                    GuiConstant.EXACT_FLG = false;
+                    GuiConstant.EXACT_NBR_FLG = false;
                     rpcM.getExpandTerms(QUERY.toLowerCase(), new AsyncCallback<String[]>() {
                         @Override
                         public void onFailure(Throwable caught) {
@@ -410,9 +414,11 @@ public class MainEntryPoint implements EntryPoint {
 //                        GuiConstant.EXACT_NBR_FLG = false;
                     } else if (QUERY.startsWith("#\"")) {
                         GuiConstant.EXACT_FLG = true;
-                         words = Utility.getexactWords(QUERY);
+                        words = Utility.getexactWords(QUERY);
 //                        GuiConstant.EXACT_NBR_FLG = true;
                     } else {
+                        GuiConstant.EXACT_FLG = false;
+                        GuiConstant.EXACT_NBR_FLG = false;
                         words = Utility.getQueryWords(QUERY + " ", stopWords);
                     }
                     tS.queryLength = QUERY.length();

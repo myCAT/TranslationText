@@ -1214,7 +1214,7 @@ public class BitextWidget extends Composite {
         curIndT = 0;
         Positions = null;
         if (GuiConstant.EXACT_FLG) {
-//            Window.alert("exact matching search: " + words.toString());
+            Window.alert("exact matching search: " + words.toString());
             if (words.size() > 1) {
                 getPositionsSCR(contentS, words, queryLength);
             } else {
@@ -1424,9 +1424,9 @@ public class BitextWidget extends Composite {
 
     public void getPositionsSCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
-        if (GuiConstant.EXACT_FLG) {
-            factor = 1.05f;
-        }
+//        if (GuiConstant.EXACT_FLG) {
+//            factor = 1.5f;
+//        }
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
@@ -1456,9 +1456,9 @@ public class BitextWidget extends Composite {
 
     public void getPositionsTCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
-        if (GuiConstant.EXACT_FLG) {
-            factor = 1.05f;
-        }
+//        if (GuiConstant.EXACT_FLG) {
+//            factor = 1.5f;
+//        }
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
@@ -1656,9 +1656,9 @@ public class BitextWidget extends Composite {
 
     public void getPositionsMonoCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
-        if (GuiConstant.EXACT_FLG) {
-            factor = 1.05f;
-        }
+//        if (GuiConstant.EXACT_FLG) {
+//            factor = 1.5f;
+//        }
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getRefWordsPos(content, Query, queryLn, factor, GuiConstant.REF_MIN_LN, new AsyncCallback<int[][]>() {
                 @Override
