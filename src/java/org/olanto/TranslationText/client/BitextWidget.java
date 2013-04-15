@@ -1214,7 +1214,7 @@ public class BitextWidget extends Composite {
         curIndT = 0;
         Positions = null;
         if (GuiConstant.EXACT_FLG) {
-            Window.alert("exact matching search: " + words.toString());
+//            Window.alert("exact matching search: " + words.toString());
             if (words.size() > 1) {
                 getPositionsSCR(contentS, words, queryLength);
             } else {
