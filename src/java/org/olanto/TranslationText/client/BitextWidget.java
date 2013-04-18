@@ -1187,7 +1187,7 @@ public class BitextWidget extends Composite {
         rpcS.getContent(file, langS, langT, Query, sourceTextArea.getCharacterWidth(), sourceTextArea.getVisibleLines(), new AsyncCallback<GwtAlignBiText>() {
             @Override
             public void onFailure(Throwable caught) {
-                setMessage("error", GuiMessageConst.MSG_8);
+                setMessage("error", GuiMessageConst.MSG_10);
             }
 
             @Override
