@@ -71,13 +71,8 @@ public class QuoteBitextWidget extends Composite {
     private PopupPanel pp = new PopupPanel(false);
     private String contentS = "";
     private int height = 0;
-    private int totlinesS = 0;
     private int height1 = 0;
-    private int totlinesT = 0;
-    private float magicS = 0;
-    private float magicT = 0;
-    private int pixS = 0;
-    private int pixT = 0;
+    private int pixS = GuiConstant.TA_TEXTAREA_HEIGHT;
     private int pposS = 0;
     private int pposT = 0;
     public int queryLength = 0;
@@ -132,23 +127,26 @@ public class QuoteBitextWidget extends Composite {
         setbuttonstyle(AlignT, AlignT.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(orgnT, orgnT.getText().length() * CHAR_W, H_Unit);
 
-        sourceTextArea.setCursorPos(0);
+         sourceTextArea.setCursorPos(0);
         sourceTextArea.setVisible(true);
         sourceTextArea.setEnabled(true);
         sourceTextArea.setReadOnly(true);
-        sourceTextArea.setCharacterWidth(this.Twidth);
-        sourceTextArea.setVisibleLines(this.Theight);
         sourceTextArea.setStyleName("gwt-Textarea");
         sourceTextArea.getElement().setAttribute("spellCheck", "false");
+        sourceTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
+        sourceTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
+        sourceTextArea.setHeight("" + pixS * GuiConstant.TA_TEXTAREA_HEIGHT + "px");
+
 
         targetTextArea.setCursorPos(0);
         targetTextArea.setVisible(true);
         targetTextArea.setEnabled(true);
         targetTextArea.setReadOnly(true);
-        targetTextArea.setCharacterWidth(this.Twidth);
-        targetTextArea.setVisibleLines(this.Theight);
         targetTextArea.setStyleName("gwt-Textarea");
         targetTextArea.getElement().setAttribute("spellCheck", "false");
+        targetTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
+        targetTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
+        targetTextArea.setHeight("" + pixS * GuiConstant.TA_TEXTAREA_HEIGHT + "px");
 
         pp.setAnimationEnabled(true);
         pp.setAutoHideEnabled(true);
@@ -242,21 +240,10 @@ public class QuoteBitextWidget extends Composite {
         resultT = Align.target.positions;
         contentS = Align.source.content.toLowerCase();
 
-        totlinesS = resultS[resultS.length - 1][3] + resultS[resultS.length - 1][0];
-        totlinesT = resultT[resultT.length - 1][3] + resultT[resultT.length - 1][0];
-        
         height1 = targetTextArea.getElement().getScrollHeight();
         height = sourceTextArea.getElement().getScrollHeight();
-
-        pixS = sourceTextArea.getOffsetHeight() / sourceTextArea.getVisibleLines();
-        int scrollines = height / pixS;
-        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - resultS[resultS.length - 1][4]) + 1f;
         pposS = sourceTextArea.getOffsetWidth() - pixS;
-
-        pixT = targetTextArea.getOffsetHeight() / targetTextArea.getVisibleLines();
-        int scrollines1 = height1 / pixT;
-        magicT = (float) (scrollines1 - totlinesT) / (float) (scrollines1 - resultT[Align.target.nblines - 1][4]) + 1f;
-        pposT = targetTextArea.getOffsetWidth() - pixT;
+        pposT = targetTextArea.getOffsetWidth() - pixS;
     }
 
     public void setVariablesMono() {
@@ -275,13 +262,8 @@ public class QuoteBitextWidget extends Composite {
         // Matrice (nombre de lignes, position du top, correction, position en pixel)
         resultS = Align.source.positions;
         contentS = Align.source.content;
-
-        totlinesS = resultS[resultS.length - 1][3];
         height = sourceTextArea.getElement().getScrollHeight();
-
-        pixS = height / totlinesS;
-        int scrollines = height / pixS;
-        magicS = (float) (scrollines - totlinesS) / (float) (scrollines - resultS[resultS.length - 1][4]) + 1f;
+        pposS = sourceTextArea.getOffsetWidth() - pixS;
     }
 
     public void showpanel(boolean source, int hight, int index) {
@@ -332,27 +314,25 @@ public class QuoteBitextWidget extends Composite {
 //            Window.alert("restOfLines = " + restOfLines
 //                    + "\nlineNum = " + lineNum
 //                    + "\nsourceTextArea.getAbsoluteTop() = " + targetTextArea.getAbsoluteTop()
-//                    + "\nPixT = " + pixT
-//                    + "\n(lineNum * pixT) + targetTextArea.getAbsoluteTop() = " + ((lineNum * pixT) + targetTextArea.getAbsoluteTop()));
-            pp.setPopupPosition(targetTextArea.getAbsoluteLeft() - 2, (lineNum * pixT) + targetTextArea.getAbsoluteTop());
+//                    + "\nPixT = " + pixS
+//                    + "\n(lineNum * pixS) + targetTextArea.getAbsoluteTop() = " + ((lineNum * pixS) + targetTextArea.getAbsoluteTop()));
+            pp.setPopupPosition(targetTextArea.getAbsoluteLeft() - 2, (lineNum * pixS) + targetTextArea.getAbsoluteTop());
 
-            if (((lineNum + hight) * pixT) < targetTextArea.getOffsetHeight()) {
-                pp.setPixelSize(pposT, pixT * hight);
+            if (((lineNum + hight) * pixS) < targetTextArea.getOffsetHeight()) {
+                pp.setPixelSize(pposT, pixS * hight);
             } else {
-                pp.setPixelSize(pposT, targetTextArea.getOffsetHeight() - (pixT * lineNum));
+                pp.setPixelSize(pposT, targetTextArea.getOffsetHeight() - (pixS * lineNum));
             }
             pp.show();
         }
     }
 
     public void setNetScapePos(int idxS, int idxT, int h) {
-        int lin = resultS[idxS][3] + (resultS[idxS][0] / 2);
-        int ln = resultS[idxS][4];
-        int lin1 = resultT[idxT][3] + (resultT[idxT][0] / 2);
-        int ln1 = resultT[idxT][4];
+        int lin = resultS[idxS][3] - h + 2 + resultS[idxS][0] / 2;
+        int lin1 = resultT[idxT][3] - h + 2 + resultT[idxT][0] / 2;
 
-        float frtop1 = ((lin1 - h) * pixT * magicT) + (ln1 * pixT * (1 - magicT));
-        float frtop = ((lin - h) * pixS * magicS) + (ln * pixS * (1 - magicS));
+        float frtop1 = lin1 * pixS;
+        float frtop = lin * pixS;
         int posf = (frtop > height) ? height : (int) frtop;
         int posf1 = (frtop1 > height1) ? height1 : (int) frtop1;
         sourceTextArea.setFocus(true);
@@ -361,13 +341,11 @@ public class QuoteBitextWidget extends Composite {
     }
 
     public void setNetScapePosT(int idxS, int idxT, int h) {
-        int lin = resultS[idxS][3] + (resultS[idxS][0] / 2);
-        int ln = resultS[idxS][4];
-        int lin1 = resultT[idxT][3] + (resultT[idxT][0] / 2);
-        int ln1 = resultT[idxT][4];
+        int lin = resultS[idxS][3] - h + 2 + resultS[idxS][0] / 2;
+        int lin1 = resultT[idxT][3] - h + 2 + resultT[idxT][0] / 2;
 
-        float frtop1 = ((lin1 - h) * pixT * magicT) + (ln1 * pixT * (1 - magicT));
-        float frtop = ((lin - h) * pixS * magicS) + (ln * pixS * (1 - magicS));
+        float frtop1 = lin1 * pixS;
+        float frtop = lin * pixS;
         int posf = (frtop > height) ? height : (int) frtop;
         int posf1 = (frtop1 > height1) ? height1 : (int) frtop1;
         targetTextArea.setFocus(true);
@@ -376,10 +354,8 @@ public class QuoteBitextWidget extends Composite {
     }
 
     public void setNetScapePosMono(int idxS, int h) {
-        int lin = resultS[idxS][3] + (resultS[idxS][0] / 2);
-        int ln = resultS[idxS][4];
-
-        float frtop = ((lin - h - 2) * pixS * magicS) + (ln * pixS * (1 - magicS));
+        int lin = resultS[idxS][3] - h + 2 + resultS[idxS][0] / 2;
+        float frtop = lin * pixS;
         int posf = ((frtop) > height) ? height : (int) frtop;
         sourceTextArea.getElement().setScrollTop(posf);
     }

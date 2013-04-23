@@ -43,6 +43,7 @@ public class GwtProp implements IsSerializable {
     public boolean SAVE_ON;
     public boolean MAXIMIZE_ON;
     public boolean TA_HILITE_OVER_CR;
+    public int TA_LINE_HEIGHT;
     public int TA_TEXTAREA_WIDTH;
     public int TA_TEXTAREA_HEIGHT;
     public int QD_HTMLAREA_HEIGHT;

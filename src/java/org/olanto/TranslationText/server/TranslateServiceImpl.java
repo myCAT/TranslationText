@@ -996,6 +996,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         String propPath = prop.getProperty("INTERFACE_MESSAGE_PATH");
         String interLang = prop.getProperty("INTERFACE_MESSAGE_LANG");
 
+        CONST.TA_LINE_HEIGHT = Integer.parseInt(prop.getProperty("TA_LINE_HEIGHT"));
         CONST.TA_TEXTAREA_WIDTH = Integer.parseInt(prop.getProperty("TA_TEXTAREA_WIDTH"));
         CONST.TA_TEXTAREA_HEIGHT = Integer.parseInt(prop.getProperty("TA_TEXTAREA_HEIGHT"));
         CONST.QD_TEXTAREA_HEIGHT = Integer.parseInt(prop.getProperty("QD_TEXTAREA_HEIGHT"));

@@ -41,6 +41,7 @@ public class GuiConstant {
     public static boolean TA_HILITE_OVER_CR;
     public static boolean EXACT_FLG = false;
     public static boolean EXACT_NBR_FLG = false;
+    public static int TA_LINE_HEIGHT;
     public static int TA_TEXTAREA_WIDTH;
     public static int TA_TEXTAREA_HEIGHT;
     public static int QD_HTMLAREA_HEIGHT;
