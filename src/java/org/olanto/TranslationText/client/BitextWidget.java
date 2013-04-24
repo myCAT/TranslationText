@@ -361,8 +361,8 @@ public class BitextWidget extends Composite {
     }
 
     public void setNetScapePos(int idxS, int idxT, int h) {
-        int lin = resultS[idxS][3] - h + 2 + resultS[idxS][0] / 2;
-        int lin1 = resultT[idxT][3] - h + 2 + resultT[idxT][0] / 2;
+        int lin = resultS[idxS][3] - h + resultS[idxS][0] / 2;
+        int lin1 = resultT[idxT][3] - h + resultT[idxT][0] / 2;
 
         float frtop1 = lin1 * pixS;
         float frtop = lin * pixS;
@@ -375,8 +375,8 @@ public class BitextWidget extends Composite {
     }
 
     public void setNetScapePosT(int idxS, int idxT, int h) {
-        int lin = resultS[idxS][3] - h + 2 + resultS[idxS][0] / 2;
-        int lin1 = resultT[idxT][3] - h + 2 + resultT[idxT][0] / 2;
+        int lin = resultS[idxS][3] - h + resultS[idxS][0] / 2;
+        int lin1 = resultT[idxT][3] - h + resultT[idxT][0] / 2;
 
         float frtop1 = lin1 * pixS;
         float frtop = lin * pixS;
@@ -923,7 +923,7 @@ public class BitextWidget extends Composite {
     }
 
     public void setNetScapePosMono(int idxS, int h) {
-        int lin = resultS[idxS][3] - h + 2 + resultS[idxS][0] / 2;
+        int lin = resultS[idxS][3] - h + resultS[idxS][0] / 2;
         float frtop = lin * pixS;
         int posf = (frtop > height) ? height : (int) frtop;
         sourceTextArea.setFocus(true);
