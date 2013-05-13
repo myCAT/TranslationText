@@ -33,7 +33,7 @@ public interface TranslateServiceAsync {
 
     public void myMethod(String s, AsyncCallback<String> callback);
 
-    public void getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, AsyncCallback<ArrayList<String>> asyncCallback);
+    public void getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, boolean exact, boolean number, AsyncCallback<ArrayList<String>> asyncCallback);
 
     public void getDocumentBrowseList(String request, String LangS, ArrayList<String> collections, boolean PATH_ON, int maxBrowse, String order, boolean ONLY_ON_FILE_NAME, AsyncCallback<ArrayList<String>> asyncCallback);
 
@@ -45,7 +45,11 @@ public interface TranslateServiceAsync {
 
     public void getQueryWordsPos(int[][] positions, String content, ArrayList<String> Query, int queryLn, AsyncCallback<int[][]> asyncCallback);
 
-    public void getQueryWordsPosAON(int[][] positions, String content, ArrayList<String> Query, int queryLn, AsyncCallback<int[][]> asyncCallback);
+    public void getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn, AsyncCallback<int[][]> asyncCallback);
+
+    public void getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn, AsyncCallback<int[][]> asyncCallback);
+
+    public void getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn, AsyncCallback<int[][]> asyncCallback);
 
     public void getRefWordsPos(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn, AsyncCallback<int[][]> asyncCallback);
 

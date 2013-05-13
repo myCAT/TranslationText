@@ -42,6 +42,8 @@ public class GwtProp implements IsSerializable {
     public boolean BITEXT_ONLY;
     public boolean SAVE_ON;
     public boolean MAXIMIZE_ON;
+    public boolean TA_HILITE_OVER_CR;
+    public int TA_LINE_HEIGHT;
     public int TA_TEXTAREA_WIDTH;
     public int TA_TEXTAREA_HEIGHT;
     public int QD_HTMLAREA_HEIGHT;
@@ -59,6 +61,8 @@ public class GwtProp implements IsSerializable {
     public int CHARACTER_WIDTH;
     public int PP_H_MIN;
     public int PP_H_MAX;
+    public int TA_NEAR_AVG_TERM_CHAR;
+    public int NEAR_DISTANCE;
     public String JOBS_ITEMS;
     public String QUOTE_DETECTOR_LBL;
     public String TEXT_ALIGNER_LBL;

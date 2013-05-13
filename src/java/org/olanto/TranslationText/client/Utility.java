@@ -54,7 +54,7 @@ public class Utility {
     }
 
     public static ArrayList<String> getQueryWords(String query, ArrayList<String> stopWords) {
-        String Query=query;
+        String Query = query;
         ArrayList<String> hits = new ArrayList<String>();
         Query = Query.replace("\"", "");
         Query = Query.replace("(", "");
@@ -64,6 +64,9 @@ public class Utility {
         Query = Query.replace("`", " ");
         Query = Query.replace("’", " ");
         Query = Query.replace("‘", " ");
+        Query = Query.replace("#", " ");
+        Query = Query.replace("“", " ");
+        Query = Query.replace("”", " ");
 
         if (Query.startsWith("QL(")) { // complex query
             hits.add("xxx$$$xxx"); // pas de recherche
@@ -136,11 +139,43 @@ public class Utility {
         return hits;
     }
 
+    public static ArrayList<String> getexactWords(String Query) {
+        Query = Query.replace("\"", "");
+        Query = Query.replace("(", "");
+        Query = Query.replace(")", "");
+        Query = Query.replace(",", "");
+        Query = Query.replace("'", " ");
+        Query = Query.replace("`", " ");
+        Query = Query.replace("’", " ");
+        Query = Query.replace("‘", " ");
+        Query = Query.replace("#", " ");
+        Query = Query.replace("“", " ");
+        Query = Query.replace("”", " ");
+        Query = Query.toLowerCase();
+        ArrayList<String> hits = new ArrayList<String>();
+        String[] words = Query.split("\\s+");
+        hits.addAll(Arrays.asList(words));
+//        Window.alert("Hits : "+hits.size());
+        return hits;
+    }
+
     public static String queryParser(String queryo, String langS, String langT, ArrayList<String> stopWords, ArrayList<String> collections) {
         String Query = queryo;
         String query;
         String qt = Query;
-        if ((qt.contains("QL(")) || (qt.contains("QL ("))) {
+        if (qt.startsWith("\"")) {
+            if (qt.endsWith("\"")) {
+                query = "QUOTATION(" + qt + ")";
+            } else {
+                query = "QUOTATION(" + qt + "\")";
+            }
+        } else if (qt.startsWith("#\"")) {
+            if (qt.endsWith("\"")) {
+                query = "QUOTATION(" + qt.substring(1) + ")";
+            } else {
+                query = "QUOTATION(" + qt.substring(1) + "\")";
+            }
+        } else if ((qt.contains("QL(")) || (qt.contains("QL ("))) {
             int l = Query.lastIndexOf(")");
             int f = Query.indexOf("(") + 1;
             query = Query.substring(f, l);

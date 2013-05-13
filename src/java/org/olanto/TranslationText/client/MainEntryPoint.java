@@ -375,8 +375,9 @@ public class MainEntryPoint implements EntryPoint {
             textAlignerWidget.msg.setText(GuiMessageConst.MSG_24);
             tS.reset();
             tS.DrawEffects();
-
             if ((QUERY.length() == 0) || (QUERY.startsWith("/"))) {
+                GuiConstant.EXACT_FLG = false;
+                GuiConstant.EXACT_NBR_FLG = false;
                 String Query = Utility.browseRequest(QUERY);
                 tS.words = null;
                 words = null;
@@ -385,6 +386,8 @@ public class MainEntryPoint implements EntryPoint {
                 textAlignerWidget.DrawDocumentBrowseList(Query, tS, collectionWidgetTA.Selection);
             } else {
                 if ((QUERY.contains("*"))) {
+                    GuiConstant.EXACT_FLG = false;
+                    GuiConstant.EXACT_NBR_FLG = false;
                     rpcM.getExpandTerms(QUERY.toLowerCase(), new AsyncCallback<String[]>() {
                         @Override
                         public void onFailure(Throwable caught) {
@@ -405,7 +408,19 @@ public class MainEntryPoint implements EntryPoint {
                 } else {
                     words = null;
                     String Query = Utility.queryParser(QUERY, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
-                    words = Utility.getQueryWords(QUERY + " ", stopWords);
+                    if (QUERY.startsWith("\"")) {
+                        GuiConstant.EXACT_FLG = true;
+                        words = Utility.getexactWords(QUERY);
+//                        GuiConstant.EXACT_NBR_FLG = false;
+                    } else if (QUERY.startsWith("#\"")) {
+                        GuiConstant.EXACT_FLG = true;
+                        words = Utility.getexactWords(QUERY);
+//                        GuiConstant.EXACT_NBR_FLG = true;
+                    } else {
+                        GuiConstant.EXACT_FLG = false;
+                        GuiConstant.EXACT_NBR_FLG = false;
+                        words = Utility.getQueryWords(QUERY + " ", stopWords);
+                    }
                     tS.queryLength = QUERY.length();
                     tS.words = words;
                     textAlignerWidget.GoSrch.setToolTip(GuiMessageConst.MSG_27 + Query);
@@ -644,6 +659,8 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.AUTO_ON = CONST.AUTO_ON;
         GuiConstant.SAVE_ON = CONST.SAVE_ON;
         GuiConstant.MAXIMIZE_ON = CONST.MAXIMIZE_ON;
+        GuiConstant.TA_HILITE_OVER_CR = CONST.TA_HILITE_OVER_CR;
+        GuiConstant.TA_LINE_HEIGHT = CONST.TA_LINE_HEIGHT;
         GuiConstant.TA_TEXTAREA_WIDTH = CONST.TA_TEXTAREA_WIDTH;
         GuiConstant.TA_TEXTAREA_HEIGHT = CONST.TA_TEXTAREA_HEIGHT;
         GuiConstant.QD_TEXTAREA_HEIGHT = CONST.QD_TEXTAREA_HEIGHT;
@@ -677,6 +694,8 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.REF_MIN_LN = CONST.REF_MIN_LN;
         GuiConstant.PP_H_MIN = CONST.PP_H_MIN;
         GuiConstant.PP_H_MAX = CONST.PP_H_MAX;
+        GuiConstant.TA_NEAR_AVG_TERM_CHAR = CONST.TA_NEAR_AVG_TERM_CHAR;
+        GuiConstant.NEAR_DISTANCE = CONST.NEAR_DISTANCE;
         /**
          * client interface parameters
          * **********************************************************************************

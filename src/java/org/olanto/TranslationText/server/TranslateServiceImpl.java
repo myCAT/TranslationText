@@ -102,7 +102,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
 
     }
 
-    GwtSegDoc SetGwtSegDoc(int[][] lines, int nblines, String content, String uri, String lang, int ncal) {
+    GwtSegDoc SetGwtSegDoc(int[][] lines, int nblines, String content, String uri, String lang) {
         GwtSegDoc result = new GwtSegDoc();
         result.positions = lines;
 //        for (int i = 0; i < lines.length; i++) {
@@ -113,13 +113,10 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
 //            System.out.println("nombre de lignes avant la phrase: " + i + " = " + lines[i][3]);
 //            System.out.println("nombre de phrases comportant une seule ligne jusqu'à la phrase: " + i + " = " + lines[i][4]);
 //        }
-//        System.out.println("original lines: "+lines[2109][2]);
-//        System.out.println("Copie result: "+result.positions[2109][2]);
         result.nblines = nblines;
         result.content = content;
         result.uri = uri;
         result.lang = lang;
-        result.Ncal = ncal;
         return result;
     }
 
@@ -127,14 +124,14 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     public GwtAlignBiText getContent(String file, String langS, String langT, String Query, int w, int h) {
 //        System.out.println("calling the server getContent. File = " + file);
         Align = new AlignBiText(file, langS, langT, Query, w, h);
-        GwtSegDoc src = SetGwtSegDoc(Align.source.positions, Align.source.nblines, Align.source.content, Align.source.uri, Align.source.lang, Align.source.Ncal);
-        GwtSegDoc tgt = SetGwtSegDoc(Align.target.positions, Align.target.nblines, Align.target.content, Align.target.uri, Align.target.lang, Align.target.Ncal);
+        GwtSegDoc src = SetGwtSegDoc(Align.source.positions, Align.source.nblines, Align.source.content, Align.source.uri, Align.source.lang);
+        GwtSegDoc tgt = SetGwtSegDoc(Align.target.positions, Align.target.nblines, Align.target.content, Align.target.uri, Align.target.lang);
         GwtIntMap map = SetGwtIntMap(Align.map.from, Align.map.to);
         return SetGwtAlignBiText(src, tgt, map, Align.query);
     }
 
     @Override
-    public ArrayList<String> getDocumentList(String query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order) {
+    public ArrayList<String> getDocumentList(String query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, boolean exact, boolean number) {
         ArrayList<String> documents = new ArrayList<>();
         String longName, docName, listElem;
 //        System.out.println("Before calling the server for documents with the query: " + query);
@@ -143,7 +140,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         }
         try {
 //            Timer t1 = new Timer("------------- " + query);
-            QLResultNice res = is.evalQLNice(query, 0, maxSize, order);
+            QLResultNice res = is.evalQLNice(query, 0, maxSize, order, exact, number);
             if (res.docname != null) {
 //                System.out.println("List of documents retrieved");
                 if (!collections.isEmpty()) {
@@ -602,7 +599,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             for (int l = 0; l < lastPos.size(); l++) {
                 lastp = lastPos.get(l);
 //                System.out.println("refLength: " + refLength);
-                if (((lastp - startp) >= queryLn) && ((lastp - startp) <= refLength)) {
+                if (((lastp - startp) >= (queryLn / 2)) && ((lastp - startp) <= refLength)) {
                     if (getAllWords(content.substring(startp, lastp + 1), Query)) {
                         res = startp + "¦" + (lastp - startp);
                         Pos.add(res);
@@ -666,7 +663,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     }
 
     @Override
-    public int[][] getQueryWordsPosAON(int[][] positions, String content, ArrayList<String> Query, int queryLn) {
+    public int[][] getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn) {
         ArrayList<String> Pos = new ArrayList<>();
         int begin, end, j;
         String sentence, hit, regex;
@@ -694,10 +691,10 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
                 m.reset();
             }
         }
-        return getPositionsAON(Pos);
+        return getPositionsAO(Pos);
     }
 
-    private int[][] getPositionsAON(ArrayList<String> Pos) {
+    private int[][] getPositionsAO(ArrayList<String> Pos) {
         int[][] posit;
         int i, k, pos, ln, j, len;
         String curr;
@@ -722,6 +719,137 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             posit[0][0] = -1;
         }
         return posit;
+    }
+
+    @Override
+    public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
+        int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
+        int startp, lastp;
+//        System.out.println("Searching for near on a wondow of: " + refLength);
+        ArrayList<String> Pos = new ArrayList<>();
+        ArrayList<Integer> startPos = new ArrayList<>();
+        ArrayList<Integer> lastPos = new ArrayList<>();
+        String first, res, last, regex;
+        Pattern p;
+        Matcher m;
+        startPos.clear();
+        lastPos.clear();
+
+        first = Query.get(0);
+        last = Query.get(Query.size() - 1);
+//        System.out.println("First: " + first);
+//        System.out.println("Last: " + last);
+        regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
+        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(content);
+        if (m.find()) {
+//            System.out.println("start found at : " + m.start());
+            startPos.add(m.start());
+            while (m.find()) {
+                startPos.add(m.start());
+//                System.out.println("Start found at : " + m.start());
+            }
+        }
+        regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
+        p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        m = p.matcher(content);
+        if (m.find()) {
+//            System.out.println("last found at : " + m.start());
+            lastPos.add(m.start());
+            while (m.find()) {
+                lastPos.add(m.start());
+//                System.out.println("last found at : " + m.start());
+            }
+        }
+        for (int s = 0; s < startPos.size(); s++) {
+            startp = startPos.get(s);
+            for (int l = 0; l < lastPos.size(); l++) {
+                lastp = lastPos.get(l);
+                if (Math.abs(lastp - startp) <= refLength) {
+                    if (lastp > startp) {
+                        res = startp + "¦" + (lastp + last.length() - startp);
+                        Pos.add(res);
+                    } else {
+                        res = lastp + "¦" + (startp + first.length() - lastp);
+                        Pos.add(res);
+                    }
+                }
+            }
+        }
+
+//        for (int i = 0; i < Pos.size(); i++) {
+//            System.out.println("Positions found in Line: " + Pos.get(i));
+//        }
+        return getPositionsRef(Pos);
+    }
+
+    @Override
+    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn) {
+        ArrayList<String> Pos = new ArrayList<>();
+        int refLength = (int) (reFactor * (queryLn + sepNumber * avgTokenLn));
+        ArrayList<Integer> startPos = new ArrayList<>();
+        ArrayList<Integer> lastPos = new ArrayList<>();
+        int begin, end;
+        Pattern p;
+        Matcher m;
+        int startp, lastp;
+        String sentence, regex, first, res, last;
+        first = Query.get(0);
+        last = Query.get(Query.size() - 1);
+
+        for (int i = 0; i < positions.length; i++) {
+            begin = positions[i][1];
+            if (i == (positions.length - 1)) {
+                end = content.length();
+            } else {
+                end = positions[i + 1][1] + 1;
+            }
+            sentence = content.substring(begin, end);
+
+            startPos.clear();
+            lastPos.clear();
+
+            regex = REGEX_BEFORE_TOKEN + first + REGEX_AFTER_TOKEN;
+            p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            m = p.matcher(sentence);
+            if (m.find()) {
+//                System.out.println("start found at : " + m.start());
+                startPos.add(m.start());
+                while (m.find()) {
+                    startPos.add(m.start());
+//                    System.out.println("Start found at : " + m.start());
+                }
+            }
+
+            regex = REGEX_BEFORE_TOKEN + last + REGEX_AFTER_TOKEN;
+            p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            m = p.matcher(sentence);
+            if (m.find()) {
+//                System.out.println("last found at : " + m.start());
+                lastPos.add(m.start());
+                while (m.find()) {
+                    lastPos.add(m.start());
+//                    System.out.println("last found at : " + m.start());
+                }
+            }
+
+            for (int s = 0; s < startPos.size(); s++) {
+                startp = startPos.get(s);
+                for (int l = 0; l < lastPos.size(); l++) {
+                    lastp = lastPos.get(l);
+                    if (Math.abs(lastp - startp) <= refLength) {
+                        if (lastp > startp) {
+                            res = i + "¦" + startp + "¦" + (lastp + last.length());
+                            Pos.add(res);
+                        } else {
+                            res = i + "¦" + lastp + "¦" + (startp + first.length());
+                            Pos.add(res);
+                        }
+                    }
+                }
+            }
+        }
+        return getPositions(Pos);
     }
 
     public GwtRef html2GwtRef(String htmlref) {
@@ -868,6 +996,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         String propPath = prop.getProperty("INTERFACE_MESSAGE_PATH");
         String interLang = prop.getProperty("INTERFACE_MESSAGE_LANG");
 
+        CONST.TA_LINE_HEIGHT = Integer.parseInt(prop.getProperty("TA_LINE_HEIGHT"));
         CONST.TA_TEXTAREA_WIDTH = Integer.parseInt(prop.getProperty("TA_TEXTAREA_WIDTH"));
         CONST.TA_TEXTAREA_HEIGHT = Integer.parseInt(prop.getProperty("TA_TEXTAREA_HEIGHT"));
         CONST.QD_TEXTAREA_HEIGHT = Integer.parseInt(prop.getProperty("QD_TEXTAREA_HEIGHT"));
@@ -875,14 +1004,15 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.DOC_LIST_WIDTH = Integer.parseInt(prop.getProperty("DOC_LIST_WIDTH"));
         CONST.DOC_LIST_HEIGHT = Integer.parseInt(prop.getProperty("DOC_LIST_HEIGHT"));
         CONST.QD_DOC_LIST_HEIGHT = Integer.parseInt(prop.getProperty("QD_DOC_LIST_HEIGHT"));
-        CONST.ORIGINAL_ON = Boolean.valueOf(prop.getProperty("ORIGINAL_ON"));
-        CONST.PATH_ON = Boolean.valueOf(prop.getProperty("PATH_ON"));
-        CONST.AUTO_ON = Boolean.valueOf(prop.getProperty("AUTO_ON"));
-        CONST.FILE_NAME_RIGHT = Boolean.valueOf(prop.getProperty("FILE_NAME_RIGHT"));
-        CONST.ONLY_ON_FILE_NAME = Boolean.valueOf(prop.getProperty("ONLY_ON_FILE_NAME"));
-        CONST.BITEXT_ONLY = Boolean.valueOf(prop.getProperty("BITEXT_ONLY"));
-        CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON"));
-        CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON"));
+        CONST.ORIGINAL_ON = Boolean.valueOf(prop.getProperty("ORIGINAL_ON", "true"));
+        CONST.PATH_ON = Boolean.valueOf(prop.getProperty("PATH_ON", "true"));
+        CONST.AUTO_ON = Boolean.valueOf(prop.getProperty("AUTO_ON", "false"));
+        CONST.FILE_NAME_RIGHT = Boolean.valueOf(prop.getProperty("FILE_NAME_RIGHT", "false"));
+        CONST.ONLY_ON_FILE_NAME = Boolean.valueOf(prop.getProperty("ONLY_ON_FILE_NAME", "false"));
+        CONST.BITEXT_ONLY = Boolean.valueOf(prop.getProperty("BITEXT_ONLY", "false"));
+        CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON", "true"));
+        CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON", "true"));
+        CONST.TA_HILITE_OVER_CR = Boolean.valueOf(prop.getProperty("TA_HILITE_OVER_CR", "false"));
         CONST.EXP_DAYS = Integer.parseInt(prop.getProperty("EXP_DAYS"));
         CONST.MAX_RESPONSE = Integer.parseInt(prop.getProperty("MAX_RESPONSE"));
         CONST.MAX_BROWSE = Integer.parseInt(prop.getProperty("MAX_BROWSE"));
@@ -906,6 +1036,8 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.REF_MIN_LN = Integer.parseInt(prop.getProperty("REF_MIN_LN"));
         CONST.PP_H_MIN = Integer.parseInt(prop.getProperty("PP_H_MIN"));
         CONST.PP_H_MAX = Integer.parseInt(prop.getProperty("PP_H_MAX"));
+        CONST.TA_NEAR_AVG_TERM_CHAR = Integer.parseInt(prop.getProperty("TA_NEAR_AVG_TERM_CHAR", "6"));
+        CONST.NEAR_DISTANCE = Integer.parseInt(prop.getProperty("NEAR_DISTANCE", "8"));
         /**
          * **********************************************************************************
          */

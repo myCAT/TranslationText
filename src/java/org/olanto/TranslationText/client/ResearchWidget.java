@@ -122,8 +122,10 @@ public class ResearchWidget extends Composite {
         headPanel.add(TAText);
         headPanel.setCellHorizontalAlignment(TAText, HorizontalPanel.ALIGN_RIGHT);
         headPanel.add(new HTML("&nbsp;"));
+
         if ((!GuiConstant.LOGO_PATH.isEmpty()) && (!GuiConstant.LOGO_PATH.isEmpty())) {
             if ((!GuiConstant.LOGO_PATH.equalsIgnoreCase(" ")) && (!GuiConstant.LOGO_PATH.equalsIgnoreCase(" "))) {
+                headPanel.add(new HTML("&nbsp;"));
                 headPanel.add(im);
                 headPanel.setCellHorizontalAlignment(im, HorizontalPanel.ALIGN_RIGHT);
             }
@@ -145,6 +147,7 @@ public class ResearchWidget extends Composite {
         statusContainer.add(statusPanel);
         statusPanel.setHeight(H_Unit + "px");
         statusPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+        statusPanel.add(new HTML("&nbsp;"));
         statusPanel.add(msg);
         statusPanel.setCellHorizontalAlignment(msg, HorizontalPanel.ALIGN_LEFT);
         statusPanel.add(contact);
@@ -174,28 +177,24 @@ public class ResearchWidget extends Composite {
         docListContainer.add(staticDecorator);
 
         langS.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 MyCatCookies.updateCookie(CookiesNamespace.MyCatlangS, langS.getItemText(langS.getSelectedIndex()));
             }
         });
         langT.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 MyCatCookies.updateCookie(CookiesNamespace.MyCatlangT, langT.getItemText(langT.getSelectedIndex()));
             }
         });
         sortBy.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 MyCatCookies.updateCookie(CookiesNamespace.SortBy, SORT_BY_Eff[sortBy.getSelectedIndex()]);
             }
         });
         help.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 Window.open(GuiConstant.TA_HELP_URL, "", GuiConstant.W_OPEN_FEATURES);
@@ -203,7 +202,6 @@ public class ResearchWidget extends Composite {
         });
         if ((!GuiConstant.LOGO_PATH.isEmpty()) && (!GuiConstant.LOGO_PATH.isEmpty())) {
             im.addClickHandler(new ClickHandler() {
-
                 @Override
                 public void onClick(ClickEvent event) {
                     Window.open(GuiConstant.LOGO_URL, "", GuiConstant.W_OPEN_FEATURES);
@@ -211,7 +209,6 @@ public class ResearchWidget extends Composite {
             });
         }
         feedback.addClickHandler(new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 mailto(GuiConstant.FEEDBACK_MAIL.substring(GuiConstant.FEEDBACK_MAIL.lastIndexOf("|") + 1), "Feedback about " + GuiConstant.TEXT_ALIGNER_LBL);
@@ -229,9 +226,6 @@ public class ResearchWidget extends Composite {
     }
 
     public void draWidget() {
-//        headPanel.setWidth((Window.getClientWidth() - 2 * W_Unit) + "px");
-//        statusPanel.setWidth((Window.getClientWidth() - 2 * W_Unit) + "px");
-//        msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
         setbuttonstyle(GoSrch, GoSrch.getText().length() * 2 * CHAR_W, H_Unit);
         setbuttonstyle(myQuote, myQuote.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(coll, coll.getText().length() * CHAR_W, H_Unit);
@@ -278,7 +272,6 @@ public class ResearchWidget extends Composite {
             }
             topJobsSet.setSelectedTab(0);
             topJobsSet.addTabSelectedHandler(new TabSelectedHandler() {
-
                 @Override
                 public void onTabSelected(TabSelectedEvent event) {
                     if (!(event.getTab().getID().contains("Empty"))) {
@@ -323,13 +316,12 @@ public class ResearchWidget extends Composite {
         }
 
         staticTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
-
             @Override
             public void onSelection(SelectionEvent<TreeItem> event) {
                 if (event.getSelectedItem().getText() != null) {
                     setMessage("info", GuiMessageConst.MSG_51 + event.getSelectedItem().getTitle());
                     tS.reset();
-                    tS.words=MainEntryPoint.words;
+                    tS.words = MainEntryPoint.words;
                     tS.getTextContent(racine + event.getSelectedItem().getTitle().replace("/", "¦"), lS, lT, Query);
                 }
             }
@@ -345,8 +337,7 @@ public class ResearchWidget extends Composite {
         staticTreeWrapper.clear();
         adaptSize();
         // remote procedure call to the server to get the document list that satisfies the query
-        rpcSch.getDocumentList(Query, collections, GuiConstant.PATH_ON, GuiConstant.MAX_RESPONSE, SORT_BY_Eff[sortBy.getSelectedIndex()], new AsyncCallback<ArrayList<String>>() {
-
+        rpcSch.getDocumentList(Query, collections, GuiConstant.PATH_ON, GuiConstant.MAX_RESPONSE, SORT_BY_Eff[sortBy.getSelectedIndex()], GuiConstant.EXACT_FLG, GuiConstant.EXACT_NBR_FLG, new AsyncCallback<ArrayList<String>>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert(GuiMessageConst.MSG_53 + Query);
@@ -378,7 +369,6 @@ public class ResearchWidget extends Composite {
         staticTreeWrapper.clear();
         // remote procedure call to the server to get the document list that satisfies the query
         rpcSch.getDocumentBrowseList(Query, langS.getItemText(langS.getSelectedIndex()), collections, GuiConstant.PATH_ON, GuiConstant.MAX_RESPONSE, SORT_BY_Eff[sortBy.getSelectedIndex()], GuiConstant.ONLY_ON_FILE_NAME, new AsyncCallback<ArrayList<String>>() {
-
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert(GuiMessageConst.MSG_53 + Query);

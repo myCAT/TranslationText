@@ -38,6 +38,10 @@ public class GuiConstant {
     public static boolean BITEXT_ONLY;
     public static boolean SAVE_ON;
     public static boolean MAXIMIZE_ON;
+    public static boolean TA_HILITE_OVER_CR;
+    public static boolean EXACT_FLG = false;
+    public static boolean EXACT_NBR_FLG = false;
+    public static int TA_LINE_HEIGHT;
     public static int TA_TEXTAREA_WIDTH;
     public static int TA_TEXTAREA_HEIGHT;
     public static int QD_HTMLAREA_HEIGHT;
@@ -55,6 +59,8 @@ public class GuiConstant {
     public static int CHARACTER_WIDTH;
     public static int PP_H_MIN;
     public static int PP_H_MAX;
+    public static int TA_NEAR_AVG_TERM_CHAR;
+    public static int NEAR_DISTANCE;
     public static String JOBS_ITEMS;
     public static String QUOTE_DETECTOR_LBL;
     public static String TEXT_ALIGNER_LBL;

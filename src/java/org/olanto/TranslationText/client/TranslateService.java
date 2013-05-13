@@ -33,7 +33,7 @@ public interface TranslateService extends RemoteService {
 
     public String myMethod(String s);
 
-    public ArrayList<String> getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order);
+    public ArrayList<String> getDocumentList(String Query, ArrayList<String> collections, boolean PATH_ON, int maxSize, String order, boolean exact, boolean number);
 
     public ArrayList<String> getDocumentBrowseList(String request, String LangS, ArrayList<String> collections, boolean PATH_ON, int maxBrowse, String order, boolean ONLY_ON_FILE_NAME);
 
@@ -49,9 +49,13 @@ public interface TranslateService extends RemoteService {
 
     public int[][] getQueryWordsPos(int[][] positions, String content, ArrayList<String> Query, int queryLn);
 
-    public int[][] getQueryWordsPosAON(int[][] positions, String content, ArrayList<String> Query, int queryLn);
+    public int[][] getHitPosNearCR(String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn);
 
-    public int[][] getRefWordsPos(String content, ArrayList<String> Query, int queryLn,  float reFactor, int minRefLn);
+    public int[][] getHitPosNear(int[][] positions, String content, ArrayList<String> Query, int queryLn, float reFactor, int sepNumber, int avgTokenLn);
+
+    public int[][] getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn);
+
+    public int[][] getRefWordsPos(String content, ArrayList<String> Query, int queryLn, float reFactor, int minRefLn);
 
     public GwtRef getHtmlRef(String Content, String fileName, int minCons, String langS, String LangT, ArrayList<String> collections, String QDFileExtension);
 
@@ -60,6 +64,6 @@ public interface TranslateService extends RemoteService {
     public String[] getExpandTerms(String wildQuery);
 
     public String createTempFile(String FileName, String Content);
-    
+
     public String createTempZip(String FileName);
 }
