@@ -330,7 +330,7 @@ public class MainEntryPoint implements EntryPoint {
 
     public void getcontentlistMyCat() {
         textAlignerWidget.msg.setStyleName("gwt-TA-warning");
-        QUERY = textAlignerWidget.search.getText();
+        QUERY = textAlignerWidget.search.getText().trim();
         if (textAlignerWidget.search.getText().equals("AUTO_ON")) {
             textAlignerWidget.msg.setText(GuiMessageConst.MSG_15);
             GuiConstant.AUTO_ON = true;

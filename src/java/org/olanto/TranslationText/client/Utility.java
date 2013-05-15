@@ -75,7 +75,7 @@ public class Utility {
         //Sinon requête avec des mots, donc enlever les mots clés et les mots vides
         String[] words = Query.split("\\s+");
         for (int i = 0; i < words.length; i++) {
-            if ((!stopWords.contains(words[i]))
+            if ((!stopWords.contains(words[i].toLowerCase()))
                     && !(words[i].equalsIgnoreCase("NEAR"))
                     && !(words[i].equalsIgnoreCase("AND"))
                     && !(words[i].equalsIgnoreCase("OR"))
@@ -119,7 +119,7 @@ public class Utility {
     public static ArrayList<String> getWildCharQueryWords(String[] words, ArrayList<String> stopWords) {
         ArrayList<String> hits = new ArrayList<String>();
         for (int i = 0; i < words.length; i++) {
-            if ((!stopWords.contains(words[i]))
+            if ((!stopWords.contains(words[i].toLowerCase()))
                     && !(words[i].equalsIgnoreCase("NEAR"))
                     && !(words[i].equalsIgnoreCase("AND"))
                     && !(words[i].equalsIgnoreCase("OR"))
@@ -160,7 +160,7 @@ public class Utility {
     }
 
     public static String queryParser(String queryo, String langS, String langT, ArrayList<String> stopWords, ArrayList<String> collections) {
-        String Query = queryo;
+        String Query = queryo.trim();
         String query;
         String qt = Query;
         if (qt.startsWith("\"")) {
@@ -184,7 +184,7 @@ public class Utility {
             String q = "";
             for (int i = 0; i < words.length; i++) {
                 if ((words[i].equals("AND")) || (words[i].equals("OR"))
-                        || (!stopWords.contains(words[i])) || (words[i].endsWith("\""))) {
+                        || (!stopWords.contains(words[i].toLowerCase())) || (words[i].endsWith("\""))) {
                     q += " " + words[i] + " ";
                 }
             }
@@ -197,7 +197,7 @@ public class Utility {
             while ((i < words.length) && (j < 2)) {
                 if (words[i].equalsIgnoreCase("NEAR")) {
                 } else {
-                    if (!stopWords.contains(words[i])) {
+                    if (!stopWords.contains(words[i].toLowerCase())) {
                         q += "\"" + words[i] + "\",";
                         j++;
                     }
@@ -210,7 +210,7 @@ public class Utility {
             String q = "QUOTATION(\"";
             String[] words = Query.split("\\s+");
             for (int i = 0; i < words.length; i++) {
-                if (!stopWords.contains(words[i])) {
+                if (!stopWords.contains(words[i].toLowerCase())) {
                     q += words[i] + " ";
                 }
             }
@@ -242,7 +242,7 @@ public class Utility {
         String q = "QUOTATION(\"";
         String[] words = Quote.split("\\s+");
         for (int i = 0; i < words.length; i++) {
-            if (!stopWords.contains(words[i])) {
+            if (!stopWords.contains(words[i].toLowerCase())) {
                 q += words[i] + " ";
             }
         }
@@ -327,7 +327,7 @@ public class Utility {
     public static String wildCharQueryParser(String[] words, String langS, String langT, ArrayList<String> stopWords, ArrayList<String> collections) {
         String query, q = "";
         for (int i = 0; i < words.length; i++) {
-            if (!stopWords.contains(words[i])) {
+            if (!stopWords.contains(words[i].toLowerCase())) {
                 q += "\"" + words[i] + "\" OR ";
             }
         }

@@ -319,8 +319,9 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         }
         try {
             String[] stpwd = is.getStopWords();
-            stopWords.addAll(Arrays.asList(stpwd));
-//            System.out.println("succeded getting stop words ");
+            for (int i = 0; i < stpwd.length; i++) {
+                stopWords.add((stpwd[i].trim()));
+            }//            System.out.println("succeded getting stop words ");
         } catch (RemoteException ex) {
             Logger.getLogger(TranslateServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
