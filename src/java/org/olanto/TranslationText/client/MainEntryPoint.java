@@ -681,6 +681,7 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.ONLY_ON_FILE_NAME = CONST.ONLY_ON_FILE_NAME;
         GuiConstant.BITEXT_ONLY = CONST.BITEXT_ONLY;
         GuiConstant.QD_FILE_EXT = CONST.QD_FILE_EXT;
+        GuiConstant.QD_GENERAL_EXT = CONST.QD_GENERAL_EXT;
         GuiConstant.QD_HELP_URL = CONST.QD_HELP_URL;
         GuiConstant.TA_HELP_URL = CONST.TA_HELP_URL;
         GuiConstant.W_OPEN_FEATURES = CONST.W_OPEN_FEATURES;

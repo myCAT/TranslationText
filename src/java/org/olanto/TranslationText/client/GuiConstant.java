@@ -65,6 +65,7 @@ public class GuiConstant {
     public static String QUOTE_DETECTOR_LBL;
     public static String TEXT_ALIGNER_LBL;
     public static String QD_FILE_EXT;
+    public static String QD_GENERAL_EXT;
     public static String QD_HELP_URL;
     public static String TA_HELP_URL;
     public static String W_OPEN_FEATURES;

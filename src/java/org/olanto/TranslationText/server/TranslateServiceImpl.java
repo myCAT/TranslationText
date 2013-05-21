@@ -1024,6 +1024,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.TEXT_ALIGNER_LBL = prop.getProperty("TEXT_ALIGNER_LBL");
         CONST.QUOTE_DETECTOR_LBL = prop.getProperty("QUOTE_DETECTOR_LBL");
         CONST.QD_FILE_EXT = prop.getProperty("QD_FILE_EXT");
+        CONST.QD_GENERAL_EXT = prop.getProperty("QD_GENERAL_EXT");
         CONST.QD_HELP_URL = prop.getProperty("QD_HELP_URL");
         CONST.TA_HELP_URL = prop.getProperty("TA_HELP_URL");
         CONST.LOGO_PATH = prop.getProperty("LOGO_PATH");

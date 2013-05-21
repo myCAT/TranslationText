@@ -67,6 +67,7 @@ public class GwtProp implements IsSerializable {
     public String QUOTE_DETECTOR_LBL;
     public String TEXT_ALIGNER_LBL;
     public String QD_FILE_EXT;
+    public String QD_GENERAL_EXT;
     public String QD_HELP_URL;
     public String TA_HELP_URL;
     public String W_OPEN_FEATURES;

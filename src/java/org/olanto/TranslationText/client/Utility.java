@@ -21,6 +21,7 @@
  */
 package org.olanto.TranslationText.client;
 
+import com.google.gwt.user.client.Window;
 import java.util.ArrayList;
 import java.util.Arrays;
 

@@ -206,7 +206,6 @@ public class QuoteWidget extends Composite {
         fileUpload.addOnStartUploadHandler(onStartUploaderHandler);
         fileUpload.addOnFinishUploadHandler(onFinishUploaderHandler);
         help.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 Window.open(GuiConstant.QD_HELP_URL, "", GuiConstant.W_OPEN_FEATURES);
@@ -221,7 +220,6 @@ public class QuoteWidget extends Composite {
         }
         minLength.setSelectedIndex(Integer.parseInt(Cookies.getCookie(CookiesNamespace.MyQuoteMinLength)));
         minLength.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 GoSrch.enable();
@@ -229,7 +227,6 @@ public class QuoteWidget extends Composite {
             }
         });
         langS.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 GoSrch.enable();
@@ -237,7 +234,6 @@ public class QuoteWidget extends Composite {
             }
         });
         langT.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 GoSrch.enable();
@@ -246,7 +242,6 @@ public class QuoteWidget extends Composite {
         });
         if ((!GuiConstant.LOGO_PATH.isEmpty()) && (!GuiConstant.LOGO_PATH.isEmpty())) {
             im.addClickHandler(new ClickHandler() {
-
                 @Override
                 public void onClick(ClickEvent event) {
                     Window.open(GuiConstant.LOGO_URL, "", GuiConstant.W_OPEN_FEATURES);
@@ -254,7 +249,6 @@ public class QuoteWidget extends Composite {
             });
         }
         feedback.addClickHandler(new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 mailto(GuiConstant.FEEDBACK_MAIL.substring(GuiConstant.FEEDBACK_MAIL.lastIndexOf("|") + 1), GuiMessageConst.MSG_39 + GuiConstant.QUOTE_DETECTOR_LBL);
@@ -326,7 +320,6 @@ public class QuoteWidget extends Composite {
             }
             topJobsSet.setSelectedTab(0);
             topJobsSet.addTabSelectedHandler(new TabSelectedHandler() {
-
                 @Override
                 public void onTabSelected(TabSelectedEvent event) {
                     if (!(event.getTab().getID().contains("Empty"))) {
@@ -345,7 +338,6 @@ public class QuoteWidget extends Composite {
         adaptSize();
     }
     private IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
-
         @Override
         public void onFinish(IUploader uploader) {
             if (uploader.getStatus() == Status.SUCCESS) {
@@ -358,6 +350,9 @@ public class QuoteWidget extends Composite {
                 fileUpload.setTitle(GuiMessageConst.MSG_42 + fileName);
                 if (fileName.endsWith(GuiConstant.QD_FILE_EXT)) {
                     drawReferences(null);
+                } else if (fileName.endsWith(GuiConstant.QD_GENERAL_EXT)) {
+                    setMessage("error", GuiMessageConst.MSG_58);
+                    Window.alert("Ereur: " + GuiMessageConst.MSG_58);
                 } else {
                     setMessage("info", GuiMessageConst.MSG_43);
                     GoSrch.enable();
@@ -369,13 +364,13 @@ public class QuoteWidget extends Composite {
         }
     };
     private IUploader.OnStartUploaderHandler onStartUploaderHandler = new IUploader.OnStartUploaderHandler() {
-
         @Override
         public void onStart(IUploader uploader) {
             setMessage("info", GuiMessageConst.MSG_12);
             refArea.setHtml("");
             refIndic.setText(" / ");
             staticTreeWrapper.clear();
+            tS.reset();
             docListContainer.setHeading(GuiMessageConst.MSG_60);
             GoSrch.disable();
         }
@@ -413,10 +408,9 @@ public class QuoteWidget extends Composite {
                             clearHitHandlers();
                             refDoc = result;
                             setMessage("info", GuiMessageConst.MSG_46);
-                            refIndic.setText(refIdx + "/" + refDoc.nbref);
+                            refIndic.setText(refIdx + " / " + refDoc.nbref);
                             refArea.setHtml(refDoc.htmlref);
                             save.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                                 @Override
                                 public void handleEvent(BaseEvent be) {
                                     MyCatDownload.downloadFileFromServer(getSavedFileName() + GuiConstant.QD_FILE_EXT, refDoc.htmlref, msg);
@@ -430,8 +424,8 @@ public class QuoteWidget extends Composite {
                             }
 
                             if (refDoc.nbref > 0) {
-                                refIndic.setText((1 + refIdx) + "/" + refDoc.nbref);
-                                setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx));
+                                refIndic.setText((1 + refIdx) + " / " + refDoc.nbref);
+                                setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx) + " / " + refDoc.nbref);
                                 refArea.getElement().getElementsByTagName("a").getItem(refIdx).scrollIntoView();
                                 addHitHandlers();
                             }
@@ -450,26 +444,25 @@ public class QuoteWidget extends Composite {
     private void addHitHandlers() {
         // Handler of the going to the next line in the source text
         next.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
 
                 if (refIdx < refDoc.nbref - 1) {
                     refIdx++;
                     if (refIdx == 0) {
-                        setMessage("info", GuiMessageConst.MSG_49);
+                        setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
                     }
                     if (refIdx == refDoc.nbref - 1) {
-                        setMessage("info", GuiMessageConst.MSG_50);
+                        setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
                     }
                     refArea.getElement().getElementsByTagName("a").getItem(refIdx).scrollIntoView();
                     staticTreeWrapper.clear();
-                    refIndic.setText((refIdx + 1) + "/" + refDoc.nbref);
-                    setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx));
+                    refIndic.setText((refIdx + 1) + " / " + refDoc.nbref);
+                    setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx) + " / " + refDoc.nbref);
                     docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
-                    setMessage("info", GuiMessageConst.MSG_50);
+                    setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
                     refArea.getElement().getElementsByTagName("a").getItem(refIdx).scrollIntoView();
                 }
             }
@@ -477,25 +470,24 @@ public class QuoteWidget extends Composite {
 
         // Handler of the going to the previous line in the source text
         prev.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 if (refIdx > 0) {
                     refIdx--;
-                    setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx));
+                    setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx) + " / " + refDoc.nbref);
                     if (refIdx == refDoc.nbref - 1) {
-                        setMessage("info", GuiMessageConst.MSG_50);
+                        setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
                     }
                     if (refIdx == 0) {
-                        setMessage("info", GuiMessageConst.MSG_49);
+                        setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
                     }
                     refArea.getElement().getElementsByTagName("a").getItem(refIdx).scrollIntoView();
                     staticTreeWrapper.clear();
-                    refIndic.setText((1 + refIdx) + "/" + refDoc.nbref);
+                    refIndic.setText((1 + refIdx) + " / " + refDoc.nbref);
                     docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
-                    setMessage("info", GuiMessageConst.MSG_49);
+                    setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
                     refArea.getElement().getElementsByTagName("a").getItem(refIdx).scrollIntoView();
                 }
             }
@@ -507,15 +499,15 @@ public class QuoteWidget extends Composite {
         refIdx = i;
 
         if (refIdx == 0) {
-            setMessage("info", GuiMessageConst.MSG_49);
+            setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
         }
         if (refIdx == refDoc.nbref - 1) {
-            setMessage("info", GuiMessageConst.MSG_50);
+            setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
         }
         refArea.getElement().getElementsByTagName("a").getItem(refIdx).scrollIntoView();
         staticTreeWrapper.clear();
-        refIndic.setText((1 + refIdx) + "/" + refDoc.nbref);
-        setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx));
+        refIndic.setText((1 + refIdx) + " / " + refDoc.nbref);
+        setMessage("info", GuiMessageConst.MSG_8 + (1 + refIdx) + " / " + refDoc.nbref);
         docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
         DrawDocumentList();
     }
@@ -564,7 +556,6 @@ public class QuoteWidget extends Composite {
         }
 
         staticTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
-
             @Override
             public void onSelection(SelectionEvent<TreeItem> event) {
                 if (event.getSelectedItem().getText() != null) {
@@ -589,12 +580,12 @@ public class QuoteWidget extends Composite {
     }
 
     public void adaptSize() {
-            statusPanel.setPixelSize(resultsPanel.getOffsetWidth(), statusPanel.getOffsetHeight());
-            headPanel.setPixelSize(resultsPanel.getOffsetWidth(), headPanel.getOffsetHeight());
-            refpanel.setPixelSize(resultsPanel.getOffsetWidth(), refpanel.getOffsetHeight());
-            htmlWrapper.setPixelSize(resultsPanel.getOffsetWidth(), htmlWrapper.getOffsetHeight());
-            refArea.setWidth(resultsPanel.getOffsetWidth());
-            msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
+        statusPanel.setPixelSize(resultsPanel.getOffsetWidth(), statusPanel.getOffsetHeight());
+        headPanel.setPixelSize(resultsPanel.getOffsetWidth(), headPanel.getOffsetHeight());
+        refpanel.setPixelSize(resultsPanel.getOffsetWidth(), refpanel.getOffsetHeight());
+        htmlWrapper.setPixelSize(resultsPanel.getOffsetWidth(), htmlWrapper.getOffsetHeight());
+        refArea.setWidth(resultsPanel.getOffsetWidth());
+        msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
     }
 
     private String getSavedFileName() {
