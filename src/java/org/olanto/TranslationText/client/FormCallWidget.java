@@ -42,7 +42,6 @@ public class FormCallWidget extends Composite {
     public HorizontalPanel statusPanel = new HorizontalPanel();
     public Label msg = new Label();
     private BitextWidget tS = new BitextWidget(msg);
-    private Grid v = new Grid(2, 3);
 
     // Ajouter un widget pour la gestion des appels externes
     public FormCallWidget(String src, String qry, String lsrc, String ltgt) {
@@ -52,17 +51,17 @@ public class FormCallWidget extends Composite {
         this.lT = ltgt;
         pWidget.add(tS);
         tS.DrawEffects();
-        pWidget.setCellHorizontalAlignment(v, HorizontalPanel.ALIGN_CENTER);
+        pWidget.setCellHorizontalAlignment(tS, HorizontalPanel.ALIGN_CENTER);
         pWidget.add(statusPanel);
         pWidget.setCellHorizontalAlignment(statusPanel, HorizontalPanel.ALIGN_CENTER);
         statusPanel.setStylePrimaryName("searchHeader");
         statusPanel.add(msg);
+        statusPanel.setCellVerticalAlignment(msg, VerticalPanel.ALIGN_MIDDLE);
         statusPanel.setCellHorizontalAlignment(msg, HorizontalPanel.ALIGN_CENTER);
-        statusPanel.setWidth("" + tS.getOffsetWidth());
-        msg.setWidth("" + (tS.getOffsetWidth() - 20));
     }
 
     public void draWidget(ArrayList<String> stopWords) {
+        statusPanel.setSize(tS.getOffsetWidth() + "px", "20px");
         if (!(source.equalsIgnoreCase("undefined")) && !(query.equalsIgnoreCase("undefined"))
                 && !(lS.equalsIgnoreCase("undefined")) && !(lT.equalsIgnoreCase("undefined"))) {
             tS.words = Utility.getQueryWords(query + " ", stopWords);

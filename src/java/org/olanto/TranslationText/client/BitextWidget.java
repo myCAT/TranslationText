@@ -390,11 +390,11 @@ public class BitextWidget extends Composite {
     public void nextHitS() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
 
         if (curIndS < Positions.length) {
@@ -421,11 +421,11 @@ public class BitextWidget extends Composite {
     public void previousHitS() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
         if (curIndS >= 0) {
             indexS = Positions[curIndS][0];
@@ -453,13 +453,13 @@ public class BitextWidget extends Composite {
 
         pp.hide();
         if (curIndT == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
         if (curIndT == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
 
         if (curIndT < Positions.length) {
@@ -487,11 +487,11 @@ public class BitextWidget extends Composite {
     public void previousHitT() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndT == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndT == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
 
         if (curIndT >= 0) {
@@ -536,7 +536,7 @@ public class BitextWidget extends Composite {
 
                 if (curIndS < Positions.length - 1) {
                     curIndS++;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     nextHitS();
                 } else {
                     nextHitS();
@@ -550,7 +550,7 @@ public class BitextWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
                     curIndS--;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     previousHitS();
                 } else {
                     previousHitS();
@@ -696,7 +696,11 @@ public class BitextWidget extends Composite {
                                 }
                             });
                         } else {
-                            words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            if (search.startsWith("\"")) {
+                                words = Utility.getexactWords(search);
+                            } else {
+                                words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            }
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsSCR(contentS, words, queryLength);
                             } else {
@@ -801,7 +805,11 @@ public class BitextWidget extends Composite {
                                 }
                             });
                         } else {
-                            words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            if (search.startsWith("\"")) {
+                                words = Utility.getexactWords(search);
+                            } else {
+                                words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            }
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsTCR(contentT, words, queryLength);
                             } else {
@@ -849,7 +857,11 @@ public class BitextWidget extends Composite {
                                 }
                             });
                         } else {
-                            words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            if (search.startsWith("\"")) {
+                                words = Utility.getexactWords(search);
+                            } else {
+                                words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            }
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsSCR(contentS, words, queryLength);
                             } else {
@@ -887,7 +899,11 @@ public class BitextWidget extends Composite {
                                 }
                             });
                         } else {
-                            words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            if (search.startsWith("\"")) {
+                                words = Utility.getexactWords(search);
+                            } else {
+                                words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            }
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsTCR(contentT, words, queryLength);
                             } else {
@@ -933,11 +949,11 @@ public class BitextWidget extends Composite {
     public void nextHitMono() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
 
         if (curIndS < Positions.length) {
@@ -960,11 +976,11 @@ public class BitextWidget extends Composite {
     public void previousHitMono() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
         if (curIndS >= 0) {
             indexS = Positions[curIndS][0];
@@ -992,7 +1008,7 @@ public class BitextWidget extends Composite {
 
                 if (curIndS < Positions.length - 1) {
                     curIndS++;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     nextHitMono();
                 } else {
                     nextHitMono();
@@ -1006,7 +1022,7 @@ public class BitextWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
                     curIndS--;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     previousHitMono();
                 } else {
                     previousHitMono();
@@ -1059,7 +1075,11 @@ public class BitextWidget extends Composite {
                                 }
                             });
                         } else {
-                            words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            if (search.startsWith("\"")) {
+                                words = Utility.getexactWords(search);
+                            } else {
+                                words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                            }
                             if (GuiConstant.TA_HILITE_OVER_CR) {
                                 getPositionsMonoCR(contentS, words, queryLength);
                             } else {
@@ -1137,7 +1157,11 @@ public class BitextWidget extends Composite {
                             }
                         });
                     } else {
-                        words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                        if (search.startsWith("\"")) {
+                            words = Utility.getexactWords(search);
+                        } else {
+                            words = Utility.getQueryWords(search, MainEntryPoint.stopWords);
+                        }
                         if (GuiConstant.TA_HILITE_OVER_CR) {
                             getPositionsMonoCR(contentS, words, queryLength);
                         } else {
@@ -1671,7 +1695,7 @@ public class BitextWidget extends Composite {
 
                 if (curIndS < Positions.length - 1) {
                     curIndS++;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     nextHitMonoCR();
                 } else {
                     nextHitMonoCR();
@@ -1685,7 +1709,7 @@ public class BitextWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
                     curIndS--;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     previousHitMonoCR();
                 } else {
                     previousHitMonoCR();
@@ -1703,7 +1727,7 @@ public class BitextWidget extends Composite {
 
                 if (curIndS < Positions.length - 1) {
                     curIndS++;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     nextHitSCR();
                 } else {
                     nextHitSCR();
@@ -1717,7 +1741,7 @@ public class BitextWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
                     curIndS--;
-                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / "+ Positions.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + Positions.length);
                     previousHitSCR();
                 } else {
                     previousHitSCR();
@@ -1760,11 +1784,11 @@ public class BitextWidget extends Composite {
 
     public void nextHitMonoCR() {
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
         if (words.size() > 1000) {
             setMessage("warning", GuiMessageConst.MSG_34);
@@ -1791,11 +1815,11 @@ public class BitextWidget extends Composite {
 
     public void previousHitMonoCR() {
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
         if (curIndS >= 0) {
             pos = Positions[curIndS][0];
@@ -1820,11 +1844,11 @@ public class BitextWidget extends Composite {
     public void nextHitTCR() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
         if (words.size() > 1000) {
             setMessage("warning", GuiMessageConst.MSG_34);
@@ -1859,11 +1883,11 @@ public class BitextWidget extends Composite {
     public void previousHitTCR() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndT == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndT == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
 
         if (curIndT >= 0) {
@@ -1896,11 +1920,11 @@ public class BitextWidget extends Composite {
     public void nextHitSCR() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         }
         if (words.size() > 1000) {
             setMessage("warning", GuiMessageConst.MSG_34);
@@ -1935,11 +1959,11 @@ public class BitextWidget extends Composite {
     public void previousHitSCR() {
         pp.hide();
         if ((Positions.length - 1 == 0)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == (Positions.length - 1)) {
-            setMessage("info", GuiMessageConst.MSG_38 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_38 + " / " + Positions.length);
         } else if (curIndS == 0) {
-            setMessage("info", GuiMessageConst.MSG_37 + " / "+ Positions.length);
+            setMessage("info", GuiMessageConst.MSG_37 + " / " + Positions.length);
         }
         if (curIndS >= 0) {
             pos = Positions[curIndS][0];

@@ -82,10 +82,6 @@ public class MainEntryPoint implements EntryPoint {
     public void onModuleLoad() {
         rpcM = RpcInit.initRpc();
         getStopWdMyCat();
-        if (!Window.Navigator.isCookieEnabled()) {
-            Window.alert(GuiMessageConst.MSG_63);
-        }
-        initCookies();
         if (Window.Location.getQueryString().length() == 0) {
             RootPanel.get("content").add(mainWidget);
             mainWidget.setWidth("100%");
@@ -96,31 +92,46 @@ public class MainEntryPoint implements EntryPoint {
             setSettingsColMyQuote();
             getPropertiesMyCat();
         } else {
-            String source = Window.Location.getParameter("source");
-            String query = Window.Location.getParameter("query");
-            String lS = Window.Location.getParameter("LSrc");
-            String lT = Window.Location.getParameter("LTgt");
-            getProperties();
-            if (GuiConstant.MAXIMIZE_ON) {
-                Window.moveTo(0, 0);
-                Window.resizeTo(getScreenWidth(), getScreenHeight());
-                maximize();
-            }
-            final FormCallWidget FC = new FormCallWidget(source, query, lS, lT);
-            RootPanel.get("call").add(FC.pWidget);
-            FC.pWidget.setWidth("100%");
-            rpcM.getStopWords(new AsyncCallback<ArrayList<String>>() {
+            initCookies();
+            final String source = Window.Location.getParameter("source");
+            final String query = Window.Location.getParameter("query");
+            final String lS = Window.Location.getParameter("LSrc");
+            final String lT = Window.Location.getParameter("LTgt");
+
+            rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
                 @Override
                 public void onFailure(Throwable caught) {
-                    Window.alert("Warning: Could not get the list of stopwords");
+                    Window.alert("Couldn't get properties List:" + caught.getMessage());
                 }
 
                 @Override
-                public void onSuccess(ArrayList<String> result) {
-//                    Window.alert("Size of List :" + result.size());
-                    FC.draWidget(result);
+                public void onSuccess(GwtProp result) {
+                    InitProperties(result);
+//                    Window.alert(GuiConstant.show());
+//                    Window.alert(GuiMessageConst.show());
+                    if (GuiConstant.MAXIMIZE_ON) {
+                        Window.moveTo(0, 0);
+                        Window.resizeTo(getScreenWidth(), getScreenHeight());
+                        maximize();
+                    }
+                    final FormCallWidget FC = new FormCallWidget(source.replace("$", "¦"), query, lS, lT);
+                    RootPanel.get("call").add(FC.pWidget);
+                    FC.pWidget.setWidth("100%");
+                    rpcM.getStopWords(new AsyncCallback<ArrayList<String>>() {
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            Window.alert("Warning: Could not get the list of stopwords");
+                        }
+
+                        @Override
+                        public void onSuccess(ArrayList<String> result) {
+//                            Window.alert("Size of List :" + result.size());
+                            FC.draWidget(result);
+                        }
+                    });
                 }
             });
+
         }
     }
 
@@ -155,21 +166,11 @@ public class MainEntryPoint implements EntryPoint {
                     Window.resizeTo(getScreenWidth(), getScreenHeight());
                     maximize();
                 }
+                if (!Window.Navigator.isCookieEnabled()) {
+                    Window.alert(GuiMessageConst.MSG_63);
+                }
+                initCookies();
                 getLanguages();
-            }
-        });
-    }
-
-    private void getProperties() {
-        rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Couldn't get properties List:" + caught.getMessage());
-            }
-
-            @Override
-            public void onSuccess(GwtProp result) {
-                InitProperties(result);
             }
         });
     }
