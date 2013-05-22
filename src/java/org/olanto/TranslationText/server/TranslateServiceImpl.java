@@ -665,6 +665,10 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     @Override
     public int[][] getQueryWordsPosAO(int[][] positions, String content, ArrayList<String> Query, int queryLn) {
         ArrayList<String> Pos = new ArrayList<>();
+        int[] totocc = new int[Query.size()];
+        for (int i = 0; i < totocc.length; i++) {
+            totocc[i] = 0;
+        }
         int begin, end, j;
         String sentence, hit, regex;
         Pattern p;
@@ -685,34 +689,57 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
                 p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
                 m = p.matcher(sentence);
                 while (m.find()) {
-                    Pos.add(i + "¦" + m.start() + "¦" + hit.length());
+                    totocc[j]++;
+                    Pos.add(i + "¦" + m.start() + "¦" + hit.length() + "¦" + j + "¦" + totocc[j]);
                 }
                 j++;
                 m.reset();
             }
         }
-        return getPositionsAO(Pos);
+        return getPositionsAO(Pos, totocc);
     }
 
-    private int[][] getPositionsAO(ArrayList<String> Pos) {
+    private int[][] getPositionsAO(ArrayList<String> Pos, int[] totocc) {
         int[][] posit;
-        int i, k, pos, ln, j, len;
-        String curr;
+        int i, k, pos, ln, j, len, l, m, idx, occ, tocc, before;
+        String curr, curr0;
         if (!Pos.isEmpty()) {
-            posit = new int[Pos.size()][3];
+            posit = new int[Pos.size()][6];
             for (int s = 0; s < Pos.size(); s++) {
                 curr = Pos.get(s);
+                curr0 = curr;
+
                 i = curr.indexOf("¦");
-                j = curr.lastIndexOf("¦");
-                k = curr.length();
-                pos = Integer.parseInt(curr.substring(0, i));
-                ln = Integer.parseInt(curr.substring(i + 1, j));
+                
+                before = curr0.substring(0, i).length() + 1;
+                curr = curr0.substring(i + 1);
+                j = before + curr.indexOf("¦");
+                
+                before = curr0.substring(0, j).length() + 1;
+                curr = curr0.substring(j + 1);
+                k = before + curr.indexOf("¦");
+                
+                before = curr0.substring(0, k).length() + 1;
+                curr = curr0.substring(k + 1);
+                l = before + curr.indexOf("¦");
+                
+                m = curr0.length();
+
+                pos = Integer.parseInt(curr0.substring(0, i));
+                ln = Integer.parseInt(curr0.substring(i + 1, j));
                 ln = (ln > 0) ? ln + 1 : ln;
-                len = Integer.parseInt(curr.substring(j + 1, k));
+                len = Integer.parseInt(curr0.substring(j + 1, k));
+                idx = Integer.parseInt(curr0.substring(k + 1, l));
+                occ = Integer.parseInt(curr0.substring(l + 1, m));
+                tocc = totocc[idx];
+
 
                 posit[s][0] = pos; // index de la ligne qui contient le mot
                 posit[s][1] = ln; // index du mot dans la phrase
                 posit[s][2] = len; // longueur à highlighter
+                posit[s][3] = idx; // index du mot actuel dans la list de requêtes donnée
+                posit[s][4] = occ; // occurrence actuelle du mot
+                posit[s][5] = tocc; // total des occurrences du mot actuel
             }
         } else {
             posit = new int[1][1];
