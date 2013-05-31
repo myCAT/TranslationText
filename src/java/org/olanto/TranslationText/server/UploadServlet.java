@@ -59,7 +59,7 @@ public class UploadServlet extends UploadAction {
             if (false == item.isFormField()) {
                 try {
                     if ((item.getName().toLowerCase().endsWith(".txt")) || (item.getName().endsWith(ext))) { // charge sous forme de txt
-                        response += UtilsFiles.file2String(item.getInputStream(), "UTF-8");
+                        response += addMissingIds(UtilsFiles.file2String(item.getInputStream(), "UTF-8"));
                         System.out.println("File uploaded successfully ");
                     } else {
                         // need conversion
@@ -127,5 +127,14 @@ public class UploadServlet extends UploadAction {
             _logger.error(e);
         }
         return null;
+    }
+
+    private String addMissingIds(String content) {
+        if (content.contains("id=\"ref")) {
+            return content;
+        } else {
+            String regex = "(<a)(\\s+)(href=\")(#)(\\d+)(\")";
+            return content.replaceAll(regex, "$1$2$3$4$5$6 id=\"ref$5$6");
+        }
     }
 }

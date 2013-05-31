@@ -563,7 +563,7 @@ public class MainEntryPoint implements EntryPoint {
             @Override
             public void onValueChange(ValueChangeEvent<String> event) {
 //                Window.alert("History item :" + event.getValue());
-                quoteDetectorWidget.getRefHitContent(Integer.parseInt(event.getValue()) - 1);
+                quoteDetectorWidget.getRefHitContent(Integer.parseInt(event.getValue()));
             }
         });
 
