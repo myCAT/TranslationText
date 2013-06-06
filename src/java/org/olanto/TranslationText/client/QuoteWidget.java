@@ -100,6 +100,7 @@ public class QuoteWidget extends Composite {
     private static final int CHAR_W = GuiConstant.CHARACTER_WIDTH;
     private TabSet topJobsSet = new TabSet();
     private boolean canGo = false;
+
     public QuoteWidget() {
         rpcRef = RpcInit.initRpc();
         setHeader();
@@ -423,9 +424,9 @@ public class QuoteWidget extends Composite {
                             }
 
                             if (refDoc.nbref > 0) {
-                                refIndic.setText( refIdx + " / " + refDoc.nbref);
-                                setMessage("info", GuiMessageConst.MSG_8 +  refIdx + " / " + refDoc.nbref);
-                                DOM.getElementById("ref"+refIdx).scrollIntoView();
+                                refIndic.setText(refIdx + " / " + refDoc.nbref);
+                                setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
+                                DOM.getElementById("ref" + refIdx).scrollIntoView();
                                 addHitHandlers();
                             }
                         } else {
@@ -454,15 +455,15 @@ public class QuoteWidget extends Composite {
                     if (refIdx == refDoc.nbref) {
                         setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
                     }
-                    DOM.getElementById("ref"+refIdx).scrollIntoView();
+                    DOM.getElementById("ref" + refIdx).scrollIntoView();
                     staticTreeWrapper.clear();
-                    refIndic.setText(refIdx+ " / " + refDoc.nbref);
-                    setMessage("info", GuiMessageConst.MSG_8 +  refIdx + " / " + refDoc.nbref);
+                    refIndic.setText(refIdx + " / " + refDoc.nbref);
+                    setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
                     docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
                     setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
-                    DOM.getElementById("ref"+refIdx).scrollIntoView();
+                    DOM.getElementById("ref" + refIdx).scrollIntoView();
                 }
             }
         });
@@ -473,21 +474,21 @@ public class QuoteWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (refIdx > 0) {
                     refIdx--;
-                    setMessage("info", GuiMessageConst.MSG_8 +  refIdx + " / " + refDoc.nbref);
+                    setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
                     if (refIdx == refDoc.nbref) {
                         setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
                     }
                     if (refIdx == 1) {
                         setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
                     }
-                    DOM.getElementById("ref"+refIdx).scrollIntoView();
+                    DOM.getElementById("ref" + refIdx).scrollIntoView();
                     staticTreeWrapper.clear();
-                    refIndic.setText( refIdx + " / " + refDoc.nbref);
+                    refIndic.setText(refIdx + " / " + refDoc.nbref);
                     docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
                     setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
-                    DOM.getElementById("ref"+refIdx).scrollIntoView();
+                    DOM.getElementById("ref" + refIdx).scrollIntoView();
                 }
             }
         });
@@ -503,10 +504,10 @@ public class QuoteWidget extends Composite {
         if (refIdx == refDoc.nbref) {
             setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
         }
-        DOM.getElementById("ref"+refIdx).scrollIntoView();
+        DOM.getElementById("ref" + refIdx).scrollIntoView();
         staticTreeWrapper.clear();
-        refIndic.setText( refIdx + " / " + refDoc.nbref);
-        setMessage("info", GuiMessageConst.MSG_8 +  refIdx + " / " + refDoc.nbref);
+        refIndic.setText(refIdx + " / " + refDoc.nbref);
+        setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
         docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
         DrawDocumentList();
     }
@@ -515,7 +516,7 @@ public class QuoteWidget extends Composite {
         tS.reset();
         adaptSize();
         if ((!docList.isEmpty()) && (docList != null) && (refDoc.nbref > 0)) {
-            docListContainer.setHeading(GuiMessageConst.MSG_41 +  refIdx);
+            docListContainer.setHeading(GuiMessageConst.MSG_41 + refIdx);
             createSourceTree();
         } else {
             setMessage("error", GuiMessageConst.MSG_59);
@@ -583,7 +584,7 @@ public class QuoteWidget extends Composite {
         headPanel.setPixelSize(resultsPanel.getOffsetWidth(), headPanel.getOffsetHeight());
         refpanel.setPixelSize(resultsPanel.getOffsetWidth(), refpanel.getOffsetHeight());
         htmlWrapper.setPixelSize(resultsPanel.getOffsetWidth(), htmlWrapper.getOffsetHeight());
-        refArea.setWidth(resultsPanel.getOffsetWidth());
+        refArea.setWidth(resultsPanel.getOffsetWidth() - 2 * W_Unit);
         msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
     }
 

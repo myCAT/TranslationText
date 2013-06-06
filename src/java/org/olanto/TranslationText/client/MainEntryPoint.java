@@ -401,7 +401,7 @@ public class MainEntryPoint implements EntryPoint {
                             String Query = Utility.wildCharQueryParser(result, textAlignerWidget.langS.getItemText(textAlignerWidget.langS.getSelectedIndex()), textAlignerWidget.langT.getItemText(textAlignerWidget.langT.getSelectedIndex()), stopWords, collectionWidgetTA.Selection);
                             words = Utility.getWildCharQueryWords(result, stopWords);
                             tS.words = words;
-                            QUERY = Query.substring(Query.indexOf("IN"));
+                            QUERY = Query.substring(0, Query.indexOf("IN"));
                             textAlignerWidget.GoSrch.setToolTip(GuiMessageConst.MSG_27 + Query);
                             textAlignerWidget.DrawDocumentList(Query, tS, collectionWidgetTA.Selection);
                         }
