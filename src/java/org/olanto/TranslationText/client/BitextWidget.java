@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * panneau du concordancier
  */
 public class BitextWidget extends Composite {
-
+    
     private VerticalPanel mainWidget = new VerticalPanel();
     private HorizontalPanel hS = new HorizontalPanel();
     private HorizontalPanel hT = new HorizontalPanel();
@@ -93,13 +93,13 @@ public class BitextWidget extends Composite {
     private static final int PP_H_MIN = GuiConstant.PP_H_MIN;
     private static final int PP_H_MAX = GuiConstant.PP_H_MAX;
     private int pos = 0;
-
+    
     public BitextWidget(Label msg) {
         rpcS = RpcInit.initRpc();
         this.msg = msg;
         SetHeader();
     }
-
+    
     private void SetHeader() {
         initWidget(mainWidget);
         mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
@@ -109,12 +109,12 @@ public class BitextWidget extends Composite {
         hS.add(NextHitS);
         hS.add(AlignS);
         hS.add(schS);
-
+        
         hT.add(PreviousHitT);
         hT.add(NextHitT);
         hT.add(AlignT);
         hT.add(schT);
-
+        
         if (GuiConstant.ORIGINAL_ON) {
             hS.add(orgnS);
             hT.add(orgnT);
@@ -122,28 +122,28 @@ public class BitextWidget extends Composite {
         if (GuiConstant.SAVE_ON) {
             hS.add(save);
         }
-
+        
         hS.setVisible(true);
         hT.setVisible(true);
-
+        
         textAreaGrid.setWidget(0, 0, hS);
         textAreaGrid.setWidget(0, 2, hT);
         textAreaGrid.setWidget(1, 0, sourceTextArea);
         textAreaGrid.setWidget(1, 2, targetTextArea);
-
+        
         setbuttonstyle(NextHitS, NextHitS.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(PreviousHitS, PreviousHitS.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(AlignS, AlignS.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(schS, schS.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(orgnS, orgnS.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(save, save.getText().length() * CHAR_W, H_Unit);
-
+        
         setbuttonstyle(NextHitT, NextHitT.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(PreviousHitT, PreviousHitT.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(AlignT, AlignT.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(schT, schT.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(orgnT, orgnT.getText().length() * CHAR_W, H_Unit);
-
+        
         sourceTextArea.setCursorPos(0);
         sourceTextArea.setVisible(true);
         sourceTextArea.setEnabled(true);
@@ -153,8 +153,8 @@ public class BitextWidget extends Composite {
         sourceTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         sourceTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
         sourceTextArea.setHeight("" + pixS * GuiConstant.TA_TEXTAREA_HEIGHT + "px");
-
-
+        
+        
         targetTextArea.setCursorPos(0);
         targetTextArea.setVisible(true);
         targetTextArea.setEnabled(true);
@@ -164,7 +164,7 @@ public class BitextWidget extends Composite {
         targetTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         targetTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
         targetTextArea.setHeight("" + pixS * GuiConstant.TA_TEXTAREA_HEIGHT + "px");
-
+        
         pp.setAnimationEnabled(true);
         pp.setAutoHideEnabled(true);
         pp.setStyleName("focusPanel");
@@ -178,7 +178,7 @@ public class BitextWidget extends Composite {
         };
         pp.sinkEvents(Event.ONCLICK);
         pp.addHandler(hidepanT, ClickEvent.getType());
-
+        
         pSch.setAnimationEnabled(true);
         pSch.setAutoHideEnabled(true);
         pSch.setStyleName("searchPanel");
@@ -194,13 +194,13 @@ public class BitextWidget extends Composite {
         hpSch.add(CclBtn);
         hpSch.setCellHorizontalAlignment(SchBtn, HorizontalPanel.ALIGN_RIGHT);
         pSch.add(vpSch);
-
+        
         setbuttonstyle(SchBtn, SchBtn.getText().length() * CHAR_W, H_Unit);
         setbuttonstyle(CclBtn, CclBtn.getText().length() * CHAR_W, H_Unit);
         SchArea.setWidth("400px");
         SchArea.setStyleName("gwt-srch-text");
     }
-
+    
     public void DrawEffects() {
         if (GuiConstant.ORIGINAL_ON) {
             hS.add(orgnS);
@@ -209,11 +209,11 @@ public class BitextWidget extends Composite {
         if (GuiConstant.SAVE_ON) {
             hS.add(save);
         }
-
+        
         hS.setVisible(true);
         hT.setVisible(true);
     }
-
+    
     public void setbuttonstyle(Button b, int w, int h) {
         b.setStyleName("x-btn-click");
         b.setPixelSize(w, h);
@@ -223,20 +223,20 @@ public class BitextWidget extends Composite {
      * on return, draw the data to screen
      */
     public void testserver(String greeting) {
-
+        
         rpcS.myMethod(greeting, new AsyncCallback<String>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert(GuiMessageConst.MSG_1);
             }
-
+            
             @Override
             public void onSuccess(String result) {
                 Window.alert(result);
             }
         });
     }
-
+    
     public void reset() {
         pp.hide();
         pos = 0;
@@ -253,28 +253,28 @@ public class BitextWidget extends Composite {
         schS.removeAllListeners();
         orgnS.removeAllListeners();
         save.removeAllListeners();
-
+        
         PreviousHitT.removeAllListeners();
         NextHitT.removeAllListeners();
         AlignT.removeAllListeners();
         schT.removeAllListeners();
         orgnT.removeAllListeners();
-
+        
         CclBtn.removeAllListeners();
         SchBtn.removeAllListeners();
-
+        
         sourceTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         sourceTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
-
+        
         targetTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         targetTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
-
+        
     }
-
+    
     public void setVariables() {
         sourceTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         sourceTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
-
+        
         targetTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         targetTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
         targetTextArea.setEnabled(true);
@@ -284,7 +284,7 @@ public class BitextWidget extends Composite {
         schT.enable();
         orgnT.enable();
         AlignS.enable();
-
+        
         sourceTextArea.setText(Align.source.content);
         targetTextArea.setText(Align.target.content);
 
@@ -293,13 +293,13 @@ public class BitextWidget extends Composite {
         resultT = Align.target.positions;
         contentS = Align.source.content.toLowerCase();
         contentT = Align.target.content.toLowerCase();
-
+        
         height1 = targetTextArea.getElement().getScrollHeight();
         height = sourceTextArea.getElement().getScrollHeight();
         pposS = sourceTextArea.getOffsetWidth() - pixS;
         pposT = targetTextArea.getOffsetWidth() - pixS;
     }
-
+    
     public void showpanel(boolean source, int hight, int index) {
         if (hight < PP_H_MIN) {
             hight = PP_H_MIN;
@@ -308,7 +308,7 @@ public class BitextWidget extends Composite {
             hight = PP_H_MAX;
         }
         int lineNum, restOfLines;
-
+        
         if (source) {
             restOfLines = (resultS[resultS.length - 1][3] - resultS[index][3]);
             if (resultS[index][3] < (sourceTextArea.getVisibleLines() / 2)) {
@@ -352,7 +352,7 @@ public class BitextWidget extends Composite {
 //                    + "\nPixT = " + pixS
 //                    + "\n(lineNum * pixS) + targetTextArea.getAbsoluteTop() = " + ((lineNum * pixS) + targetTextArea.getAbsoluteTop()));
             pp.setPopupPosition(targetTextArea.getAbsoluteLeft() - 2, (int) (lineNum * pixS) + targetTextArea.getAbsoluteTop());
-
+            
             if (((lineNum + hight) * pixS) < targetTextArea.getOffsetHeight()) {
                 pp.setPixelSize(pposT, (int) pixS * hight);
             } else {
@@ -361,11 +361,11 @@ public class BitextWidget extends Composite {
             pp.show();
         }
     }
-
+    
     public void setNetScapePos(int idxS, int idxT, int h) {
         int lin = resultS[idxS][3] - h + resultS[idxS][0] / 2;
         int lin1 = resultT[idxT][3] - h + resultT[idxT][0] / 2;
-
+        
         float frtop1 = lin1 * pixS;
         float frtop = lin * pixS;
         int posf = (frtop > height) ? height : (int) frtop;
@@ -373,13 +373,13 @@ public class BitextWidget extends Composite {
         sourceTextArea.setFocus(true);
         sourceTextArea.getElement().setScrollTop(posf);
         targetTextArea.getElement().setScrollTop(posf1);
-
+        
     }
-
+    
     public void setNetScapePosT(int idxS, int idxT, int h) {
         int lin = resultS[idxS][3] - h + resultS[idxS][0] / 2;
         int lin1 = resultT[idxT][3] - h + resultT[idxT][0] / 2;
-
+        
         float frtop1 = lin1 * pixS;
         float frtop = lin * pixS;
         int posf = (frtop > height) ? height : (int) frtop;
@@ -388,7 +388,7 @@ public class BitextWidget extends Composite {
         targetTextArea.getElement().setScrollTop(posf1);
         sourceTextArea.getElement().setScrollTop(posf);
     }
-
+    
     public void nextHitS() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -398,7 +398,7 @@ public class BitextWidget extends Composite {
         } else if (curIndS == (PositionsS.length - 1)) {
             setMessage("info", GuiMessageConst.MSG_38 + " / " + PositionsS.length);
         }
-
+        
         if (curIndS < PositionsS.length) {
             indexS = PositionsS[curIndS][0];
             indexT = Map.from[indexS];
@@ -419,7 +419,7 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void previousHitS() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -433,7 +433,7 @@ public class BitextWidget extends Composite {
             indexS = PositionsS[curIndS][0];
             indexT = Map.from[indexS];
             showpanel(false, resultT[indexT][0] + 1, indexT);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 pos = PositionsS[curIndS][1] + resultS[indexS][1] + indexS;
                 int idx = resultS[indexS][2] + indexS;
@@ -450,9 +450,9 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void nextHitT() {
-
+        
         pp.hide();
         if (curIndT == 0) {
             setMessage("info", GuiMessageConst.MSG_37 + " / " + PositionsT.length);
@@ -463,12 +463,12 @@ public class BitextWidget extends Composite {
         if ((PositionsT.length - 1 == 0)) {
             setMessage("info", GuiMessageConst.MSG_38 + " / " + PositionsT.length);
         }
-
+        
         if (curIndT < PositionsT.length) {
             indexT = PositionsT[curIndT][0];
             indexS = Map.to[indexT];
             showpanel(true, resultS[indexS][0] + 1, indexS);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 pos = PositionsT[curIndT][1] + resultT[indexT][1] + indexT;
                 int idx = resultS[indexS][2] + indexS;
@@ -485,7 +485,7 @@ public class BitextWidget extends Composite {
         }
         targetTextArea.setFocus(true);
     }
-
+    
     public void previousHitT() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -495,12 +495,12 @@ public class BitextWidget extends Composite {
         } else if (curIndT == 0) {
             setMessage("info", GuiMessageConst.MSG_37 + " / " + PositionsS.length);
         }
-
+        
         if (curIndT >= 0) {
             indexT = PositionsS[curIndT][0];
             indexS = Map.to[indexT];
             showpanel(true, resultS[indexS][0] + 1, indexS);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 pos = PositionsS[curIndT][1] + resultT[indexT][1] + indexT;
                 int idx = resultS[indexS][2] + indexS;
@@ -516,9 +516,9 @@ public class BitextWidget extends Composite {
             targetTextArea.setSelectionRange(pos, PositionsS[curIndT][2]);
         }
         targetTextArea.setFocus(true);
-
+        
     }
-
+    
     public void ClearHitsEvents() {
         curIndS = 0;
         curIndT = 0;
@@ -528,14 +528,14 @@ public class BitextWidget extends Composite {
         PreviousHitT.removeAllListeners();
         NextHitT.removeAllListeners();
     }
-
+    
     public void AddHitsEventsS() {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
                     setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
@@ -560,20 +560,20 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void AddHitsEventsSAO() {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitS();
                 } else {
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitS();
                 }
             }
@@ -585,23 +585,23 @@ public class BitextWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
                     curIndS--;
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     previousHitS();
                 } else {
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     previousHitS();
                 }
             }
         });
     }
-
+    
     public void AddHitsEventsT() {
 
         // Handler of the going to the next line in the source text
         NextHitT.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndT < PositionsT.length - 1) {
                     curIndT++;
                     setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndT) + " / " + PositionsT.length);
@@ -626,14 +626,14 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void AddHitsEventsTAO() {
 
         // Handler of the going to the next line in the source text
         NextHitT.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndT < PositionsT.length - 1) {
                     curIndT++;
                     setMessage("info", words.get(PositionsT[curIndT][3]) + " : " + GuiMessageConst.MSG_36 + PositionsT[curIndT][4] + " / " + PositionsT[curIndT][5] + "  --- (/ " + PositionsT.length + ")");
@@ -655,13 +655,13 @@ public class BitextWidget extends Composite {
                     previousHitT();
                 } else {
                     setMessage("info", words.get(PositionsT[curIndT][3]) + " : " + GuiMessageConst.MSG_36 + PositionsT[curIndT][4] + " / " + PositionsT[curIndT][5] + "  --- (/ " + PositionsT.length + ")");
-
+                    
                     previousHitT();
                 }
             }
         });
     }
-
+    
     public void AddOtherEvents() {
 
         // Handler of the going to align the line in the source text
@@ -674,7 +674,7 @@ public class BitextWidget extends Composite {
                 indexS = Utility.getInd(posi, resultS);
                 indexT = Map.from[indexS];
                 showpanel(false, resultT[indexT][0] + 1, indexT);
-
+                
                 if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                     int idx = resultS[indexS][2];
                     int idxt = resultT[indexT][2];
@@ -704,7 +704,7 @@ public class BitextWidget extends Composite {
                 indexT = Utility.getInd(posi, resultT);
                 indexS = Map.to[indexT];
                 showpanel(true, resultS[indexS][0] + 1, indexS);
-
+                
                 if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                     int idx = resultS[indexS][2];
                     int idxt = resultT[indexT][2];
@@ -723,7 +723,7 @@ public class BitextWidget extends Composite {
                 targetTextArea.setFocus(true);
             }
         });
-
+        
         schS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
@@ -739,7 +739,7 @@ public class BitextWidget extends Composite {
                     public void handleEvent(BaseEvent be) {
                         ClearHitsEvents();
                         words = null;
-
+                        
                         search = SchArea.getText().trim();
                         queryLength = search.length();
                         if ((search.contains(" AND "))
@@ -759,7 +759,7 @@ public class BitextWidget extends Composite {
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
                                 }
-
+                                
                                 @Override
                                 public void onSuccess(String[] result) {
                                     words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
@@ -789,7 +789,7 @@ public class BitextWidget extends Composite {
                 MyCatDownload.downloadZipFromServlet(Align.source.uri, msg);
             }
         });
-
+        
         orgnS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
@@ -798,7 +798,7 @@ public class BitextWidget extends Composite {
                     public void onFailure(Throwable caught) {
                         setMessage("error", GuiMessageConst.MSG_4);
                     }
-
+                    
                     @Override
                     public void onSuccess(String result) {
 //                        Window.alert("request : " + result);
@@ -807,7 +807,7 @@ public class BitextWidget extends Composite {
                 });
             }
         });
-
+        
         orgnT.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
@@ -816,7 +816,7 @@ public class BitextWidget extends Composite {
                     public void onFailure(Throwable caught) {
                         setMessage("error", GuiMessageConst.MSG_5);
                     }
-
+                    
                     @Override
                     public void onSuccess(String result) {
 //                        Window.alert("request : " + result);
@@ -825,14 +825,14 @@ public class BitextWidget extends Composite {
                 });
             }
         });
-
+        
         CclBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
                 pSch.hide();
             }
         });
-
+        
         schT.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
@@ -848,7 +848,7 @@ public class BitextWidget extends Composite {
                     public void handleEvent(BaseEvent be) {
                         ClearHitsEvents();
                         words = null;
-
+                        
                         search = SchArea.getText().trim();
                         queryLength = search.length();
                         if ((search.contains(" AND "))
@@ -868,7 +868,7 @@ public class BitextWidget extends Composite {
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
                                 }
-
+                                
                                 @Override
                                 public void onSuccess(String[] result) {
                                     words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
@@ -891,16 +891,16 @@ public class BitextWidget extends Composite {
                 });
             }
         });
-
+        
         SchArea.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-
+                
                 if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
                     if (SchS) {
                         ClearHitsEvents();
                         words = null;
-
+                        
                         search = SchArea.getText().trim();
                         queryLength = search.length();
                         if ((search.contains(" AND "))
@@ -920,7 +920,7 @@ public class BitextWidget extends Composite {
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
                                 }
-
+                                
                                 @Override
                                 public void onSuccess(String[] result) {
                                     words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
@@ -942,7 +942,7 @@ public class BitextWidget extends Composite {
                     } else {
                         ClearHitsEvents();
                         words = null;
-
+                        
                         search = SchArea.getText().trim();
                         queryLength = search.length();
                         if ((search.contains(" AND "))
@@ -962,7 +962,7 @@ public class BitextWidget extends Composite {
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
                                 }
-
+                                
                                 @Override
                                 public void onSuccess(String[] result) {
                                     words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
@@ -986,13 +986,13 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void setVariablesMono() {
-
+        
         sourceTextArea.setCharacterWidth(GuiConstant.TA_TEXTAREA_WIDTH);
         sourceTextArea.setVisibleLines(GuiConstant.TA_TEXTAREA_HEIGHT);
         sourceTextArea.setText(Align.source.content);
-
+        
         targetTextArea.setEnabled(false);
         PreviousHitT.disable();
         NextHitT.disable();
@@ -1004,11 +1004,11 @@ public class BitextWidget extends Composite {
         // Matrice (nombre de lignes, position du top, correction, position en pixel)
         resultS = Align.source.positions;
         contentS = Align.source.content.toLowerCase();
-
+        
         height = sourceTextArea.getElement().getScrollHeight();
         pposS = sourceTextArea.getOffsetWidth() - (int) pixS;
     }
-
+    
     public void setNetScapePosMono(int idxS, int h) {
         int lin = resultS[idxS][3] - h + resultS[idxS][0] / 2;
         float frtop = lin * pixS;
@@ -1016,7 +1016,7 @@ public class BitextWidget extends Composite {
         sourceTextArea.setFocus(true);
         sourceTextArea.getElement().setScrollTop(posf);
     }
-
+    
     public void nextHitMono() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -1026,10 +1026,10 @@ public class BitextWidget extends Composite {
         } else if (curIndS == (PositionsS.length - 1)) {
             setMessage("info", GuiMessageConst.MSG_38 + " / " + PositionsS.length);
         }
-
+        
         if (curIndS < PositionsS.length) {
             indexS = PositionsS[curIndS][0];
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 pos = PositionsS[curIndS][1] + resultS[indexS][1] + indexS;
                 int idx = resultS[indexS][2] + indexS;
@@ -1043,7 +1043,7 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void previousHitMono() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -1055,7 +1055,7 @@ public class BitextWidget extends Composite {
         }
         if (curIndS >= 0) {
             indexS = PositionsS[curIndS][0];
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 pos = PositionsS[curIndS][1] + resultS[indexS][1] + indexS;
                 int idx = resultS[indexS][2] + indexS;
@@ -1069,14 +1069,14 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void AddHitsEventsMono() {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
                     setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
@@ -1101,20 +1101,20 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void AddHitsEventsMonoAO() {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitMono();
                 } else {
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitMono();
                 }
             }
@@ -1134,7 +1134,7 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void AddOtherEventsMono() {
 
         // Handler of the going to align the line in the source text
@@ -1151,7 +1151,7 @@ public class BitextWidget extends Composite {
                     public void handleEvent(BaseEvent be) {
                         ClearHitsEvents();
                         words = null;
-
+                        
                         search = SchArea.getText().trim();
                         queryLength = search.length();
                         if ((search.contains(" AND "))
@@ -1171,7 +1171,7 @@ public class BitextWidget extends Composite {
                                 public void onFailure(Throwable caught) {
                                     setMessage("error", GuiMessageConst.MSG_3);
                                 }
-
+                                
                                 @Override
                                 public void onSuccess(String[] result) {
                                     words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
@@ -1201,7 +1201,7 @@ public class BitextWidget extends Composite {
                 MyCatDownload.downloadZipFromServlet(Align.source.uri, msg);
             }
         });
-
+        
         orgnS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
@@ -1210,7 +1210,7 @@ public class BitextWidget extends Composite {
                     public void onFailure(Throwable caught) {
                         setMessage("error", GuiMessageConst.MSG_4);
                     }
-
+                    
                     @Override
                     public void onSuccess(String result) {
 //                        Window.alert("request : " + result);
@@ -1219,18 +1219,18 @@ public class BitextWidget extends Composite {
                 });
             }
         });
-
+        
         CclBtn.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
                 pSch.hide();
             }
         });
-
+        
         SchArea.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-
+                
                 if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
                     ClearHitsEvents();
                     words = null;
@@ -1253,7 +1253,7 @@ public class BitextWidget extends Composite {
                             public void onFailure(Throwable caught) {
                                 setMessage("error", GuiMessageConst.MSG_3);
                             }
-
+                            
                             @Override
                             public void onSuccess(String[] result) {
                                 words = Utility.getWildCharQueryWords(result, MainEntryPoint.stopWords);
@@ -1272,12 +1272,12 @@ public class BitextWidget extends Composite {
                             getPositionsMono(resultS, contentS, words, queryLength);
                         }
                     }
-
+                    
                 }
             }
         });
     }
-
+    
     public void getTextContent(String file, String langS, String langT, String Query) {
 //        Window.alert("getting the content of the file: "+file);
         if (langT.contains("AR")) {
@@ -1293,7 +1293,7 @@ public class BitextWidget extends Composite {
             public void onFailure(Throwable caught) {
                 setMessage("error", GuiMessageConst.MSG_56);
             }
-
+            
             @Override
             public void onSuccess(GwtAlignBiText result) {
                 Align = result;
@@ -1306,19 +1306,19 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void SetBiTextBehaviour() {
         Map = Align.map;
-
+        
         ClearHitsEvents();
         setVariables();
         AddOtherEvents();
-
+        
         curIndS = 0;
         curIndT = 0;
         PositionsS = null;
         PositionsT = null;
-
+        
         if (GuiConstant.EXACT_FLG) {
 //            Window.alert("exact matching search: " + words.toString());
             if (words.size() > 1) {
@@ -1344,12 +1344,12 @@ public class BitextWidget extends Composite {
             }
         }
     }
-
+    
     public void SetMonoTextBehaviour() {
         ClearHitsEvents();
         setVariablesMono();
         AddOtherEventsMono();
-
+        
         curIndS = 0;
         PositionsS = null;
         if (GuiConstant.EXACT_FLG) {
@@ -1376,7 +1376,7 @@ public class BitextWidget extends Composite {
             }
         }
     }
-
+    
     public void getPositionsS(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPos(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
@@ -1384,7 +1384,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1401,7 +1401,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsT(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPos(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
@@ -1409,7 +1409,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1426,7 +1426,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsSAO(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPosAO(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
@@ -1434,7 +1434,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1442,7 +1442,7 @@ public class BitextWidget extends Composite {
                     if (PositionsS[0][0] > -1) {
                         pSch.hide();
                         AddHitsEventsSAO();
-                       setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                        setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                         nextHitS();
                         sourceTextArea.setFocus(true);
                     } else {
@@ -1452,7 +1452,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsTAO(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPosAO(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
@@ -1460,7 +1460,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1478,7 +1478,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsMono(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
 //        Window.alert("gestMono PositionsS");
         if ((!Query.isEmpty()) && !(Query == null)) {
@@ -1487,7 +1487,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1504,7 +1504,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsMonoAO(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getQueryWordsPosAO(posit, content, Query, queryLn, new AsyncCallback<int[][]>() {
@@ -1512,7 +1512,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1520,7 +1520,7 @@ public class BitextWidget extends Composite {
                     if (PositionsS[0][0] > -1) {
                         pSch.hide();
                         AddHitsEventsMonoAO();
-                       setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                        setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                         nextHitMono();
                         sourceTextArea.setFocus(true);
                     } else {
@@ -1530,7 +1530,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsSCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
         if (GuiConstant.EXACT_FLG) {
@@ -1542,7 +1542,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1562,7 +1562,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsTCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
         if (GuiConstant.EXACT_FLG) {
@@ -1574,7 +1574,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1594,7 +1594,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsNearSCR(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNearCR(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
@@ -1602,7 +1602,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1622,7 +1622,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsNearS(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNear(posit, content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
@@ -1630,7 +1630,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1650,7 +1650,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsNearTCR(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNearCR(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
@@ -1658,7 +1658,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1678,7 +1678,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsNearT(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNear(posit, content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
@@ -1686,7 +1686,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1706,7 +1706,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsNearMonoCR(String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNearCR(content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
@@ -1714,7 +1714,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1734,7 +1734,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsNearMono(int[][] posit, String content, ArrayList<String> Query, int queryLn) {
         if ((!Query.isEmpty()) && !(Query == null)) {
             rpcS.getHitPosNear(posit, content, Query, queryLn, GuiConstant.REF_FACTOR, GuiConstant.NEAR_DISTANCE, GuiConstant.TA_NEAR_AVG_TERM_CHAR, new AsyncCallback<int[][]>() {
@@ -1742,7 +1742,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1762,7 +1762,7 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void getPositionsMonoCR(String content, ArrayList<String> Query, int queryLn) {
         float factor = GuiConstant.REF_FACTOR;
         if (GuiConstant.EXACT_FLG) {
@@ -1774,7 +1774,7 @@ public class BitextWidget extends Composite {
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiMessageConst.MSG_10);
                 }
-
+                
                 @Override
                 public void onSuccess(int[][] result) {
                     ClearHitsEvents();
@@ -1794,14 +1794,14 @@ public class BitextWidget extends Composite {
             });
         }
     }
-
+    
     public void AddHitsEventsMonoCR() {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
                     setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
@@ -1826,14 +1826,14 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void AddHitsEventsSCR() {
 
         // Handler of the going to the next line in the source text
         NextHitS.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
                     setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
@@ -1858,14 +1858,14 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void AddHitsEventsTCR() {
 
         // Handler of the going to the next line in the source text
         NextHitT.addListener(Events.OnClick, new Listener<BaseEvent>() {
             @Override
             public void handleEvent(BaseEvent be) {
-
+                
                 if (curIndT < PositionsT.length - 1) {
                     curIndT++;
                     setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndT) + " / " + PositionsT.length);
@@ -1890,7 +1890,7 @@ public class BitextWidget extends Composite {
             }
         });
     }
-
+    
     public void nextHitMonoCR() {
         if ((PositionsS.length - 1 == 0)) {
             setMessage("info", GuiMessageConst.MSG_38 + " / " + PositionsS.length);
@@ -1905,7 +1905,7 @@ public class BitextWidget extends Composite {
         if (curIndS < PositionsS.length) {
             pos = PositionsS[curIndS][0];
             indexS = Utility.getInd(pos, resultS);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 if (pos > 0) {
                     pos += indexS;
@@ -1921,7 +1921,7 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void previousHitMonoCR() {
         if ((PositionsS.length - 1 == 0)) {
             setMessage("info", GuiMessageConst.MSG_38 + " / " + PositionsS.length);
@@ -1933,7 +1933,7 @@ public class BitextWidget extends Composite {
         if (curIndS >= 0) {
             pos = PositionsS[curIndS][0];
             indexS = Utility.getInd(pos, resultS);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 if (pos > 0) {
                     pos += indexS;
@@ -1949,7 +1949,7 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void nextHitTCR() {
         pp.hide();
         if ((PositionsT.length - 1 == 0)) {
@@ -1968,7 +1968,7 @@ public class BitextWidget extends Composite {
             indexS = Map.to[indexT];
             int idxlast = Map.to[Utility.getInd(pos + queryLength / 4, resultT)];
             showpanel(true, Utility.getln(indexS, idxlast, resultS), indexS);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 if (pos > 0) {
                     pos += indexT;
@@ -1988,7 +1988,7 @@ public class BitextWidget extends Composite {
         }
         targetTextArea.setFocus(true);
     }
-
+    
     public void previousHitTCR() {
         pp.hide();
         if ((PositionsT.length - 1 == 0)) {
@@ -1998,14 +1998,14 @@ public class BitextWidget extends Composite {
         } else if (curIndT == 0) {
             setMessage("info", GuiMessageConst.MSG_37 + " / " + PositionsT.length);
         }
-
+        
         if (curIndT >= 0) {
             pos = PositionsT[curIndT][0];
             indexT = Utility.getInd(pos, resultT);
             indexS = Map.to[indexT];
             int idxlast = Map.to[Utility.getInd(pos + queryLength / 4, resultT)];
             showpanel(true, Utility.getln(indexS, idxlast, resultS), indexS);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 if (pos > 0) {
                     pos += indexT;
@@ -2025,7 +2025,7 @@ public class BitextWidget extends Composite {
         }
         targetTextArea.setFocus(true);
     }
-
+    
     public void nextHitSCR() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -2044,7 +2044,7 @@ public class BitextWidget extends Composite {
             indexT = Map.from[indexS];
             int idxlast = Map.from[Utility.getInd(pos + queryLength / 4, resultS)];
             showpanel(false, Utility.getln(indexT, idxlast, resultT), indexT);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 if (pos > 0) {
                     pos += indexS;
@@ -2064,7 +2064,7 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void previousHitSCR() {
         pp.hide();
         if ((PositionsS.length - 1 == 0)) {
@@ -2080,7 +2080,7 @@ public class BitextWidget extends Composite {
             indexT = Map.from[indexS];
             int idxlast = Map.from[Utility.getInd(pos + queryLength / 4, resultS)];
             showpanel(false, Utility.getln(indexT, idxlast, resultT), indexT);
-
+            
             if ((Window.Navigator.getUserAgent().contains("MSIE 7.0")) || (Window.Navigator.getUserAgent().contains("MSIE 8.0"))) {
                 if (pos > 0) {
                     pos += indexS;
@@ -2100,7 +2100,7 @@ public class BitextWidget extends Composite {
         }
         sourceTextArea.setFocus(true);
     }
-
+    
     public void setMessage(String type, String message) {
         msg.setStyleName("gwt-TA-" + type.toLowerCase());
         msg.setText(message);

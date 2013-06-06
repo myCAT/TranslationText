@@ -418,7 +418,7 @@ public class QuoteWidget extends Composite {
                                 }
                             });
                             staticTreeWrapper.clear();
-                            docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
+                            docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
                             if (!(fileName.endsWith(GuiConstant.QD_FILE_EXT))) {
                                 GoSrch.enable();
                             }
@@ -459,7 +459,7 @@ public class QuoteWidget extends Composite {
                     staticTreeWrapper.clear();
                     refIndic.setText(refIdx + " / " + refDoc.nbref);
                     setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
-                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
+                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
                     setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
@@ -484,7 +484,7 @@ public class QuoteWidget extends Composite {
                     DOM.getElementById("ref" + refIdx).scrollIntoView();
                     staticTreeWrapper.clear();
                     refIndic.setText(refIdx + " / " + refDoc.nbref);
-                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
+                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
                     setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
@@ -508,7 +508,7 @@ public class QuoteWidget extends Composite {
         staticTreeWrapper.clear();
         refIndic.setText(refIdx + " / " + refDoc.nbref);
         setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
-        docList = Utility.getDocumentlist(refDoc.listofref[refIdx] + "|", refDoc.DOC_REF_SEPARATOR);
+        docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
         DrawDocumentList();
     }
 
@@ -561,9 +561,9 @@ public class QuoteWidget extends Composite {
                 if (event.getSelectedItem().getText() != null) {
                     setMessage("info", GuiMessageConst.MSG_51 + event.getSelectedItem().getTitle());
                     tS.reset();
-                    tS.words = Utility.getRefWords(refDoc.reftext[refIdx] + " ");
-                    tS.queryLength = refDoc.reftext[refIdx].length();
-                    tS.getTextContent(racine + event.getSelectedItem().getTitle().replace("/", "¦"), lS, lT, refDoc.reftext[refIdx]);
+                    tS.words = Utility.getRefWords(refDoc.reftext[refIdx-1] + " ");
+                    tS.queryLength = refDoc.reftext[refIdx-1].length();
+                    tS.getTextContent(racine + event.getSelectedItem().getTitle().replace("/", "¦"), lS, lT, refDoc.reftext[refIdx-1]);
                 }
             }
         });

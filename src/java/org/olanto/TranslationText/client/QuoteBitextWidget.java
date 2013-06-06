@@ -569,10 +569,10 @@ public class QuoteBitextWidget extends Composite {
 
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitS();
                 } else {
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitS();
                 }
             }
@@ -584,10 +584,10 @@ public class QuoteBitextWidget extends Composite {
             public void handleEvent(BaseEvent be) {
                 if (curIndS > 0) {
                     curIndS--;
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     previousHitS();
                 } else {
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     previousHitS();
                 }
             }
@@ -1110,10 +1110,10 @@ public class QuoteBitextWidget extends Composite {
 
                 if (curIndS < PositionsS.length - 1) {
                     curIndS++;
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitMono();
                 } else {
-                   setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                    setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                     nextHitMono();
                 }
             }
@@ -1395,7 +1395,7 @@ public class QuoteBitextWidget extends Composite {
                     if (PositionsS[0][0] > -1) {
                         pSch.hide();
                         AddHitsEventsSAO();
-                       setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                        setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                         nextHitS();
                         sourceTextArea.setFocus(true);
                     } else {
@@ -1472,7 +1472,7 @@ public class QuoteBitextWidget extends Composite {
                     if (PositionsS[0][0] > -1) {
                         pSch.hide();
                         AddHitsEventsMonoAO();
-                       setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
+                        setMessage("info", GuiMessageConst.MSG_36 + (1 + curIndS) + " / " + PositionsS.length);
                         nextHitMono();
                         sourceTextArea.setFocus(true);
                     } else {
