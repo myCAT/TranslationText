@@ -45,7 +45,7 @@ public interface TranslateService extends RemoteService {
 
     public String getOriginalUrl(String docName);
 
-    public GwtProp InitPropertiesFromFile();
+    public GwtProp InitPropertiesFromFile(String cookieLang);
 
     public int[][] getQueryWordsPos(int[][] positions, String content, ArrayList<String> Query, int queryLn);
 

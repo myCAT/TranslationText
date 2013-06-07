@@ -43,6 +43,8 @@ public class GwtProp implements IsSerializable {
     public boolean SAVE_ON;
     public boolean MAXIMIZE_ON;
     public boolean TA_HILITE_OVER_CR;
+    public boolean CHOOSE_GUI_LANG;
+    public String CHOOSE_GUI_LANG_LIST;
     public int TA_LINE_HEIGHT;
     public int TA_TEXTAREA_WIDTH;
     public int TA_TEXTAREA_HEIGHT;
@@ -170,4 +172,11 @@ public class GwtProp implements IsSerializable {
     public String MSG_61;
     public String MSG_62;
     public String MSG_63;
+    public String MSG_64;
+    public String MSG_65;
+    public String MSG_66;
+    public String MSG_67;
+    public String MSG_68;
+    public String MSG_69;
+    public String MSG_70;
 }

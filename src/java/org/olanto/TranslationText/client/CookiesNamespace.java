@@ -33,4 +33,5 @@ public class CookiesNamespace {
     public static String MyQuotelangS = "MyQuotelangS";
     public static String MyQuotelangT = "MyQuotelangT";
     public static String MyQuoteMinLength = "MyQuoteMinLength";
+    public static String InterfaceLanguage = "InterfaceLanguage";
 }

@@ -23,6 +23,7 @@ package org.olanto.TranslationText.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -989,7 +990,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
     }
 
     @Override
-    public GwtProp InitPropertiesFromFile() {
+    public GwtProp InitPropertiesFromFile(String cookieLang) {
         if ((CONST == null) || (RELOAD_PARAM_ON)) {
             String fileName = SenseOS.getMYCAT_HOME() + "/config/GUI_fix.xml";
             System.out.println("found properties file:" + fileName);
@@ -1007,7 +1008,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
                 REGEX_BEFORE_TOKEN = prop.getProperty("REGEX_BEFORE_TOKEN", "([^a-zA-Z0-9]|[\\s\\p{Punct}\\r\\n\\(\\{\\[\\)\\}\\]]|^)");
                 REGEX_AFTER_TOKEN = prop.getProperty("REGEX_AFTER_TOKEN", "([^a-zA-Z0-9\\-\\_\\/]|[\\s\\p{Punct}\\r\\n\\)\\}\\]\\(\\{\\[]|$)");
 //                prop.list(System.out);
-                InitProperties();
+                InitProperties(cookieLang);
             } catch (Exception e) {
                 System.out.println("errors in properties file:" + fileName);
                 Logger.getLogger(TranslateServiceImpl.class.getName()).log(Level.SEVERE, null, e);
@@ -1019,10 +1020,9 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         }
     }
 
-    private void InitProperties() {
+    private void InitProperties(String lastLang) {
         CONST = new GwtProp();
         String propPath = prop.getProperty("INTERFACE_MESSAGE_PATH");
-        String interLang = prop.getProperty("INTERFACE_MESSAGE_LANG");
 
         CONST.TA_LINE_HEIGHT = Integer.parseInt(prop.getProperty("TA_LINE_HEIGHT"));
         CONST.TA_TEXTAREA_WIDTH = Integer.parseInt(prop.getProperty("TA_TEXTAREA_WIDTH"));
@@ -1041,6 +1041,8 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON", "true"));
         CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON", "true"));
         CONST.TA_HILITE_OVER_CR = Boolean.valueOf(prop.getProperty("TA_HILITE_OVER_CR", "false"));
+        CONST.CHOOSE_GUI_LANG = Boolean.valueOf(prop.getProperty("CHOOSE_GUI_LANG", "false"));
+        CONST.CHOOSE_GUI_LANG_LIST = prop.getProperty("CHOOSE_GUI_LANG_LIST", "en;fr");
         CONST.EXP_DAYS = Integer.parseInt(prop.getProperty("EXP_DAYS"));
         CONST.MAX_RESPONSE = Integer.parseInt(prop.getProperty("MAX_RESPONSE"));
         CONST.MAX_BROWSE = Integer.parseInt(prop.getProperty("MAX_BROWSE"));
@@ -1070,12 +1072,25 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
         /**
          * **********************************************************************************
          */
+        String interLang;
+
+        if (CONST.CHOOSE_GUI_LANG) {
+            interLang = lastLang;
+        } else {
+            interLang = prop.getProperty("INTERFACE_MESSAGE_LANG");
+        }
+        String messagesPropFile;
         try {
-            if (interLang.isEmpty()) {
-                stringMan = new ConstStringManager(home + propPath + ".properties");
+            if ((interLang == null)) {
+                messagesPropFile = home + propPath + ".properties";
             } else {
-                stringMan = new ConstStringManager(home + propPath + "_" + interLang + ".properties");
+                messagesPropFile = home + propPath + "_" + interLang + ".properties";
+                File prp = new File(messagesPropFile);
+                if (!(prp.exists())) {
+                    messagesPropFile = home + propPath + ".properties";
+                }
             }
+            stringMan = new ConstStringManager(messagesPropFile);
             CONST.TA_BTN_SRCH = stringMan.get("ta.btn.srch");
             CONST.TA_BTN_NXT = stringMan.get("ta.btn.nxt");
             CONST.TA_BTN_PVS = stringMan.get("ta.btn.pvs");
@@ -1166,6 +1181,13 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements Transl
             CONST.MSG_61 = stringMan.get("widget.MSG_61");
             CONST.MSG_62 = stringMan.get("widget.MSG_62");
             CONST.MSG_63 = stringMan.get("widget.MSG_63");
+            CONST.MSG_64 = stringMan.get("widget.MSG_64");
+            CONST.MSG_65 = stringMan.get("widget.MSG_65");
+            CONST.MSG_66 = stringMan.get("widget.MSG_66");
+            CONST.MSG_67 = stringMan.get("widget.MSG_67");
+            CONST.MSG_68 = stringMan.get("widget.MSG_68");
+            CONST.MSG_69 = stringMan.get("widget.MSG_69");
+            CONST.MSG_70 = stringMan.get("widget.MSG_70");
         } catch (IOException ex) {
             Logger.getLogger(TranslateServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

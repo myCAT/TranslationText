@@ -98,7 +98,7 @@ public class MainEntryPoint implements EntryPoint {
             final String lS = Window.Location.getParameter("LSrc");
             final String lT = Window.Location.getParameter("LTgt");
 
-            rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
+            rpcM.InitPropertiesFromFile(Cookies.getCookie(CookiesNamespace.InterfaceLanguage), new AsyncCallback<GwtProp>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     Window.alert("Couldn't get properties List:" + caught.getMessage());
@@ -150,7 +150,7 @@ public class MainEntryPoint implements EntryPoint {
     }
 
     private void getPropertiesMyCat() {
-        rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
+        rpcM.InitPropertiesFromFile(Cookies.getCookie(CookiesNamespace.InterfaceLanguage), new AsyncCallback<GwtProp>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Warning: Could not get the list of properties: " + caught.getMessage());
@@ -640,6 +640,7 @@ public class MainEntryPoint implements EntryPoint {
         MyCatCookies.initCookie(CookiesNamespace.MyQuotelangS, "EN");
         MyCatCookies.initCookie(CookiesNamespace.MyQuotelangT, "FR");
         MyCatCookies.initCookie(CookiesNamespace.MyQuoteMinLength, "3");
+        MyCatCookies.initCookie(CookiesNamespace.InterfaceLanguage, "en");
     }
 
     public static void download(String fileDownloadURL, final Label msg) {
@@ -661,6 +662,8 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.SAVE_ON = CONST.SAVE_ON;
         GuiConstant.MAXIMIZE_ON = CONST.MAXIMIZE_ON;
         GuiConstant.TA_HILITE_OVER_CR = CONST.TA_HILITE_OVER_CR;
+        GuiConstant.CHOOSE_GUI_LANG = CONST.CHOOSE_GUI_LANG;
+        GuiConstant.CHOOSE_GUI_LANG_LIST = CONST.CHOOSE_GUI_LANG_LIST;
         GuiConstant.TA_LINE_HEIGHT = CONST.TA_LINE_HEIGHT;
         GuiConstant.TA_TEXTAREA_WIDTH = CONST.TA_TEXTAREA_WIDTH;
         GuiConstant.TA_TEXTAREA_HEIGHT = CONST.TA_TEXTAREA_HEIGHT;
@@ -792,6 +795,13 @@ public class MainEntryPoint implements EntryPoint {
         GuiMessageConst.MSG_61 = CONST.MSG_61;
         GuiMessageConst.MSG_62 = CONST.MSG_62;
         GuiMessageConst.MSG_63 = CONST.MSG_63;
+        GuiMessageConst.MSG_64 = CONST.MSG_64;
+        GuiMessageConst.MSG_65 = CONST.MSG_65;
+        GuiMessageConst.MSG_66 = CONST.MSG_66;
+        GuiMessageConst.MSG_67 = CONST.MSG_67;
+        GuiMessageConst.MSG_68 = CONST.MSG_68;
+        GuiMessageConst.MSG_69 = CONST.MSG_69;
+        GuiMessageConst.MSG_70 = CONST.MSG_70;
     }
 
     public static native void fixGwtNav() /*-{

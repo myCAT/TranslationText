@@ -62,7 +62,7 @@ public class ResearchWidget extends Composite {
     public TextBox search = new TextBox();
     public ListBox langS = new ListBox();
     public ListBox langT = new ListBox();
-    public ListBox sortBy = new ListBox();
+    private ListBox sortBy = new ListBox();
     public ContentPanel docListContainer = new ContentPanel();
     private DecoratorPanel staticDecorator = new DecoratorPanel();
     public ScrollPanel staticTreeWrapper = new ScrollPanel();
@@ -83,7 +83,10 @@ public class ResearchWidget extends Composite {
     private static final int CHAR_W = GuiConstant.CHARACTER_WIDTH;
     private final String[] SORT_BY = GuiMessageConst.WIDGET_LIST_TA_SBY.split("\\;");
     private final String[] SORT_BY_Eff = GuiConstant.TA_DL_SORTBY.split("\\;");
+    private final String[] INT_LANG = GuiConstant.CHOOSE_GUI_LANG_LIST.split("\\;");
     private TabSet topJobsSet = new TabSet();
+    private Label chooseLang = new Label(GuiMessageConst.MSG_64);
+    private ListBox langInterface = new ListBox();
 
     public ResearchWidget() {
         rpcSch = RpcInit.initRpc();
@@ -116,6 +119,11 @@ public class ResearchWidget extends Composite {
         headerPanel.add(sortBy);
         headerPanel.add(myQuote);
         headerPanel.add(help);
+        if (GuiConstant.CHOOSE_GUI_LANG) {
+            headerPanel.add(chooseLang);
+            headerPanel.add(langInterface);
+        }
+
         headerPanel.setStylePrimaryName("searchHeader");
 
         headPanel.add(leftheadPanel);
@@ -152,7 +160,7 @@ public class ResearchWidget extends Composite {
         statusPanel.setCellHorizontalAlignment(msg, HorizontalPanel.ALIGN_LEFT);
         statusPanel.add(contact);
         statusPanel.setCellHorizontalAlignment(contact, HorizontalPanel.ALIGN_RIGHT);
-        contact.setPixelSize(GuiConstant.DOC_LIST_WIDTH, 25);
+        contact.setPixelSize(300, 25);
         contact.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
         Anchor poweredBy = new Anchor(GuiConstant.OLANTO_URL.substring(0, GuiConstant.OLANTO_URL.indexOf("|")), true,
                 GuiConstant.OLANTO_URL.substring(GuiConstant.OLANTO_URL.indexOf("|") + 1, GuiConstant.OLANTO_URL.lastIndexOf("|")),
@@ -200,6 +208,15 @@ public class ResearchWidget extends Composite {
                 Window.open(GuiConstant.TA_HELP_URL, "", GuiConstant.W_OPEN_FEATURES);
             }
         });
+        if (GuiConstant.CHOOSE_GUI_LANG) {
+            langInterface.addChangeHandler(new ChangeHandler() {
+                @Override
+                public void onChange(ChangeEvent event) {
+                    MyCatCookies.updateCookie(CookiesNamespace.InterfaceLanguage, INT_LANG[langInterface.getSelectedIndex()]);
+                    Window.Location.reload();
+                }
+            });
+        }
         if ((!GuiConstant.LOGO_PATH.isEmpty()) && (!GuiConstant.LOGO_PATH.isEmpty())) {
             im.addClickHandler(new ClickHandler() {
                 @Override
@@ -239,6 +256,8 @@ public class ResearchWidget extends Composite {
         search.setStyleName("x-form-text");
         TAText.setText(GuiConstant.TEXT_ALIGNER_LBL);
         TAText.setStyleName("gwt-im-text");
+        chooseLang.setStyleName("gwt-w-label");
+
         setMessage("info", "");
         for (int i = 0; i < SORT_BY.length; i++) {
             sortBy.addItem(SORT_BY[i]);
@@ -246,7 +265,14 @@ public class ResearchWidget extends Composite {
         langS.setWidth(3 * W_Unit + "px");
         langT.setWidth(3 * W_Unit + "px");
         sortBy.setWidth(6 * W_Unit + "px");
-        sortBy.setSelectedIndex(Utility.getIndex(SORT_BY_Eff, Cookies.getCookie("SortBy")));
+        sortBy.setSelectedIndex(Utility.getIndex(SORT_BY_Eff, Cookies.getCookie(CookiesNamespace.SortBy)));
+
+        for (int i = 0; i < INT_LANG.length; i++) {
+            langInterface.addItem(INT_LANG[i]);
+        }
+        langInterface.setWidth(2 * W_Unit + "px");
+        langInterface.setSelectedIndex(Utility.getIndex(INT_LANG, Cookies.getCookie(CookiesNamespace.InterfaceLanguage)));
+
         docListContainer.setSize(GuiConstant.DOC_LIST_WIDTH, GuiConstant.DOC_LIST_HEIGHT);
         staticDecorator.setStyleName("doclist");
         staticDecorator.setWidget(staticTreeWrapper);
@@ -402,8 +428,21 @@ public class ResearchWidget extends Composite {
     }
 
     public void adaptSize() {
-        statusPanel.setPixelSize(resultsPanel.getOffsetWidth(), statusPanel.getOffsetHeight());
-        headPanel.setPixelSize(resultsPanel.getOffsetWidth(), headPanel.getOffsetHeight());
-        msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
+        int width = getMaximumWidth();
+        statusPanel.setPixelSize(width, statusPanel.getOffsetHeight());
+        headPanel.setPixelSize(width, headPanel.getOffsetHeight());
+        resultsPanel.setPixelSize(width, resultsPanel.getOffsetHeight());
+        msg.setWidth((width - contact.getOffsetWidth()) + "px");
+    }
+
+    private int getMaximumWidth() {
+        int max = resultsPanel.getOffsetWidth();
+        if (statusPanel.getOffsetWidth() > max) {
+            max = statusPanel.getOffsetWidth();
+        }
+        if (headPanel.getOffsetWidth() > max) {
+            max = headPanel.getOffsetWidth();
+        }
+        return max;
     }
 }

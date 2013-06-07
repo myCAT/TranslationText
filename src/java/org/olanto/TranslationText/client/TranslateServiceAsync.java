@@ -59,7 +59,7 @@ public interface TranslateServiceAsync {
 
     public void getExpandTerms(String wildQuery, AsyncCallback<String[]> asyncCallback);
 
-    public void InitPropertiesFromFile(AsyncCallback<GwtProp> asyncCallback);
+    public void InitPropertiesFromFile(String cookieLang, AsyncCallback<GwtProp> asyncCallback);
 
     public void createTempFile(String FileName, String Content, AsyncCallback<String> asyncCallback);
 

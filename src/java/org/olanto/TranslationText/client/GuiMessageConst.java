@@ -120,7 +120,13 @@ public class GuiMessageConst {
     public static String MSG_61;
     public static String MSG_62;
     public static String MSG_63;
-
+    public static String MSG_64;
+    public static String MSG_65;
+    public static String MSG_66;
+    public static String MSG_67;
+    public static String MSG_68;
+    public static String MSG_69;
+    public static String MSG_70;
     /**
      * **********************************************************************************
      */

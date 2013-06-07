@@ -39,6 +39,8 @@ public class GuiConstant {
     public static boolean SAVE_ON;
     public static boolean MAXIMIZE_ON;
     public static boolean TA_HILITE_OVER_CR;
+    public static boolean CHOOSE_GUI_LANG;
+    public static String CHOOSE_GUI_LANG_LIST;
     public static boolean EXACT_FLG = false;
     public static boolean EXACT_NBR_FLG = false;
     public static int TA_LINE_HEIGHT;

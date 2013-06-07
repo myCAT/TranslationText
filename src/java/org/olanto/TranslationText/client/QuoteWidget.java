@@ -78,7 +78,7 @@ public class QuoteWidget extends Composite {
     private Label msg = new Label();
     public Label refIndic = new Label();
     private Label minLn = new Label(GuiMessageConst.WIDGET_LBL_QD_LN);
-    private Label QDText = new Label();
+    private Label QDText = new Label(GuiConstant.QUOTE_DETECTOR_LBL);
     private Image im = new Image(GuiConstant.LOGO_PATH);
     public Button coll = new Button(GuiMessageConst.WIDGET_BTN_COLL_OFF);
     private Button prev = new Button(GuiMessageConst.WIDGET_BTN_QD_PVS);
@@ -292,7 +292,6 @@ public class QuoteWidget extends Composite {
         minLn.setWidth("70px");
         refIndic.setStyleName("gwt-w-label");
         refIndic.setWidth("40px");
-        QDText.setText(GuiConstant.QUOTE_DETECTOR_LBL);
         QDText.setStyleName("gwt-im-text");
         htmlWrapper.setPixelSize(Window.getClientWidth() - 3 * W_Unit, (Window.getClientHeight() - (H_Unit + GuiConstant.QD_DOC_LIST_HEIGHT + htmlWrapper.getAbsoluteTop())));
         refArea.setWidth(Window.getClientWidth() - 5 * W_Unit);
@@ -418,7 +417,7 @@ public class QuoteWidget extends Composite {
                                 }
                             });
                             staticTreeWrapper.clear();
-                            docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
+                            docList = Utility.getDocumentlist(refDoc.listofref[refIdx - 1] + "|", refDoc.DOC_REF_SEPARATOR);
                             if (!(fileName.endsWith(GuiConstant.QD_FILE_EXT))) {
                                 GoSrch.enable();
                             }
@@ -459,7 +458,7 @@ public class QuoteWidget extends Composite {
                     staticTreeWrapper.clear();
                     refIndic.setText(refIdx + " / " + refDoc.nbref);
                     setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
-                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
+                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx - 1] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
                     setMessage("info", GuiMessageConst.MSG_50 + " / " + refDoc.nbref);
@@ -484,7 +483,7 @@ public class QuoteWidget extends Composite {
                     DOM.getElementById("ref" + refIdx).scrollIntoView();
                     staticTreeWrapper.clear();
                     refIndic.setText(refIdx + " / " + refDoc.nbref);
-                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
+                    docList = Utility.getDocumentlist(refDoc.listofref[refIdx - 1] + "|", refDoc.DOC_REF_SEPARATOR);
                     DrawDocumentList();
                 } else {
                     setMessage("info", GuiMessageConst.MSG_49 + " / " + refDoc.nbref);
@@ -508,7 +507,7 @@ public class QuoteWidget extends Composite {
         staticTreeWrapper.clear();
         refIndic.setText(refIdx + " / " + refDoc.nbref);
         setMessage("info", GuiMessageConst.MSG_8 + refIdx + " / " + refDoc.nbref);
-        docList = Utility.getDocumentlist(refDoc.listofref[refIdx-1] + "|", refDoc.DOC_REF_SEPARATOR);
+        docList = Utility.getDocumentlist(refDoc.listofref[refIdx - 1] + "|", refDoc.DOC_REF_SEPARATOR);
         DrawDocumentList();
     }
 
@@ -561,9 +560,9 @@ public class QuoteWidget extends Composite {
                 if (event.getSelectedItem().getText() != null) {
                     setMessage("info", GuiMessageConst.MSG_51 + event.getSelectedItem().getTitle());
                     tS.reset();
-                    tS.words = Utility.getRefWords(refDoc.reftext[refIdx-1] + " ");
-                    tS.queryLength = refDoc.reftext[refIdx-1].length();
-                    tS.getTextContent(racine + event.getSelectedItem().getTitle().replace("/", "¦"), lS, lT, refDoc.reftext[refIdx-1]);
+                    tS.words = Utility.getRefWords(refDoc.reftext[refIdx - 1] + " ");
+                    tS.queryLength = refDoc.reftext[refIdx - 1].length();
+                    tS.getTextContent(racine + event.getSelectedItem().getTitle().replace("/", "¦"), lS, lT, refDoc.reftext[refIdx - 1]);
                 }
             }
         });
@@ -580,12 +579,25 @@ public class QuoteWidget extends Composite {
     }
 
     public void adaptSize() {
-        statusPanel.setPixelSize(resultsPanel.getOffsetWidth(), statusPanel.getOffsetHeight());
-        headPanel.setPixelSize(resultsPanel.getOffsetWidth(), headPanel.getOffsetHeight());
-        refpanel.setPixelSize(resultsPanel.getOffsetWidth(), refpanel.getOffsetHeight());
-        htmlWrapper.setPixelSize(resultsPanel.getOffsetWidth(), htmlWrapper.getOffsetHeight());
-        refArea.setWidth(resultsPanel.getOffsetWidth() - 2 * W_Unit);
-        msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
+        int width = getMaximumWidth();
+        resultsPanel.setPixelSize(width, resultsPanel.getOffsetHeight());
+        statusPanel.setPixelSize(width, statusPanel.getOffsetHeight());
+        headPanel.setPixelSize(width, headPanel.getOffsetHeight());
+        refpanel.setPixelSize(width, refpanel.getOffsetHeight());
+        htmlWrapper.setPixelSize(width, htmlWrapper.getOffsetHeight());
+        refArea.setWidth(width - 2 * W_Unit);
+        msg.setWidth((width - contact.getOffsetWidth()) + "px");
+    }
+
+    private int getMaximumWidth() {
+        int max = resultsPanel.getOffsetWidth();
+        if (statusPanel.getOffsetWidth() > max) {
+            max = statusPanel.getOffsetWidth();
+        }
+        if (headPanel.getOffsetWidth() > max) {
+            max = headPanel.getOffsetWidth();
+        }
+        return max;
     }
 
     private String getSavedFileName() {
