@@ -58,16 +58,16 @@ public class MainEntryPoint implements EntryPoint {
     public static String QUERY = "";
     private CollectionTreeWidget collectionWidgetTA = new CollectionTreeWidget();
     private com.smartgwt.client.widgets.Window collPopupWindowTA = new com.smartgwt.client.widgets.Window();
-    private Button setColl = new Button("Set Selection");
-    private Button clearColl = new Button("Clear Selection");
-    private Button closeColl = new Button("Close");
+    private Button setColl;
+    private Button clearColl;
+    private Button closeColl;
     private VerticalPanel mainWidget = new VerticalPanel();
     private HorizontalPanel collTreeContainerTA = new HorizontalPanel();
     private CollectionTreeWidget collectionWidgetQD = new CollectionTreeWidget();
     private com.smartgwt.client.widgets.Window collPopupWindowQD = new com.smartgwt.client.widgets.Window();
-    private Button setColl1 = new Button("Set Selection");
-    private Button clearColl1 = new Button("Clear Selection");
-    private Button closeColl1 = new Button("Close");
+    private Button setColl1;
+    private Button clearColl1;
+    private Button closeColl1;
     private HorizontalPanel collTreeContainerQD = new HorizontalPanel();
     private final int H_Unit = 30;
     private static String[] languages;
@@ -88,17 +88,14 @@ public class MainEntryPoint implements EntryPoint {
             mainWidget.setStyleName("mainPage");
             mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
             getCollections();
-            setSettingsColMycat();
-            setSettingsColMyQuote();
             getPropertiesMyCat();
         } else {
-            initCookies();
             final String source = Window.Location.getParameter("source");
             final String query = Window.Location.getParameter("query");
             final String lS = Window.Location.getParameter("LSrc");
             final String lT = Window.Location.getParameter("LTgt");
 
-            rpcM.InitPropertiesFromFile(Cookies.getCookie(CookiesNamespace.InterfaceLanguage), new AsyncCallback<GwtProp>() {
+            rpcM.InitPropertiesFromFile("en", new AsyncCallback<GwtProp>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     Window.alert("Couldn't get properties List:" + caught.getMessage());
@@ -170,6 +167,8 @@ public class MainEntryPoint implements EntryPoint {
                     Window.alert(GuiMessageConst.MSG_63);
                 }
                 initCookies();
+                setSettingsColMycat();
+                setSettingsColMyQuote();
                 getLanguages();
             }
         });
@@ -246,7 +245,11 @@ public class MainEntryPoint implements EntryPoint {
         collTreeContainerTA.setHeight("30px");
         collPopupWindowTA.setHeight(500);
         collPopupWindowTA.setWidth(370);
-        collPopupWindowTA.setTitle("Collections");
+        setColl = new Button(GuiMessageConst.WIDGET_COLL_SET);
+        closeColl = new Button(GuiMessageConst.WIDGET_COLL_CLOSE);
+        clearColl = new Button(GuiMessageConst.WIDGET_COLL_CLEAR);
+
+        collPopupWindowTA.setTitle(GuiMessageConst.WIDGET_COLL_WND);
         collPopupWindowTA.setCanDragReposition(true);
         collPopupWindowTA.setCanDragResize(true);
         collPopupWindowTA.setAnimateMinimize(true);
@@ -278,16 +281,20 @@ public class MainEntryPoint implements EntryPoint {
         collTreeContainerTA.add(clearColl);
         collTreeContainerTA.setCellHorizontalAlignment(clearColl, HorizontalPanel.ALIGN_RIGHT);
 
-        setbuttonstyle(setColl, 100, H_Unit);
-        setbuttonstyle(clearColl, 110, H_Unit);
-        setbuttonstyle(closeColl, 80, H_Unit);
+        setbuttonstyle(setColl);
+        setbuttonstyle(clearColl);
+        setbuttonstyle(closeColl);
     }
 
     public void setSettingsColMyQuote() {
         collTreeContainerQD.setHeight("30px");
         collPopupWindowQD.setHeight(500);
         collPopupWindowQD.setWidth(370);
-        collPopupWindowQD.setTitle("Collections");
+        setColl1 = new Button(GuiMessageConst.WIDGET_COLL_SET);
+        closeColl1 = new Button(GuiMessageConst.WIDGET_COLL_CLOSE);
+        clearColl1 = new Button(GuiMessageConst.WIDGET_COLL_CLEAR);
+
+        collPopupWindowQD.setTitle(GuiMessageConst.WIDGET_COLL_WND);
         collPopupWindowQD.setCanDragReposition(true);
         collPopupWindowQD.setCanDragResize(true);
         collPopupWindowQD.setAnimateMinimize(true);
@@ -319,14 +326,14 @@ public class MainEntryPoint implements EntryPoint {
         collTreeContainerQD.add(clearColl1);
         collTreeContainerQD.setCellHorizontalAlignment(clearColl1, HorizontalPanel.ALIGN_RIGHT);
 
-        setbuttonstyle(setColl1, 100, H_Unit);
-        setbuttonstyle(clearColl1, 110, H_Unit);
-        setbuttonstyle(closeColl1, 80, H_Unit);
+        setbuttonstyle(setColl1);
+        setbuttonstyle(clearColl1);
+        setbuttonstyle(closeColl1);
     }
 
-    public void setbuttonstyle(Button b, int w, int h) {
+    public void setbuttonstyle(Button b) {
         b.setStyleName("x-btn-click");
-        b.setPixelSize(w, h);
+        b.setPixelSize(b.getText().length()*GuiConstant.CHARACTER_WIDTH, H_Unit);
     }
 
     public void getcontentlistMyCat() {
@@ -473,7 +480,7 @@ public class MainEntryPoint implements EntryPoint {
                 collectionWidgetTA.setSelection();
                 if (!collectionWidgetTA.Selection.isEmpty()) {
                     textAlignerWidget.coll.setText(GuiMessageConst.WIDGET_BTN_COLL_ON);
-                    setbuttonstyle(textAlignerWidget.coll, textAlignerWidget.coll.getText().length() * GuiConstant.CHARACTER_WIDTH, H_Unit);
+                    setbuttonstyle(textAlignerWidget.coll);
 //                    String Selected = collectionWidgetTA.Selection.toString();
 //                    Window.alert(Selected);
                     collPopupWindowTA.hide();
@@ -575,7 +582,7 @@ public class MainEntryPoint implements EntryPoint {
                 collectionWidgetQD.setSelection();
                 if (!collectionWidgetQD.Selection.isEmpty()) {
                     quoteDetectorWidget.coll.setText(GuiMessageConst.WIDGET_BTN_COLL_ON);
-                    setbuttonstyle(quoteDetectorWidget.coll, quoteDetectorWidget.coll.getText().length() * GuiConstant.CHARACTER_WIDTH, H_Unit);
+                    setbuttonstyle(quoteDetectorWidget.coll);
                     collPopupWindowQD.hide();
                 } else {
                     quoteDetectorWidget.coll.setText(GuiMessageConst.WIDGET_BTN_COLL_OFF);

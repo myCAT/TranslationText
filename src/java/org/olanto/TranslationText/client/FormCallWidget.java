@@ -22,7 +22,6 @@
 package org.olanto.TranslationText.client;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -67,7 +66,6 @@ public class FormCallWidget extends Composite {
             tS.words = Utility.getQueryWords(query + " ", stopWords);
             tS.queryLength = query.length();
             tS.getTextContent(source, lS, lT, query);
-
         }
     }
 }
